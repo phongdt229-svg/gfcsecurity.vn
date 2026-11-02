@@ -2,7 +2,7 @@
 /**
  * Trang Liên hệ: sửa bằng WPBakery trong trang "Liên hệ". {{CONTACT_FORM}} là vị trí form Contact Form 7.
  *
- * Template Name: Trang liên hệ GFC
+ * Template Name: Trang liên hệ
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 get_header();

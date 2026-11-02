@@ -30,6 +30,7 @@ function gfc_branch_box( $post ) {
 		'gfc_address' => 'Địa chỉ',
 		'gfc_phone'   => 'Số điện thoại (không bắt buộc)',
 		'gfc_url'     => 'Link trang dịch vụ tỉnh (không bắt buộc)',
+		'gfc_embed_map' => 'Link bản đồ Google nhúng (không bắt buộc)',
 	);
 	foreach ( $fields as $k => $label ) {
 		printf(
@@ -37,7 +38,7 @@ function gfc_branch_box( $post ) {
 			esc_attr( $k ), esc_html( $label ), esc_attr( get_post_meta( $post->ID, $k, true ) )
 		);
 	}
-	echo '<p class="description">Tên chi nhánh = Tiêu đề. Thứ tự hiển thị chỉnh ở ô "Thứ tự" bên phải.</p>';
+	echo '<p class="description">Tên chi nhánh = Tiêu đề. Thứ tự hiển thị chỉnh ở ô "Sắp xếp" bên phải.</p>';
 }
 
 add_action( 'save_post_gfc_branch', function ( $post_id ) {
@@ -47,7 +48,44 @@ add_action( 'save_post_gfc_branch', function ( $post_id ) {
 	update_post_meta( $post_id, 'gfc_address', isset( $_POST['gfc_address'] ) ? sanitize_text_field( wp_unslash( $_POST['gfc_address'] ) ) : '' );
 	update_post_meta( $post_id, 'gfc_phone', isset( $_POST['gfc_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['gfc_phone'] ) ) : '' );
 	update_post_meta( $post_id, 'gfc_url', isset( $_POST['gfc_url'] ) ? esc_url_raw( wp_unslash( $_POST['gfc_url'] ) ) : '' );
+	update_post_meta( $post_id, 'gfc_embed_map', isset( $_POST['gfc_embed_map'] ) ? esc_url_raw( wp_unslash( $_POST['gfc_embed_map'] ) ) : '' );
 } );
+
+/** Xếp theo tên, Đ đứng sau D. */
+function gfc_branch_sort_key( $name ) {
+	return strtolower( remove_accents( str_replace( array( 'Đ', 'đ' ), 'Dz', $name ) ) );
+}
+
+/** Dữ liệu cho khối tìm chi nhánh: mỗi chi nhánh là một lựa chọn trong ô tỉnh/thành, xếp theo tên. */
+function gfc_branch_data() {
+	static $data = null;
+	if ( null !== $data ) return $data;
+	$posts = get_posts( array(
+		'post_type'      => 'gfc_branch',
+		'posts_per_page' => 200,
+		'orderby'        => array( 'menu_order' => 'ASC', 'title' => 'ASC' ),
+		'post_status'    => 'publish',
+	) );
+	$data  = array( 'locations' => array(), 'branches' => array() );
+	foreach ( $posts as $p ) {
+		$title = get_the_title( $p );
+		$title = html_entity_decode( $title, ENT_QUOTES, 'UTF-8' );
+		$loc   = array( 'term_id' => $p->ID, 'name' => $title, 'parent' => 0, 'child_terms' => array() );
+		$data['locations'][] = $loc;
+		$data['branches'][]  = array(
+			'id'        => $p->ID,
+			'title'     => $title,
+			'address'   => (string) get_post_meta( $p->ID, 'gfc_address', true ),
+			'embed_map' => (string) get_post_meta( $p->ID, 'gfc_embed_map', true ),
+			'link_map'  => gfc_link( (string) get_post_meta( $p->ID, 'gfc_url', true ) ),
+			'locations' => array( $loc ),
+		);
+	}
+	usort( $data['locations'], function ( $a, $b ) {
+		return strcmp( gfc_branch_sort_key( $a['name'] ), gfc_branch_sort_key( $b['name'] ) );
+	} );
+	return $data;
+}
 
 /** Danh sách chi nhánh: lấy từ admin, nếu trống thì dùng danh sách mặc định. */
 function gfc_get_branches() {

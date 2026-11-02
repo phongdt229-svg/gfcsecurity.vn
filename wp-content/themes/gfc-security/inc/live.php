@@ -5,6 +5,17 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function gfc_tpl( $name, $vars = array() ) {
+	return gfc_tpl_render( file_get_contents( GFC_PATH . '/live-tpl/' . $name . '.html' ), $name, $vars ); // phpcs:ignore
+}
+
+/** Khối tĩnh lấy nội dung từ trang riêng tư để sửa được trong "Nội dung trang"; chưa có trang thì dùng file trong theme. */
+function gfc_block( $slug, $name ) {
+	$page = get_page_by_path( $slug );
+	$rows = $page ? gfc_pe_rows( $page->post_content ) : array();
+	return $rows ? gfc_tpl_render( implode( '', $rows ), $name, array() ) : gfc_tpl( $name );
+}
+
+function gfc_tpl_render( $raw, $name, $vars ) {
 	$upload = wp_get_upload_dir();
 	$map    = array(
 		'{{UPLOADS}}' => untrailingslashit( $upload['baseurl'] ),
@@ -16,11 +27,11 @@ function gfc_tpl( $name, $vars = array() ) {
 	if ( $light ) {
 		$map['{{UPLOADS}}/2025/11/small-banner-logo.png'] = $light;
 	}
-	$map += gfc_info_tokens();
+	$map += gfc_info_tokens() + gfc_lazy_tokens( $raw );
 	foreach ( $vars as $k => $v ) {
 		$map[ '{{' . $k . '}}' ] = (string) $v;
 	}
-	$html = strtr( file_get_contents( GFC_PATH . '/live-tpl/' . $name . '.html' ), $map ); // phpcs:ignore
+	$html = strtr( $raw, $map );
 	$alt  = get_post_meta( (int) get_theme_mod( 'custom_logo' ), '_wp_attachment_image_alt', true );
 	if ( $alt && in_array( $name, array( 'header', 'footer' ), true ) ) {
 		$html = preg_replace( '~(src="' . preg_quote( gfc_logo_url(), '~' ) . '"\s+alt=")[^"]*~', '${1}' . esc_attr( $alt ), $html );
@@ -43,20 +54,45 @@ function gfc_the_content_html() {
 	return apply_filters( 'the_content', get_the_content() ); // phpcs:ignore -- filter lõi WordPress
 }
 
-/** Đánh dấu mục menu của trang đang xem. */
 function gfc_header_html() {
-	$html = gfc_tpl( 'header' );
-	$url  = untrailingslashit( home_url( strtok( wp_parse_url( add_query_arg( array() ), PHP_URL_PATH ), '?' ) ) );
-	$base = wp_parse_url( home_url(), PHP_URL_PATH );
-	if ( $base && 0 === strpos( (string) wp_parse_url( add_query_arg( array() ), PHP_URL_PATH ), $base ) ) {
-		$url = untrailingslashit( home_url( substr( wp_parse_url( add_query_arg( array() ), PHP_URL_PATH ), strlen( $base ) ) ) );
+	return gfc_tpl( 'header' );
+}
+
+/** Menu chính lấy từ Giao diện → Menu; bản mobile thêm class "block" và bỏ id trùng như bản gốc. */
+function gfc_nav( $menu_id, $menu_class, $mobile ) {
+	return (string) wp_nav_menu( array(
+		'theme_location' => 'primary',
+		'container'      => false,
+		'menu_id'        => $menu_id,
+		'menu_class'     => $menu_class,
+		'fallback_cb'    => false,
+		'echo'           => false,
+		'gfc_mobile'     => $mobile,
+	) );
+}
+
+add_filter( 'nav_menu_css_class', function ( $classes, $item, $args ) {
+	if ( ! empty( $args->gfc_mobile ) ) $classes[] = 'block';
+	return $classes;
+}, 10, 3 );
+
+add_filter( 'nav_menu_item_id', function ( $id, $item, $args ) {
+	return empty( $args->gfc_mobile ) ? $id : '';
+}, 10, 3 );
+
+/** Token cần truy vấn thêm: chỉ tính khi nội dung có dùng. */
+function gfc_lazy_tokens( $raw ) {
+	$map = array();
+	if ( false !== strpos( $raw, '{{menu_primary}}' ) ) {
+		$map['{{menu_primary}}']        = gfc_nav( 'menu-primary', 'desktop-ul-lv1', false );
+		$map['{{menu_primary_mobile}}'] = gfc_nav( 'menu-primary-1', 'mobile-menu', true );
 	}
-	$out = preg_replace(
-		'~<li([^>]*?)class="([^"]*)"([^>]*)>(\s*<a[^>]*?href="' . preg_quote( $url, '~' ) . '/?")~',
-		'<li$1class="$2 current-menu-item"$3>$4',
-		$html
-	);
-	return null === $out ? $html : $out;
+	if ( false !== strpos( $raw, '{{branch_' ) ) {
+		$data                         = gfc_branch_data();
+		$map['{{branch_locations}}']  = wp_json_encode( $data['locations'] );
+		$map['{{branch_items}}']      = wp_json_encode( $data['branches'] );
+	}
+	return $map;
 }
 
 /** Phân trang theo đúng class bản gốc. */
@@ -133,7 +169,7 @@ add_filter( 'the_content', function ( $content ) {
 	if ( false !== strpos( $content, '{{CONTACT_FORM}}' ) ) {
 		$map['{{CONTACT_FORM}}'] = gfc_contact_form();
 	}
-	return gfc_conditional( strtr( $content, $map + gfc_info_tokens() ) );
+	return gfc_conditional( strtr( $content, $map + gfc_info_tokens() + gfc_lazy_tokens( $content ) ) );
 }, 99 );
 
 /* WPBakery: dùng cho page và post; khung row không tạo khoảng cách thừa quanh section */

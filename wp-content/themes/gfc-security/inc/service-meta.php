@@ -73,13 +73,13 @@ function gfc_lines( $text, $cols = 2 ) {
 }
 
 add_action( 'add_meta_boxes', function () {
-	add_meta_box( 'gfc_service_box', 'Nội dung trang dịch vụ GFC (chỉ dùng với mẫu "Trang dịch vụ GFC")', 'gfc_service_box', array( 'page', 'post' ), 'normal', 'high' );
+	add_meta_box( 'gfc_service_box', 'Nội dung trang dịch vụ (Banner, Bảng giá, Nhiệm vụ, Quy trình, Tiêu chuẩn)', 'gfc_service_box', array( 'page', 'post' ), 'normal', 'high' );
 } );
 
 function gfc_service_box( $post ) {
 	wp_nonce_field( 'gfc_service_save', 'gfc_service_nonce' );
 	echo '<style>.gfc-mb p{margin:0 0 14px}.gfc-mb label{font-weight:600;display:block;margin-bottom:4px}.gfc-mb .gfc-img{display:flex;gap:8px}.gfc-mb .gfc-img input{flex:1}.gfc-mb hr{margin:18px 0}</style><div class="gfc-mb">';
-	echo '<p class="description">Chọn <strong>Mẫu trang → Trang dịch vụ GFC</strong> ở khung bên phải để các khối dưới đây hiển thị. Khối nào để trống sẽ tự ẩn. Bài viết chi tiết bên dưới cùng nhập ở trình soạn thảo như bình thường.</p>';
+	echo '<p class="description">Với bài viết: điền "Banner — tiêu đề" thì bài hiển thị theo khung trang dịch vụ. Khối nào để trống sẽ tự ẩn. Bài viết chi tiết bên dưới cùng nhập ở trình soạn thảo như bình thường.</p>';
 	foreach ( gfc_service_fields() as $key => $f ) {
 		$val  = get_post_meta( $post->ID, '_gfc_' . $key, true );
 		$name = 'gfc_s[' . $key . ']';

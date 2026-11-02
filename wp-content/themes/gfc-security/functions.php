@@ -23,6 +23,8 @@ require GFC_PATH . '/inc/menu-fallback.php';
 require GFC_PATH . '/inc/contact.php';
 require GFC_PATH . '/inc/category-base.php';
 require GFC_PATH . '/inc/live.php';
+require GFC_PATH . '/inc/page-editor.php';
+require GFC_PATH . '/inc/admin-guide.php';
 
 /* ---------- Setup ---------- */
 add_action( 'after_setup_theme', function () {

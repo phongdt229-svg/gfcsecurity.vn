@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Trang dịch vụ GFC
+ * Template Name: Trang dịch vụ
  * Template Post Type: page, post
  */
 if ( ! defined( 'ABSPATH' ) ) exit;

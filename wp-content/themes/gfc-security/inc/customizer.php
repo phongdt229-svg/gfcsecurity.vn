@@ -75,7 +75,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
 		'youtube'         => 'Link YouTube',
 		'profile_url'     => 'Link Hồ sơ năng lực (trống = ẩn nút trên trang chủ)',
 		'copyright'       => 'Dòng bản quyền chân trang',
-		'show_badges'     => 'Hiện huy hiệu DMCA và Bộ Công Thương ở footer',
+		'show_badges'     => 'Hiện huy hiệu Bộ Công Thương ở footer',
 		'show_ecosystem'  => 'Hiện khối "Hệ sinh thái" và "Thành viên của" ở footer',
 		'cf7_id'          => 'ID form Contact Form 7 (trang Liên hệ)',
 	);
@@ -91,6 +91,12 @@ add_action( 'customize_register', function ( $wp_customize ) {
 			'type'    => $is_check ? 'checkbox' : 'text',
 		) );
 	}
+	$wp_customize->add_setting( 'gfc_logo_light', array( 'sanitize_callback' => 'absint' ) );
+	$wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'gfc_logo_light', array(
+		'label'     => 'Logo trên banner cột phải bài viết',
+		'section'   => 'gfc_contact',
+		'mime_type' => 'image',
+	) ) );
 } );
 
 /* Lối tắt trong menu admin */

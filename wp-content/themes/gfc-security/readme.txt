@@ -30,9 +30,14 @@ Theme dựng lại cho gfcsecurity.vn, giữ nguyên cấu trúc, nội dung và
 == Bản đang chạy local (sau 1.0.0) ==
 - Giao diện dùng CSS, markup, font và icon của gfcsecurity.vn: live-tpl/*.html + assets/live/ (xem inc/live.php).
 - Sửa được trong WordPress: bài viết, trang nội dung, khung trang dịch vụ.
-- Trang chủ, Giới thiệu, Liên hệ: sửa bằng WPBakery, mỗi section là một row Raw HTML. Giữ nguyên các chỗ {{UPLOADS}}, {{HOME}}, {{THEME}}, {{CONTACT_FORM}}.
+- Trang chủ, Giới thiệu, Liên hệ, Danh mục dịch vụ: sửa ở menu admin "Nội dung trang" (inc/page-editor.php): chữ, ảnh, link, video, con số và thêm/xoá/đổi chỗ mục trong danh sách. Cần quyền unfiltered_html. Mỗi lần lưu tạo một Revision của trang.
+- Có thể mở các trang đó bằng WPBakery, mỗi section là một row Raw HTML. Giữ nguyên các chỗ {{UPLOADS}}, {{HOME}}, {{THEME}}, {{CONTACT_FORM}}.
+- Danh mục dịch vụ (/dich-vu-gfc) lấy nội dung từ trang riêng tư có đường dẫn noi-dung-danh-muc-dich-vu; không có trang này thì dùng live-tpl/cat-services.html.
+- Hướng dẫn cho người quản trị nội dung: menu admin "Hướng dẫn sử dụng" (inc/admin-guide.php). Đổi màn hình hoặc tên nút thì cập nhật cả đây.
+- Danh sách chi nhánh trên Trang chủ và Giới thiệu lấy từ menu admin "Chi nhánh" (mã {{branch_locations}}, {{branch_items}}).
+- Menu header: Giao diện → Menu → "Menu chính".
 - Footer, trang Liên hệ, nút nổi, banner bài viết: sửa ở menu admin "Thông tin công ty". Để trống một ô thì dòng đó tự ẩn.
 - Link footer: Giao diện → Menu ("Footer — Dịch vụ", "Footer — Hỗ trợ khách hàng").
 - Trong row WPBakery giữ nguyên các mã dạng {{hotline1}}, {{email}}, {{office1_address}}.
-- Nằm cố định trong live-tpl/: menu header, /dich-vu-gfc.
+- Nằm cố định trong live-tpl/: nhãn nút liên hệ nổi, banner cột phải bài viết, khung trang tin tức và trang dịch vụ.
 - Form trang Liên hệ dùng plugin Contact Form 7 (ID lấy từ Tuỳ biến, mặc định 6434). Chỉnh trường và email nhận tại menu Liên hệ trong admin.

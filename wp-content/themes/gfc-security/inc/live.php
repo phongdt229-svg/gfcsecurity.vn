@@ -16,6 +16,7 @@ function gfc_tpl( $name, $vars = array() ) {
 	if ( $light ) {
 		$map['{{UPLOADS}}/2025/11/small-banner-logo.png'] = $light;
 	}
+	$map += gfc_info_tokens();
 	foreach ( $vars as $k => $v ) {
 		$map[ '{{' . $k . '}}' ] = (string) $v;
 	}
@@ -24,7 +25,7 @@ function gfc_tpl( $name, $vars = array() ) {
 	if ( $alt && in_array( $name, array( 'header', 'footer' ), true ) ) {
 		$html = preg_replace( '~(src="' . preg_quote( gfc_logo_url(), '~' ) . '"\s+alt=")[^"]*~', '${1}' . esc_attr( $alt ), $html );
 	}
-	return $html;
+	return gfc_conditional( $html );
 }
 
 /** Thẻ bài viết: dùng trong vòng lặp. */
@@ -132,7 +133,7 @@ add_filter( 'the_content', function ( $content ) {
 	if ( false !== strpos( $content, '{{CONTACT_FORM}}' ) ) {
 		$map['{{CONTACT_FORM}}'] = gfc_contact_form();
 	}
-	return strtr( $content, $map );
+	return gfc_conditional( strtr( $content, $map + gfc_info_tokens() ) );
 }, 99 );
 
 /* WPBakery: dùng cho page và post; khung row không tạo khoảng cách thừa quanh section */
@@ -142,3 +143,84 @@ add_action( 'vc_before_init', function () {
 add_action( 'wp_enqueue_scripts', function () {
 	wp_add_inline_style( 'gfc-live', '.gfc-builder .vc_row{margin-left:0;margin-right:0}.gfc-builder .vc_column_container{padding:0;float:none}.gfc-builder .vc_column_container>.vc_column-inner{padding:0;width:100%}.gfc-builder .wpb_content_element,.gfc-builder .wpb_raw_code{margin-bottom:0}.gfc-builder>br,.gfc-builder>p:empty{display:none}#site-logo img,footer .col-span-12>picture img{object-position:left center}aside img[src*="LongVan_logo"]{object-fit:contain}' );
 }, 21 );
+
+/** Giá trị từ "Thông tin công ty" dùng trong live-tpl và row WPBakery. */
+function gfc_info_tokens() {
+	$tel = function ( $v ) {
+		return 'tel:' . preg_replace( '/[^0-9+]/', '', $v );
+	};
+	$map = array();
+	foreach ( array_keys( gfc_opt_defaults() ) as $k ) {
+		$map[ '{{' . $k . '}}' ] = esc_html( gfc_opt( $k ) );
+	}
+	foreach ( array( 'facebook', 'zalo', 'youtube', 'profile_url' ) as $k ) {
+		$map[ '{{' . $k . '}}' ] = esc_url( gfc_opt( $k ) );
+	}
+	foreach ( array( 'switchboard', 'hotline1', 'hotline2', 'hire_phone', 'jobs_phone', 'sidebar_hotline', 'office1_phone', 'office2_phone', 'office3_phone' ) as $k ) {
+		$map[ '{{tel_' . $k . '}}' ] = esc_attr( $tel( gfc_opt( $k ) ) );
+	}
+	foreach ( array( 1, 2, 3 ) as $i ) {
+		$map[ '{{office' . $i . '_map}}' ] = esc_url( 'https://www.google.com/maps?q=' . rawurlencode( gfc_opt( 'office' . $i . '_address' ) ) . '&output=embed' );
+	}
+	$map['{{digits_hotline1}}']       = esc_html( preg_replace( '/[^0-9]/', '', gfc_opt( 'hotline1' ) ) );
+	$map['{{spaced_hotline1}}']       = esc_html( str_replace( '.', ' ', gfc_opt( 'hotline1' ) ) );
+	$map['{{json_office1_address}}']  = trim( wp_json_encode( gfc_opt( 'office1_address' ) ), '"' );
+	$map['{{menu_services}}']         = gfc_footer_links( 'footer_services', gfc_footer_services_default() );
+	$map['{{menu_support}}']          = gfc_footer_links( 'footer_support', gfc_footer_support_default() );
+	return $map;
+}
+
+/** Bỏ các khối <!--if:khoa-->...<!--/if:khoa--> khi ô tương ứng để trống. */
+function gfc_conditional( $html ) {
+	if ( false === strpos( $html, '<!--if:' ) ) return $html;
+	$out = preg_replace_callback(
+		'~<!--if:(\w+)-->(.*?)<!--/if:\1-->~s',
+		function ( $m ) {
+			return '' === gfc_opt( $m[1] ) ? '' : $m[2];
+		},
+		$html
+	);
+	return null === $out ? $html : $out;
+}
+
+/** Link footer: lấy từ Giao diện → Menu, chưa gán menu thì dùng danh sách mặc định. */
+function gfc_footer_links( $location, $defaults ) {
+	$cls   = 'text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300';
+	$links = array();
+	$locs  = get_nav_menu_locations();
+	$items = ! empty( $locs[ $location ] ) ? wp_get_nav_menu_items( $locs[ $location ] ) : false;
+	if ( $items ) {
+		foreach ( $items as $it ) {
+			if ( ! $it->menu_item_parent ) $links[] = array( $it->title, $it->url );
+		}
+	} else {
+		foreach ( $defaults as $it ) {
+			$links[] = array( $it[0], gfc_link( $it[1] ) );
+		}
+	}
+	$html = '';
+	foreach ( $links as $l ) {
+		$html .= '<a href="' . esc_url( $l[1] ) . '" class="' . $cls . '">' . esc_html( $l[0] ) . '</a>';
+	}
+	return $html;
+}
+
+/** Số điện thoại cũ in sẵn trong nội dung đi theo Hotline trong "Thông tin công ty". */
+function gfc_swap_hotline( $text ) {
+	$now = gfc_opt( 'hotline1' );
+	if ( '' === $now || '' === (string) $text ) return $text;
+	$digits = preg_replace( '/[^0-9]/', '', $now );
+	$out    = preg_replace_callback(
+		'~(?<![0-9])(?:0778[ .-]?247[ .-]?113|0328[ .-]?898[ .-]?113|1900[ .-]?3014|08[ .-]?12345[ .-]?247|\(?0(?:28|24|236)\)?[ .-]?4455[ .-]?0?[ .-]?0?[ .-]?247)(?![0-9])~',
+		function ( $m ) use ( $now, $digits ) {
+			return ctype_digit( $m[0] ) ? $digits : $now;
+		},
+		$text
+	);
+	return null === $out ? $text : $out;
+}
+
+add_filter( 'the_content', function ( $content ) {
+	return is_singular( 'post' ) && 'top-15-cong-ty-dich-vu-bao-ve' === get_post_field( 'post_name' ) ? $content : gfc_swap_hotline( $content );
+}, 98 );
+add_filter( 'get_the_excerpt', 'gfc_swap_hotline' );

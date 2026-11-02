@@ -18,8 +18,8 @@
           <p class="text-base lg:text-lg 2xl:text-xl font-bold">
             Liên lạc          </p>
           <div class="flex flex-col gap-2.5 lg:gap-4">
-<p class="text-sm lg:text-base 2xl:text-lg font-semibold">CÔNG TY CỔ PHẦN DỊCH VỤ BẢO VỆ LONG VÂN</p>
-                          <a href="tel:19003014" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
+<!--if:company_name--><p class="text-sm lg:text-base 2xl:text-lg font-semibold">{{company_name}}</p><!--/if:company_name-->
+                          <!--if:switchboard--><a href="{{tel_switchboard}}" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_84_1078)">
@@ -35,9 +35,9 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Tổng đài toàn quốc:</span> 1900 3014                </p>
-              </a>
-                          <a href="tel:0778247113" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
+                  <span class="font-semibold">Tổng đài toàn quốc:</span> {{switchboard}}                </p>
+              </a><!--/if:switchboard-->
+                          <!--if:hotline1--><a href="{{tel_hotline1}}" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_84_1069)">
@@ -51,9 +51,9 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Hotline 24/7:</span> 0778.247.113                </p>
-              </a>
-                          <a href="tel:0328898113" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
+                  <span class="font-semibold">Hotline 24/7:</span> {{hotline1}}                </p>
+              </a><!--/if:hotline1-->
+                          <!--if:hotline2--><a href="{{tel_hotline2}}" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_84_1069)">
@@ -67,9 +67,9 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Hotline 24/7:</span> 0328.898.113                </p>
-              </a>
-                          <a href="mailto:duckhienbp@gmail.com" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
+                  <span class="font-semibold">Hotline 24/7:</span> {{hotline2}}                </p>
+              </a><!--/if:hotline2-->
+                          <!--if:email--><a href="mailto:{{email}}" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M15.5511 12.9961L13.541 15.0129C12.7259 15.8309 11.2917 15.8485 10.459 15.0129L8.44884 12.9961L1.22934 20.239C1.49807 20.3633 1.79437 20.4375 2.10937 20.4375H21.8906C22.2056 20.4375 22.5018 20.3634 22.7705 20.2391L15.5511 12.9961Z" fill="#1E91D6"/>
@@ -77,9 +77,9 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Email:</span> duckhienbp@gmail.com                </p>
-              </a>
-                          <a href="#" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
+                  <span class="font-semibold">Email:</span> {{email}}                </p>
+              </a><!--/if:email-->
+                          <!--if:tax--><a href="#" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_3_491)">
@@ -93,13 +93,13 @@
 </defs>
 </svg>                </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Mã số thuế: </span> 0309390411                </p>
-              </a>
+                  <span class="font-semibold">Mã số thuế: </span> {{tax}}                </p>
+              </a><!--/if:tax-->
                       </div>
         </div>
-        <div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
+        <!--if:office1_address--><div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
           <p class="text-base lg:text-lg 2xl:text-xl font-bold">
-            Trụ sở TP Hồ Chí Minh          </p>
+            {{office1_name}}          </p>
           <div class="flex flex-col gap-2.5 lg:gap-4">
                           <a href="#" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
@@ -108,9 +108,9 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Địa chỉ:</span> 103 Đào Duy Anh, Phường Đức Nhuận, Thành phố Hồ Chí Minh, Việt Nam                </p>
+                  <span class="font-semibold">Địa chỉ:</span> {{office1_address}}                </p>
               </a>
-                          <a href="tel:02844550247" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
+                          <a href="{{tel_office1_phone}}" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_84_1058)">
@@ -126,13 +126,13 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Hotline:</span> (028) 44550 247                </p>
+                  <span class="font-semibold">Hotline:</span> {{office1_phone}}                </p>
               </a>
                       </div>
-        </div>
-        <div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
+        </div><!--/if:office1_address-->
+        <!--if:office2_address--><div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
           <p class="text-base lg:text-lg 2xl:text-xl font-bold">
-            Chi nhánh Hà Nội          </p>
+            {{office2_name}}          </p>
           <div class="flex flex-col gap-2.5 lg:gap-4">
                           <a href="#" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
@@ -141,9 +141,9 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Địa chỉ:</span> Tầng 12, Licogi 13 Tower, 164 Khuất Duy Tiến, phường Thanh Xuân, Hà Nội                </p>
+                  <span class="font-semibold">Địa chỉ:</span> {{office2_address}}                </p>
               </a>
-                          <a href="tel:02444550247" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
+                          <a href="{{tel_office2_phone}}" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_84_1058)">
@@ -159,13 +159,13 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Hotline:</span> (024) 44550 247                </p>
+                  <span class="font-semibold">Hotline:</span> {{office2_phone}}                </p>
               </a>
                       </div>
-        </div>
-        <div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
+        </div><!--/if:office2_address-->
+        <!--if:office3_address--><div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
           <p class="text-base lg:text-lg 2xl:text-xl font-bold">
-            Chi nhánh Đà Nẵng          </p>
+            {{office3_name}}          </p>
           <div class="flex flex-col gap-2.5 lg:gap-4">
                           <a href="#" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
@@ -174,9 +174,9 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Địa chỉ:</span> 232 Đường 2/9, phường Hòa Cường, TP. Đà Nẵng                </p>
+                  <span class="font-semibold">Địa chỉ:</span> {{office3_address}}                </p>
               </a>
-                          <a href="tel:023644550247" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
+                          <a href="{{tel_office3_phone}}" target="_blank" class="flex items-start justify-start gap-2.5 hover:text-primary transition-all duration-300">
                 <div class="size-5 lg:size-6 flex-shrink-0">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_84_1058)">
@@ -192,64 +192,42 @@
 </svg>
                 </div>
                 <p class="text-sm lg:text-base 2xl:text-lg">
-                  <span class="font-semibold">Hotline:</span> (0236) 44550 247                </p>
+                  <span class="font-semibold">Hotline:</span> {{office3_phone}}                </p>
               </a>
                       </div>
-        </div>
+        </div><!--/if:office3_address-->
         <!-- ========== Center ========== -->
         <div class="col-span-12 flex flex-col lg:flex-row gap-2.5 lg:gap-5 lg:justify-between">
           <div class="flex flex-col gap-2.5 lg:gap-5">
             <p class="text-base lg:text-lg 2xl:text-xl font-bold">
               Dịch vụ            </p>
-            <div class="flex flex-col gap-2.5">
-                              <a href="{{HOME}}/dich-vu-bao-ve-nha-may" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ nhà máy - xí nghiệp</a>
-                              <a href="{{HOME}}/bao-ve-toa-nha-chung-cu" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ chung cư</a>
-                              <a href="{{HOME}}/dich-vu-bao-ve-cong-ty-van-phong" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ công ty - văn phòng</a>
-                              <a href="{{HOME}}/bao-ve-nha-hang-khach-san" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ nhà hàng - khách sạn</a>
-                              <a href="{{HOME}}/bao-ve-truong-hoc" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ trường học</a>
-                              <a href="{{HOME}}/bao-ve-ngan-hang" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ ngân hàng</a>
-                              <a href="{{HOME}}/bao-ve-sieu-thi-trung-tam-thuong-mai" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ siêu thị - trung tâm thương mại</a>
-                              <a href="{{HOME}}/bao-ve-khu-cong-nghiep" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ khu công nghiệp</a>
-                              <a href="{{HOME}}/bao-ve-nha-rieng" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ nhà riêng</a>
-                              <a href="{{HOME}}/bao-ve-cong-truong" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ công trường</a>
-                              <a href="{{HOME}}/bang-gia-thue-bao-ve-giu-xe" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ giữ xe</a>
-                              <a href="{{HOME}}/bao-ve-yeu-nhan-nhan-vat-vip" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ yếu nhân - nhân vật VIP</a>
-                              <a href="{{HOME}}/dich-vu-ve-si-ca-nhan" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Vệ sĩ cá nhân</a>
-                              <a href="{{HOME}}/bao-ve-ap-tai-hang-hoa" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ áp tải hàng hoá</a>
-                              <a href="{{HOME}}/bao-ve-su-kien-event" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Bảo vệ sự kiện - event</a>
-                          </div>
+            <div class="flex flex-col gap-2.5">{{menu_services}}</div>
           </div>
           <div class="flex flex-col gap-2.5 lg:gap-5">
             <p class="text-base lg:text-lg 2xl:text-xl font-bold">
               Hỗ trợ khách hàng            </p>
-            <div class="flex flex-col gap-2.5">
-                              <a href="{{HOME}}/gioi-thieu-gfc-security" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Giới thiệu</a>
-                              <a href="{{HOME}}/tin-tuc" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Tin tức</a>
-                              <a href="{{HOME}}/lien-he" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Liên hệ</a>
-                              <a href="{{HOME}}/tin-tuc/tuyen-dung" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Tuyển dụng</a>
-                              <a href="{{HOME}}/chinh-sach-bao-mat" class="text-sm lg:text-base 2xl:text-lg hover:text-primary transition-all duration-300">Chính sách bảo mật thông tin</a>
-                          </div>
+            <div class="flex flex-col gap-2.5">{{menu_support}}</div>
             <p class="text-base lg:text-lg 2xl:text-xl font-bold">
               Kết nối với chúng tôi            </p>
             <div class="flex flex-row gap-2.5 lg:gap-4">
-                                              <a href="https://www.facebook.com/baovegfc" target="_blank" class="hover:opacity-80 transition-all duration-300">
+                                              <!--if:facebook--><a href="{{facebook}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
                   <img src="{{UPLOADS}}/2025/10/image-7-1.png" alt="" class="size-9 lg:size-10 2xl:size-12">
-                </a>
-                                              <a href="https://zalo.me/0778247113" target="_blank" class="hover:opacity-80 transition-all duration-300">
+                </a><!--/if:facebook-->
+                                              <!--if:zalo--><a href="{{zalo}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
                   <img src="{{UPLOADS}}/2025/10/sm-672c066b31fd3-Zalo-1-1.png" alt="" class="size-9 lg:size-10 2xl:size-12">
-                </a>
-                                              <a href="#" target="_blank" class="hover:opacity-80 transition-all duration-300">
+                </a><!--/if:zalo-->
+                                              <!--if:youtube--><a href="{{youtube}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
                   <img src="{{UPLOADS}}/2025/10/Frame-2.png" alt="" class="size-9 lg:size-10 2xl:size-12">
-                </a>
-                                              <a href="#" target="_blank" class="hover:opacity-80 transition-all duration-300">
+                </a><!--/if:youtube-->
+                                              <!--if:email--><a href="mailto:{{email}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
                   <img src="{{UPLOADS}}/2025/10/Frame-1-1.png" alt="" class="size-9 lg:size-10 2xl:size-12">
-                </a>
+                </a><!--/if:email-->
                           </div>
-            <div class="flex flex-row gap-2.5 lg:gap-5">
+            <!--if:show_badges--><div class="flex flex-row gap-2.5 lg:gap-5">
               <a href="//www.dmca.com/Protection/Status.aspx?ID=92301f59-1437-465c-82dd-02f987f4423a" title="DMCA.com Protection Status" class="dmca-badge"> <img style="height: 70px; width: auto;" src ="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=92301f59-1437-465c-82dd-02f987f4423a"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>              <img src="{{UPLOADS}}/2025/11/BCT-LOGO-1.svg" alt="">
-            </div>
+            </div><!--/if:show_badges-->
           </div>
-          <div class="flex flex-col gap-2.5 lg:gap-5">
+          <!--if:show_ecosystem--><div class="flex flex-col gap-2.5 lg:gap-5">
             <p class="text-base lg:text-lg 2xl:text-xl font-bold">
               Hệ sinh thái            </p>
             <div class="flex flex-col gap-2.5 lg:gap-5">
@@ -263,14 +241,14 @@
             <div class="flex flex-row gap-2.5 lg:gap-5">
                               <a href="" target="_blank" rel="noopener noreferrer"><img class="h-11 lg:h-12.5 2xl:h-auto" src="{{UPLOADS}}/2025/10/image-1899.svg" alt=""></a>
                           </div>
-          </div>
+          </div><!--/if:show_ecosystem-->
         </div>
       </div>
     </div>
     <!-- ========== Copyright ========== -->
     <div class="pt-4 lg:pt-5 2xl:pt-7.5 pb-3 lg:pb-5 2xl:pb-5">
       <p class="text-sm lg:text-base 2xl:text-lg text-center">
-        © 2025 CÔNG TY CỔ PHẦN DỊCH VỤ BẢO VỆ LONG VÂN. All Rights Reserved.      </p>
+        {{copyright}}      </p>
     </div>
   </div>
 </footer>

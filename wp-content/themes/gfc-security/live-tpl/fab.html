@@ -290,31 +290,31 @@
       }
     </style>
     <div class="fab-container" style="--ripple-color: 30, 145, 214;">
-                                      <a href="https://zalo.me/0778247113" class="contact-item" style="background-color: #1e91d6; border-color: #1e91d6; --ripple-color: 30, 145, 214;" target="_blank">
+                                      <!--if:zalo--><a href="{{zalo}}" class="contact-item" style="background-color: #1e91d6; border-color: #1e91d6; --ripple-color: 30, 145, 214;" target="_blank">
             <span class="wave-effect"></span>
             <img src="{{UPLOADS}}/2025/10/svg_zalo_icon-1.svg" alt="" />
                           <span class="contact-text">Nhắn tin Zalo</span>
-                      </a>
-                                          <a href="tel:0812345247" class="contact-item" style="background-color: #63c132; border-color: #63c132; --ripple-color: 99, 193, 50;" target="_blank">
+                      </a><!--/if:zalo-->
+                                          <!--if:hire_phone--><a href="{{tel_hire_phone}}" class="contact-item" style="background-color: #63c132; border-color: #63c132; --ripple-color: 99, 193, 50;" target="_blank">
             <span class="wave-effect"></span>
             <img src="{{UPLOADS}}/2025/10/Frame-1171277672.svg" alt="" />
                           <span class="contact-text">Thuê bảo vệ</span>
-                      </a>
-                                          <a href="tel:0778247113" class="contact-item" style="background-color: #1e91d6; border-color: #1e91d6; --ripple-color: 30, 145, 214;" target="_blank">
+                      </a><!--/if:hire_phone-->
+                                          <!--if:jobs_phone--><a href="{{tel_jobs_phone}}" class="contact-item" style="background-color: #1e91d6; border-color: #1e91d6; --ripple-color: 30, 145, 214;" target="_blank">
             <span class="wave-effect"></span>
             <img src="{{UPLOADS}}/2025/10/Frame-1171277672-1.svg" alt="" />
                           <span class="contact-text">Tìm việc bảo vệ</span>
-                      </a>
-                                          <a href="tel:0778247113" class="contact-item" style="background-color: #63c132; border-color: #63c132; --ripple-color: 99, 193, 50;" target="_blank">
+                      </a><!--/if:jobs_phone-->
+                                          <!--if:hotline1--><a href="{{tel_hotline1}}" class="contact-item" style="background-color: #63c132; border-color: #63c132; --ripple-color: 99, 193, 50;" target="_blank">
             <span class="wave-effect"></span>
             <img src="{{UPLOADS}}/2025/10/Frame-1171277672-2.svg" alt="" />
-                          <span class="contact-text">Hotline: 0778247113</span>
-                      </a>
-                                          <a href="tel:19003014" class="contact-item" style="background-color: #1e91d6; border-color: #1e91d6; --ripple-color: 30, 145, 214;" target="_blank">
+                          <span class="contact-text">Hotline: {{digits_hotline1}}</span>
+                      </a><!--/if:hotline1-->
+                                          <!--if:switchboard--><a href="{{tel_switchboard}}" class="contact-item" style="background-color: #1e91d6; border-color: #1e91d6; --ripple-color: 30, 145, 214;" target="_blank">
             <span class="wave-effect"></span>
             <img src="{{UPLOADS}}/2025/10/Frame-1171277672-3.svg" alt="" />
-                          <span class="contact-text">Tổng đài: 1900 3014</span>
-                      </a>
+                          <span class="contact-text">Tổng đài: {{switchboard}}</span>
+                      </a><!--/if:switchboard-->
                     </div>
       <script>
       document.addEventListener('DOMContentLoaded', function() {

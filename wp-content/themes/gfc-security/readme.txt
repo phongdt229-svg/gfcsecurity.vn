@@ -31,5 +31,8 @@ Theme dựng lại cho gfcsecurity.vn, giữ nguyên cấu trúc, nội dung và
 - Giao diện dùng CSS, markup, font và icon của gfcsecurity.vn: live-tpl/*.html + assets/live/ (xem inc/live.php).
 - Sửa được trong WordPress: bài viết, trang nội dung, khung trang dịch vụ.
 - Trang chủ, Giới thiệu, Liên hệ: sửa bằng WPBakery, mỗi section là một row Raw HTML. Giữ nguyên các chỗ {{UPLOADS}}, {{HOME}}, {{THEME}}, {{CONTACT_FORM}}.
-- Nằm cố định trong live-tpl/: header, footer, /dich-vu-gfc. Muốn đổi các phần này phải sửa file. Menu và Tuỳ biến không còn tác dụng với chúng.
+- Footer, trang Liên hệ, nút nổi, banner bài viết: sửa ở menu admin "Thông tin công ty". Để trống một ô thì dòng đó tự ẩn.
+- Link footer: Giao diện → Menu ("Footer — Dịch vụ", "Footer — Hỗ trợ khách hàng").
+- Trong row WPBakery giữ nguyên các mã dạng {{hotline1}}, {{email}}, {{office1_address}}.
+- Nằm cố định trong live-tpl/: menu header, /dich-vu-gfc.
 - Form trang Liên hệ dùng plugin Contact Form 7 (ID lấy từ Tuỳ biến, mặc định 6434). Chỉnh trường và email nhận tại menu Liên hệ trong admin.

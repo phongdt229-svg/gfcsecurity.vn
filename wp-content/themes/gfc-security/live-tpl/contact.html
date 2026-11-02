@@ -17,42 +17,42 @@
 
 <section class="container mx-auto px-4 pt-5 lg:pt-7.5 2xl:pt-10">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5 2xl:gap-7.5">
-                    <a href="tel:19003014" class="flex items-center justify-start px-2.5 lg:px-4 2xl:px-6 py-2.5 lg:py-5 2xl:py-7.5 gap-x-5 border border-[#C9CDD2] rounded-md overflow-hidden group hover:border-primary transition-all duration-300">
+                    <!--if:switchboard--><a href="{{tel_switchboard}}" class="flex items-center justify-start px-2.5 lg:px-4 2xl:px-6 py-2.5 lg:py-5 2xl:py-7.5 gap-x-5 border border-[#C9CDD2] rounded-md overflow-hidden group hover:border-primary transition-all duration-300">
                 <img src="{{UPLOADS}}/2025/11/Frame-3.svg" alt="" class="size-8 lg:size-9 2xl:size-12.5 flex-shrink-0">
                 <div class="flex flex-col gap-1">
                     <p class="text-sm lg:text-base 2xl:text-lg group-hover:text-primary transition-all duration-300">Tổng đài toàn quốc</p>
-                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold group-hover:text-primary transition-all duration-300">1900 3014</p>
+                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold group-hover:text-primary transition-all duration-300">{{switchboard}}</p>
                 </div>
-            </a>
-                    <a href="tel:0778247113" class="flex items-center justify-start px-2.5 lg:px-4 2xl:px-6 py-2.5 lg:py-5 2xl:py-7.5 gap-x-5 border border-[#C9CDD2] rounded-md overflow-hidden group hover:border-secondary transition-all duration-300">
+            </a><!--/if:switchboard-->
+                    <!--if:hotline1--><a href="{{tel_hotline1}}" class="flex items-center justify-start px-2.5 lg:px-4 2xl:px-6 py-2.5 lg:py-5 2xl:py-7.5 gap-x-5 border border-[#C9CDD2] rounded-md overflow-hidden group hover:border-secondary transition-all duration-300">
                 <img src="{{UPLOADS}}/2025/11/Frame-1-1.svg" alt="" class="size-8 lg:size-9 2xl:size-12.5 flex-shrink-0">
                 <div class="flex flex-col gap-1">
                     <p class="text-sm lg:text-base 2xl:text-lg group-hover:text-secondary transition-all duration-300">Hotline 24/7</p>
-                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold group-hover:text-secondary transition-all duration-300">0778 247 113</p>
+                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold group-hover:text-secondary transition-all duration-300">{{spaced_hotline1}}</p>
                 </div>
-            </a>
-                    <a href="mailto:duckhienbp@gmail.com" class="flex items-center justify-start px-2.5 lg:px-4 2xl:px-6 py-2.5 lg:py-5 2xl:py-7.5 gap-x-5 border border-[#C9CDD2] rounded-md overflow-hidden group hover:border-primary transition-all duration-300">
+            </a><!--/if:hotline1-->
+                    <!--if:email--><a href="mailto:{{email}}" class="flex items-center justify-start px-2.5 lg:px-4 2xl:px-6 py-2.5 lg:py-5 2xl:py-7.5 gap-x-5 border border-[#C9CDD2] rounded-md overflow-hidden group hover:border-primary transition-all duration-300">
                 <img src="{{UPLOADS}}/2025/11/Frame-2-1.svg" alt="" class="size-8 lg:size-9 2xl:size-12.5 flex-shrink-0">
                 <div class="flex flex-col gap-1">
                     <p class="text-sm lg:text-base 2xl:text-lg group-hover:text-primary transition-all duration-300">Email</p>
-                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold group-hover:text-primary transition-all duration-300">duckhienbp@gmail.com</p>
+                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold group-hover:text-primary transition-all duration-300">{{email}}</p>
                 </div>
-            </a>
+            </a><!--/if:email-->
             </div>
 </section>
 
 <section class="container mx-auto px-4 pt-5 lg:pt-7.5">
     <div class="grid grid-cols-12 gap-2.5 lg:gap-0">
         <div id="contact-address-section" class="col-span-12 lg:col-span-5 flex flex-col">
-                            <div id="contact-address-item-0" class="flex flex-col p-4 lg:p-5 2xl:p-7.5 lg:gap-5 gap-2.5 overflow-hidden border border-[#C9CDD2] hover:bg-[#EBF2FA] transition-all duration-300 cursor-pointer" data-map-link="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4346948746743!2d106.6971874844361!3d10.777980761964525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f47d9d337ab%3A0xa0931ba9c325bdfe!2zVMOyYSBuaMOgIFZpbmNvbSBDZW50ZXIsIMSQ4buTbmcgS2jhu59pLzcyIEzDqiBUaMOhbmggVMO0biwgQuG6v24gTmdow6ksIFF14bqtbiAxLCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmggNzAwMDAwLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1761877720938!5m2!1sen!2s">
-                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold text-primary">Trụ sở Thành phố Hồ Chí Minh</p>
+                            <!--if:office1_address--><div id="contact-address-item-0" class="flex flex-col p-4 lg:p-5 2xl:p-7.5 lg:gap-5 gap-2.5 overflow-hidden border border-[#C9CDD2] hover:bg-[#EBF2FA] transition-all duration-300 cursor-pointer" data-map-link="{{office1_map}}">
+                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold text-primary">{{office1_name}}</p>
                     <div class="flex items-start justify-start gap-x-3">
                         <div class="size-5 lg:size-6 flex-shrink-0">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M12.0005 0C7.20775 0 3.30859 3.89916 3.30859 8.69184C3.30859 14.6397 11.087 23.3715 11.4182 23.7404C11.7292 24.0868 12.2723 24.0862 12.5828 23.7404C12.914 23.3715 20.6924 14.6397 20.6924 8.69184C20.6923 3.89916 16.7932 0 12.0005 0ZM12.0005 13.065C9.58914 13.065 7.62742 11.1032 7.62742 8.69184C7.62742 6.2805 9.58919 4.31878 12.0005 4.31878C14.4118 4.31878 16.3735 6.28055 16.3735 8.69189C16.3735 11.1032 14.4118 13.065 12.0005 13.065Z" fill="#1E91D6"/>
 </svg>
                         </div>
-                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Địa chỉ:</span> 103 Đào Duy Anh, Phường Đức Nhuận, Thành phố Hồ Chí Minh, Việt Nam</p>
+                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Địa chỉ:</span> {{office1_address}}</p>
                     </div>
                     <div class="flex items-start justify-start gap-x-3">
                         <div class="size-5 lg:size-6 flex-shrink-0">
@@ -69,18 +69,18 @@
 </defs>
 </svg>
                         </div>
-                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Số điện thoại:</span> (028) 44550 247</p>
+                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Số điện thoại:</span> {{office1_phone}}</p>
                     </div>
-                </div>
-                            <div id="contact-address-item-1" class="flex flex-col p-4 lg:p-5 2xl:p-7.5 lg:gap-5 gap-2.5 overflow-hidden border border-[#C9CDD2] hover:bg-[#EBF2FA] transition-all duration-300 cursor-pointer" data-map-link="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.8476573238377!2d105.79549357597745!3d20.998742980643037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135acbb128d77db%3A0xcec8febb44b08314!2zTGljb2dpIDEzLCBQLiBWxakgSOG7r3UvMTY0IEtodeG6pXQgRHV5IFRp4bq_biwgTmjDom4gQ2jDrW5oLCBUaGFuaCBYdcOibiwgSMOgIE7hu5lpIDEwMDAwMCwgVmlldG5hbQ!5e0!3m2!1sen!2s!4v1761880020447!5m2!1sen!2s">
-                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold text-primary">Chi nhánh Hà Nội</p>
+                </div><!--/if:office1_address-->
+                            <!--if:office2_address--><div id="contact-address-item-1" class="flex flex-col p-4 lg:p-5 2xl:p-7.5 lg:gap-5 gap-2.5 overflow-hidden border border-[#C9CDD2] hover:bg-[#EBF2FA] transition-all duration-300 cursor-pointer" data-map-link="{{office2_map}}">
+                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold text-primary">{{office2_name}}</p>
                     <div class="flex items-start justify-start gap-x-3">
                         <div class="size-5 lg:size-6 flex-shrink-0">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M12.0005 0C7.20775 0 3.30859 3.89916 3.30859 8.69184C3.30859 14.6397 11.087 23.3715 11.4182 23.7404C11.7292 24.0868 12.2723 24.0862 12.5828 23.7404C12.914 23.3715 20.6924 14.6397 20.6924 8.69184C20.6923 3.89916 16.7932 0 12.0005 0ZM12.0005 13.065C9.58914 13.065 7.62742 11.1032 7.62742 8.69184C7.62742 6.2805 9.58919 4.31878 12.0005 4.31878C14.4118 4.31878 16.3735 6.28055 16.3735 8.69189C16.3735 11.1032 14.4118 13.065 12.0005 13.065Z" fill="#1E91D6"/>
 </svg>
                         </div>
-                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Địa chỉ:</span> Tầng 12, Licogi 13 Tower, 164 Khuất Duy Tiến, phường Thanh Xuân, Hà Nội</p>
+                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Địa chỉ:</span> {{office2_address}}</p>
                     </div>
                     <div class="flex items-start justify-start gap-x-3">
                         <div class="size-5 lg:size-6 flex-shrink-0">
@@ -97,18 +97,18 @@
 </defs>
 </svg>
                         </div>
-                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Số điện thoại:</span> (024) 44550 247</p>
+                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Số điện thoại:</span> {{office2_phone}}</p>
                     </div>
-                </div>
-                            <div id="contact-address-item-2" class="flex flex-col p-4 lg:p-5 2xl:p-7.5 lg:gap-5 gap-2.5 overflow-hidden border border-[#C9CDD2] hover:bg-[#EBF2FA] transition-all duration-300 cursor-pointer" data-map-link="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.3579836670506!2d108.21979567587834!3d16.04690268462949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314219c3877551bf%3A0xae4fa275de11ad8c!2zMjMyIMSQLiAyIFRow6FuZyA5LCBIb8OgIEPGsOG7nW5nIELhuq9jLCBI4bqjaSBDaMOidSwgxJDDoCBO4bq1bmcgNTUwMDAwLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1761880050585!5m2!1sen!2s">
-                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold text-primary">Chi nhánh Đà Nẵng</p>
+                </div><!--/if:office2_address-->
+                            <!--if:office3_address--><div id="contact-address-item-2" class="flex flex-col p-4 lg:p-5 2xl:p-7.5 lg:gap-5 gap-2.5 overflow-hidden border border-[#C9CDD2] hover:bg-[#EBF2FA] transition-all duration-300 cursor-pointer" data-map-link="{{office3_map}}">
+                    <p class="text-lg lg:text-xl 2xl:text-2xl font-bold text-primary">{{office3_name}}</p>
                     <div class="flex items-start justify-start gap-x-3">
                         <div class="size-5 lg:size-6 flex-shrink-0">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M12.0005 0C7.20775 0 3.30859 3.89916 3.30859 8.69184C3.30859 14.6397 11.087 23.3715 11.4182 23.7404C11.7292 24.0868 12.2723 24.0862 12.5828 23.7404C12.914 23.3715 20.6924 14.6397 20.6924 8.69184C20.6923 3.89916 16.7932 0 12.0005 0ZM12.0005 13.065C9.58914 13.065 7.62742 11.1032 7.62742 8.69184C7.62742 6.2805 9.58919 4.31878 12.0005 4.31878C14.4118 4.31878 16.3735 6.28055 16.3735 8.69189C16.3735 11.1032 14.4118 13.065 12.0005 13.065Z" fill="#1E91D6"/>
 </svg>
                         </div>
-                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Địa chỉ:</span> 232 đường 2/9, phường Hòa Cường, TP. Đà Nẵng</p>
+                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Địa chỉ:</span> {{office3_address}}</p>
                     </div>
                     <div class="flex items-start justify-start gap-x-3">
                         <div class="size-5 lg:size-6 flex-shrink-0">
@@ -125,12 +125,12 @@
 </defs>
 </svg>
                         </div>
-                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Số điện thoại:</span> (0236) 44550 247</p>
+                        <p class="text-sm lg:text-base 2xl:text-lg"><span class="font-semibold">Số điện thoại:</span> {{office3_phone}}</p>
                     </div>
-                </div>
+                </div><!--/if:office3_address-->
                     </div>
         <div class="col-span-12 lg:col-span-7 h-full w-full">
-            <iframe id="contact-address-map" class="w-full h-full aspect-[16/9] lg:aspect-auto" src="https://www.google.com/maps?q=103%20%C4%90%C3%A0o%20Duy%20Anh%2C%20Ph%C6%B0%E1%BB%9Dng%20%C4%90%E1%BB%A9c%20Nhu%E1%BA%ADn%2C%20Th%C3%A0nh%20ph%E1%BB%91%20H%E1%BB%93%20Ch%C3%AD%20Minh%2C%20Vi%E1%BB%87t%20Nam&amp;output=embed" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe id="contact-address-map" class="w-full h-full aspect-[16/9] lg:aspect-auto" src="{{office1_map}}" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
     <script>

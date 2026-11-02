@@ -12,9 +12,9 @@ while ( have_posts() ) : the_post();
 	$h = esc_html( $title );
 	echo '<main class="mt-16 lg:mt-30">';
 	// phpcs:disable WordPress.Security.EscapeOutput -- đã escape từng giá trị
-	echo gfc_tpl( 'svc-hero', array( 'hero_title' => $h, 'hero_desc' => esc_html( gfc_smeta( 'hero_desc' ) ), 'hero_image' => esc_url( $img ) ) );
+	echo gfc_tpl( 'svc-hero', array( 'hero_title' => $h, 'hero_desc' => esc_html( gfc_swap_hotline( gfc_smeta( 'hero_desc' ) ) ), 'hero_image' => esc_url( $img ) ) );
 	if ( gfc_smeta( 'price_html' ) ) {
-		echo gfc_tpl( 'svc-price', array( 'hero_title' => $h, 'price_title' => esc_html( gfc_smeta( 'price_title' ) ), 'price_html' => wp_kses_post( gfc_smeta( 'price_html' ) ) ) );
+		echo gfc_tpl( 'svc-price', array( 'hero_title' => $h, 'price_title' => esc_html( gfc_smeta( 'price_title' ) ), 'price_html' => wp_kses_post( gfc_swap_hotline( gfc_smeta( 'price_html' ) ) ) ) );
 	}
 	$extra = gfc_lines( gfc_smeta( 'extra_items' ), 3 );
 	if ( $extra ) {

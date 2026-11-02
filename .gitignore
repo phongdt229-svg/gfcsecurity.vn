@@ -1,0 +1,4 @@
+
+# Ban export database: chua tai khoan admin, khong dua len git
+database/*.sql
+database/*.sql.gz

@@ -1,0 +1,65 @@
+<aside class="pt-5 lg:pt-7.5 2xl:pt-10 pb-5 lg:pb-15 2xl:pb-20">
+    <div class="container mx-auto px-4 relative">
+        <p class="font-semibold text-xl lg:text-3xl uppercase">
+            Bài viết liên quan
+        </p>
+        <div class="relative mt-5 lg:mt-7.5">
+            <!-- Swiper Container -->
+            <div class="w-full relative">
+                <div class="swiper related-posts-swiper">
+                    <ul class="swiper-wrapper">{{items}}</ul>
+                </div>
+                <!-- Add Pagination -->
+                <div class="hidden swiper-pagination related-posts-pagination absolute"></div>
+
+                <!-- Add Navigation Buttons -->
+                <div class="cs-prev-related hidden items-center justify-center size-12.5 absolute -left-4 lg:-left-20 top-1/2 -translate-y-1/2 z-10 cursor-pointer border border-primary bg-white hover:bg-primary rounded-full group transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" class="size-6 stroke-primary group-hover:stroke-white transition-all duration-300">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+                    </svg>
+                </div>
+                <div class="cs-next-related hidden items-center justify-center size-12.5 absolute -right-4 lg:-right-20 top-1/2 -translate-y-1/2 z-10 cursor-pointer border border-primary bg-white hover:bg-primary rounded-full group transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" class="size-6 stroke-primary group-hover:stroke-white transition-all duration-300">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside><script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof Swiper !== 'undefined') {
+            var relatedSwiper = new Swiper('.related-posts-swiper', {
+                slidesPerView: 1.5,
+                spaceBetween: 10,
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                },
+                loop: true,
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 10,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                    },
+                },
+                navigation: {
+                    nextEl: '.cs-next-related',
+                    prevEl: '.cs-prev-related',
+                },
+                pagination: {
+                    el: '.related-posts-pagination',
+                    clickable: true,
+                },
+            });
+        }
+    });
+</script>

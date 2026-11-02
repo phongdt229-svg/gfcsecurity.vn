@@ -1,0 +1,42 @@
+<section class="lg:-mt-20 mb-10 lg:mb-20 relative z-10 container mx-auto px-4">
+    <div class="bg-white lg:rounded-t-md lg:shadow-tab-bar">
+      <div class="relative lg:h-20 flex flex-row flex-nowrap overflow-x-auto lg:justify-between items-center gap-x-5 lg:gap-x-5 lg:gap-y-5 pb-2.5 lg:pb-0 px-0 lg:px-10 lg:rounded-t-md overflow-hidden after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[99%] after:h-px after:bg-[#C9CDD2]">
+                <a href="{{HOME}}/tin-tuc" class="archive-tab w-auto text-nowrap h-full py-3 lg:py-0 flex justify-center items-center text-[#72787F] lg:text-lg 2xl:text-xl font-medium lg:font-semibold lg:w-fit relative hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-1 after:bg-primary after:w-0 hover:after:w-full after:transition-all duration-300 cursor-pointer" data-gfc-url="{{HOME}}/tin-tuc">Tất cả</a>
+                  <a href="{{HOME}}/tin-tuc/bao-ve-tphcm" class="archive-tab w-auto text-nowrap h-full py-3 lg:py-0 flex justify-center items-center text-[#72787F] lg:text-lg 2xl:text-xl font-medium lg:font-semibold lg:w-fit relative hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-1 after:bg-primary after:w-0 hover:after:w-full after:transition-all duration-300 cursor-pointer" data-gfc-url="{{HOME}}/tin-tuc/bao-ve-tphcm">Bảo vệ TPHCM</a>
+                  <a href="{{HOME}}/tin-tuc/bao-ve-mien-nam" class="archive-tab w-auto text-nowrap h-full py-3 lg:py-0 flex justify-center items-center text-[#72787F] lg:text-lg 2xl:text-xl font-medium lg:font-semibold lg:w-fit relative hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-1 after:bg-primary after:w-0 hover:after:w-full after:transition-all duration-300 cursor-pointer" data-gfc-url="{{HOME}}/tin-tuc/bao-ve-mien-nam">Bảo vệ miền Nam</a>
+                  <a href="{{HOME}}/tin-tuc/bao-ve-mien-trung" class="archive-tab w-auto text-nowrap h-full py-3 lg:py-0 flex justify-center items-center text-[#72787F] lg:text-lg 2xl:text-xl font-medium lg:font-semibold lg:w-fit relative hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-1 after:bg-primary after:w-0 hover:after:w-full after:transition-all duration-300 cursor-pointer" data-gfc-url="{{HOME}}/tin-tuc/bao-ve-mien-trung">Bảo vệ miền Trung</a>
+                  <a href="{{HOME}}/tin-tuc/bao-ve-mien-bac" class="archive-tab w-auto text-nowrap h-full py-3 lg:py-0 flex justify-center items-center text-[#72787F] lg:text-lg 2xl:text-xl font-medium lg:font-semibold lg:w-fit relative hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-1 after:bg-primary after:w-0 hover:after:w-full after:transition-all duration-300 cursor-pointer" data-gfc-url="{{HOME}}/tin-tuc/bao-ve-mien-bac">Bảo vệ miền Bắc</a>
+                  <a href="{{HOME}}/tin-tuc/kien-thuc-nganh-bao-ve" class="archive-tab w-auto text-nowrap h-full py-3 lg:py-0 flex justify-center items-center text-[#72787F] lg:text-lg 2xl:text-xl font-medium lg:font-semibold lg:w-fit relative hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-1 after:bg-primary after:w-0 hover:after:w-full after:transition-all duration-300 cursor-pointer" data-gfc-url="{{HOME}}/tin-tuc/kien-thuc-nganh-bao-ve">Kiến thức ngành bảo vệ</a>
+                  <a href="{{HOME}}/tin-tuc/tuyen-dung" class="archive-tab w-auto text-nowrap h-full py-3 lg:py-0 flex justify-center items-center text-[#72787F] lg:text-lg 2xl:text-xl font-medium lg:font-semibold lg:w-fit relative hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-1 after:bg-primary after:w-0 hover:after:w-full after:transition-all duration-300 cursor-pointer" data-gfc-url="{{HOME}}/tin-tuc/tuyen-dung">Tuyển dụng</a>
+              </div>
+      <!--===== Content =====-->
+      <div class="pt-5 lg:pt-7.5 2xl:pt-10 lg:px-7.5 2xl:px-10 lg:pb-15 2xl:pb-20">
+                          <div class="flex flex-col gap-4 lg:gap-5 2xl:gap-7.5">{{items}}</div>
+                      
+                        {{pagination}}</div>
+  
+  <style>
+    .archive-tab.active {
+      color: var(--color-primary) !important;
+    }
+
+    .archive-tab.active::after {
+      width: 100% !important;
+    }
+
+    .archive-section {
+      display: none;
+    }
+
+    .archive-section.active {
+      display: block;
+    }
+  </style>
+
+
+
+
+
+<!--===== Footer Top =====-->
+
+</div></section>

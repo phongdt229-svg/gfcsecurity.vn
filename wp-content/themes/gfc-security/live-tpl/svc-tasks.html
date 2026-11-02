@@ -1,0 +1,15 @@
+<section class="relative pt-5 lg:pt-15 2xl:pt-20 overflow-hidden">
+        <div class="absolute top-1/2 -translate-y-1/2 left-0 -z-10">
+            <img src="{{THEME}}/assets/img/map.svg" alt="Map">
+        </div>
+        <div class="container mx-auto px-4">
+            <h2 class="text-xl lg:text-2xl 2xl:text-3xl font-bold uppercase">{{tasks_title}}</h2>
+            <div class="mt-4 lg:mt-7.5 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5 2xl:gap-7.5">
+                <div class="relative aspect-[661/796]">
+                    <img src="{{tasks_img1}}" alt="" class="w-3/4 aspect-[470/534] pointer-events-none">
+                    <img src="{{tasks_img2}}" alt="" class="absolute bottom-0 right-0 border-2 border-white w-2/3 aspect-[425/482] pointer-events-none">
+                </div>
+                <div class="flex flex-col gap-5">{{tasks_items}}</div>
+            </div>
+        </div>
+    </section>

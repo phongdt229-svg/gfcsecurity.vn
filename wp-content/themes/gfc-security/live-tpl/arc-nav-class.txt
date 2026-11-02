@@ -1,0 +1,1 @@
+mt-5 lg:mt-7.5 2xl:mt-10 flex flex-wrap items-center justify-center gap-1.5 lg:gap-2

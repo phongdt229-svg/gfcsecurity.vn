@@ -1,0 +1,443 @@
+/* ==========================================================
+   GFC Security — main.css
+   Màu & font lấy theo website hiện tại
+   ========================================================== */
+:root{
+	--c-text:#1b1d1f;
+	--c-muted:#72787f;
+	--c-blue:#1e91d6;
+	--c-blue-dark:#0f5fa8;
+	--c-green:#63c132;
+	--c-red:#d62839;
+	--c-light:#f7f7f7;
+	--c-line:#c9cdd2;
+	--c-blue-soft:#ebf2fa;
+	--radius:12px;
+	--shadow:0 4px 18px rgba(0,0,0,.08);
+	--header-h:120px;
+	--font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 10px)}
+body{margin:0;font-family:var(--font);font-size:16px;line-height:1.6;color:var(--c-text);background:#fff;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--c-blue);text-decoration:none}
+a:hover{color:var(--c-blue-dark)}
+h1,h2,h3,h4{line-height:1.3;margin:0 0 .6em}
+p{margin:0 0 1em}
+.container{width:100%;max-width:1232px;margin:0 auto;padding:0 16px}
+.screen-reader-text,.gfc-hp{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;border:0!important;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.gfc-form{position:relative}
+.skip-link{position:absolute;left:-999px;top:0;background:#fff;padding:8px 12px;z-index:1000}
+.skip-link:focus{left:8px}
+:focus-visible{outline:2px solid var(--c-blue);outline-offset:2px}
+.gfc-ic{width:1.2em;height:1.2em;flex:none}
+.gfc-center{text-align:center;margin-top:28px}
+
+/* ---------- Buttons ---------- */
+.gfc-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;font-weight:600;font-size:15px;border:0;cursor:pointer;transition:transform .15s,background .2s,box-shadow .2s;line-height:1.4}
+.gfc-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.gfc-btn--green{background:var(--c-green);color:#fff}
+.gfc-btn--green:hover{background:#56ab2a;color:#fff}
+.gfc-btn--blue{background:var(--c-blue);color:#fff}
+.gfc-btn--blue:hover{background:var(--c-blue-dark);color:#fff}
+.gfc-btn--outline{border:1px solid var(--c-blue);color:var(--c-blue);background:#fff}
+.gfc-btn--outline:hover{background:var(--c-blue);color:#fff}
+
+/* ---------- Titles ---------- */
+.gfc-title{font-size:30px;font-weight:700;text-transform:uppercase;text-align:center;margin:0 0 32px;color:var(--c-text)}
+.gfc-title--left{text-align:left}
+.gfc-title--white{color:#fff}
+.gfc-title span{color:var(--c-green)}
+.gfc-services .gfc-title{color:var(--c-blue)}
+.gfc-sec{padding:60px 0}
+
+/* ---------- Header ---------- */
+.gfc-header{position:fixed;inset:0 0 auto 0;height:var(--header-h);background:#fff;z-index:100;box-shadow:0 1px 0 rgba(0,0,0,.04);transition:height .25s,box-shadow .25s}
+.gfc-header.is-scrolled{box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.gfc-header__in{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.gfc-logo img{height:60px;width:auto}
+.gfc-main{padding-top:var(--header-h)}
+.gfc-nav{display:flex;align-items:center}
+.gfc-menu,.gfc-menu ul{list-style:none;margin:0;padding:0}
+.gfc-menu{display:flex;gap:6px}
+.gfc-menu>li{position:relative}
+.gfc-menu>li>a{display:flex;align-items:center;padding:10px 14px;color:var(--c-text);font-size:16px;font-weight:500;border-radius:8px}
+.gfc-menu>li>a:hover,.gfc-menu>li.current-menu-item>a,.gfc-menu>li.current-menu-ancestor>a{color:var(--c-blue)}
+.gfc-menu li{display:flex;align-items:center;flex-wrap:wrap}
+.sub-toggle{background:none;border:0;padding:4px;margin-left:-10px;color:inherit;cursor:pointer;display:inline-flex}
+.sub-toggle .gfc-ic{width:16px;height:16px}
+.gfc-menu .sub-menu{position:absolute;top:100%;left:0;min-width:260px;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.2s;z-index:10;display:block}
+.gfc-menu .sub-menu .sub-menu{top:0;left:100%;margin-left:4px}
+.gfc-menu li:hover>.sub-menu,.gfc-menu li:focus-within>.sub-menu{opacity:1;visibility:visible;transform:none}
+.gfc-menu .sub-menu li{position:relative;justify-content:space-between}
+.gfc-menu .sub-menu a{display:block;flex:1;padding:9px 12px;color:var(--c-text);font-size:15px;border-radius:6px}
+.gfc-menu .sub-menu a:hover{background:var(--c-blue-soft);color:var(--c-blue)}
+.gfc-menu .sub-menu .sub-toggle{margin:0;transform:rotate(-90deg)}
+.gfc-burger,.gfc-nav__close{display:none;background:none;border:0;cursor:pointer;color:var(--c-text);padding:8px}
+.gfc-burger .gfc-ic,.gfc-nav__close .gfc-ic{width:28px;height:28px}
+.gfc-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:150}
+
+/* ---------- Hero ---------- */
+.gfc-hero{position:relative;max-height:1080px;min-height:540px;background:#0d4fa0 center/cover no-repeat;overflow:hidden;margin-bottom:40px;display:flex;align-items:center}
+.gfc-hero__media{position:absolute;top:0;right:0;bottom:0;width:54%;clip-path:polygon(16% 0,100% 0,100% 100%,0 100%)}
+.gfc-hero__media .swiper,.gfc-hero__media .swiper-slide{height:100%}
+.gfc-hero__media img{width:100%;height:100%;object-fit:cover}
+.gfc-hero__in{position:relative;z-index:2;padding-top:60px;padding-bottom:60px}
+.gfc-hero__text{max-width:520px;text-align:center;color:#fff}
+.gfc-hero h1{font-size:30px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:12px}
+.gfc-hero__sub{text-transform:uppercase;font-size:14px;letter-spacing:.2px;margin-bottom:20px}
+.gfc-hero__pills{list-style:none;margin:0 auto 24px;padding:0;display:grid;gap:14px;max-width:420px}
+.gfc-hero__pills li{display:flex;align-items:center;gap:12px;background:#fff;color:var(--c-blue);border-radius:999px;padding:10px 20px;font-size:15px;text-align:left}
+.gfc-hero__pills img{width:22px;height:22px}
+
+/* ---------- Intro ---------- */
+.gfc-intro{padding:20px 0 60px}
+.gfc-intro__grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.gfc-intro__text p{text-align:justify}
+.gfc-intro__video{position:relative;padding:60px 0 0 60px}
+.gfc-intro__video .deco{position:absolute;border-radius:2px}
+.deco--green{width:46%;height:70%;background:var(--c-green);left:40px;top:0}
+.deco--blue{width:62%;height:72%;background:var(--c-blue);right:0;top:24px}
+.gfc-yt{position:relative;z-index:2;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;background:#000;cursor:pointer;overflow:hidden;border-radius:6px;box-shadow:var(--shadow)}
+.gfc-yt img{width:100%;height:100%;object-fit:cover}
+.gfc-yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.gfc-yt__play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:68px;height:48px;border-radius:12px;background:#f00;color:#fff;display:flex;align-items:center;justify-content:center}
+.gfc-yt__play .gfc-ic{width:26px;height:26px}
+
+/* ---------- Stats + Services ---------- */
+.gfc-services{background:var(--c-light);padding:0 0 70px;margin-top:80px}
+.gfc-stats{position:relative;top:-50px;margin-bottom:-10px;background:#fff;display:grid;grid-template-columns:repeat(6,1fr);gap:10px;padding:24px 40px 22px;border-bottom:3px solid var(--c-blue);box-shadow:var(--shadow);clip-path:polygon(0 0,100% 0,98% 100%,2% 100%)}
+.gfc-stats__item{text-align:center;display:flex;flex-direction:column;gap:6px}
+.gfc-stats__label{color:var(--c-blue);text-transform:uppercase;font-weight:600;font-size:15px}
+.gfc-stats__num{color:var(--c-green);font-size:34px;font-weight:700;line-height:1.1}
+.gfc-svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.gfc-svc{position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;aspect-ratio:1/1;border-radius:4px;overflow:hidden;background:#ccc center/cover no-repeat;color:#fff;padding:20px;transition:transform .3s}
+.gfc-svc.is-wide{grid-column:span 2;aspect-ratio:auto}
+.gfc-svc h3{font-size:18px;font-weight:500;margin:0;color:#fff;transition:transform .3s}
+.gfc-svc__more{max-height:0;opacity:0;overflow:hidden;font-size:14px;margin-top:0;padding:0 16px;border-radius:999px;background:var(--c-green);color:#fff;transition:.3s}
+.gfc-svc:hover{color:#fff}
+.gfc-svc:hover .gfc-svc__more{max-height:40px;opacity:1;margin-top:10px;padding:6px 16px}
+
+/* ---------- Diff ---------- */
+.gfc-diff{background:#0d5fae center/cover no-repeat;padding:80px 0;color:#fff}
+.gfc-diff .gfc-title{margin-bottom:16px}
+.gfc-diff__desc{text-align:center;max-width:860px;margin:0 auto 36px}
+.gfc-diff__grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gfc-diff__card{display:flex;gap:20px;align-items:flex-start;background:#fff;color:var(--c-text);border-radius:6px;padding:24px 22px}
+.gfc-diff__ic{color:var(--c-blue);flex:none}
+.gfc-diff__ic .gfc-ic{width:48px;height:48px;stroke-width:1.5}
+.gfc-diff__card h3{color:var(--c-green);text-transform:uppercase;font-size:17px;margin-bottom:6px}
+.gfc-diff__card p{margin:0;color:var(--c-text)}
+
+/* ---------- Sliders ---------- */
+.gfc-slider{position:relative;padding:0 50px}
+.gfc-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:1px solid var(--c-blue);background:#fff;color:var(--c-blue);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5}
+.gfc-arrow:hover{background:var(--c-blue);color:#fff}
+.gfc-arrow--prev{left:0}.gfc-arrow--next{right:0}
+.gfc-arrow.swiper-button-disabled{opacity:.4;cursor:default}
+.gfc-awards .swiper-slide{height:320px;display:flex;align-items:center;justify-content:center;background:#f3f3f3;border-radius:6px;padding:16px}
+.gfc-awards .swiper-slide img{max-height:100%;width:auto;object-fit:contain}
+
+/* ---------- Clients ---------- */
+.gfc-clients{overflow:hidden}
+.gfc-marquee{overflow:hidden;padding:10px 0;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.gfc-marquee__track{display:flex;gap:20px;width:max-content;animation:gfc-marq 50s linear infinite}
+.gfc-marquee.is-reverse .gfc-marquee__track{animation-direction:reverse}
+.gfc-marquee:hover .gfc-marquee__track{animation-play-state:paused}
+@keyframes gfc-marq{to{transform:translateX(-50%)}}
+.gfc-logo-card{display:flex;align-items:center;justify-content:center;width:150px;height:76px;background:#fff;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:10px 14px;flex:none}
+.gfc-logo-card img{max-height:100%;width:auto;object-fit:contain}
+
+/* ---------- Branches ---------- */
+.gfc-branches__grid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px}
+.gfc-branches__map{background:#2b2d31;color:#fff;border-radius:6px;padding:24px;text-align:center}
+.gfc-branches__map h3{font-weight:500;font-size:18px;margin-bottom:16px}
+.gfc-branches__map img{margin:0 auto}
+.gfc-branches__count{text-align:center;font-size:18px;font-weight:500;margin-bottom:14px}
+.gfc-branches__list ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;max-height:560px;overflow-y:auto;padding-right:6px}
+.gfc-branches__list li{display:flex;gap:10px;background:var(--c-blue-soft);border-radius:6px;padding:12px}
+.gfc-branches__list .pin{color:var(--c-red)}
+.gfc-branches__list strong{display:block;color:var(--c-blue);font-weight:500}
+.gfc-branches__list span{font-size:14px}
+.gfc-branches__list a{display:block}
+
+/* ---------- Press ---------- */
+.gfc-press__grid{display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
+.gfc-press__grid .gfc-logo-card{width:auto;height:96px;transition:transform .2s}
+.gfc-press__grid .gfc-logo-card:hover{transform:translateY(-3px)}
+
+/* ---------- Feedback ---------- */
+.gfc-feedback .swiper{padding:6px 2px 10px}
+.gfc-review{background:#fff;border:1px solid #eee;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06);padding:18px;height:100%}
+.gfc-feedback .swiper-slide{height:auto}
+.gfc-review__head{display:flex;gap:12px;align-items:center;margin-bottom:6px}
+.gfc-review__head img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.gfc-review__head strong{display:block}
+.gfc-review__head span{font-size:13px;color:var(--c-muted)}
+.gfc-stars{color:#fbbc04;letter-spacing:2px;margin-bottom:6px}
+.gfc-review p{margin:0;font-size:14px}
+
+/* ---------- Posts ---------- */
+.gfc-posts{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.gfc-card__img{display:block;aspect-ratio:16/10;overflow:hidden;border-radius:4px;background:#eee;margin-bottom:12px}
+.gfc-card__img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gfc-card:hover .gfc-card__img img{transform:scale(1.05)}
+.gfc-card__title{font-size:16px;text-transform:uppercase;font-weight:600;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gfc-card__title a{color:var(--c-text)}
+.gfc-card__title a:hover{color:var(--c-blue)}
+.gfc-card__excerpt{font-size:14px;color:var(--c-muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px}
+.gfc-card__date{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--c-muted)}
+.gfc-pagination{display:flex;justify-content:center;gap:6px;margin:36px 0 60px}
+.gfc-pagination .page-numbers{min-width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--c-line);border-radius:6px;color:var(--c-text);padding:0 10px}
+.gfc-pagination .current,.gfc-pagination a:hover{background:var(--c-blue);border-color:var(--c-blue);color:#fff}
+
+/* ---------- FAQ ---------- */
+.gfc-faq__grid{display:grid;grid-template-columns:5fr 7fr;gap:24px;align-items:start}
+.gfc-faq__img{position:sticky;top:calc(var(--header-h) + 20px)}
+.gfc-faq__img img{width:100%;border-radius:6px;object-fit:cover;aspect-ratio:4/5}
+.gfc-acc{display:grid;gap:10px}
+.gfc-acc__item{border:1px solid #e3e6ea;border-radius:6px;overflow:hidden;background:#fff}
+.gfc-acc__item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 18px;font-weight:600;color:var(--c-text)}
+.gfc-acc__item summary::-webkit-details-marker{display:none}
+.gfc-acc__item summary .gfc-ic{transition:transform .25s;flex:none}
+.gfc-acc__item[open] summary{background:var(--c-blue);color:#fff}
+.gfc-acc__item[open] summary .gfc-ic{transform:rotate(180deg)}
+.gfc-acc__body{padding:14px 18px;background:var(--c-blue);color:#fff;border-top:1px solid rgba(255,255,255,.2)}
+.gfc-acc__body a{color:#fff;text-decoration:underline}
+.gfc-acc__body p{margin:8px 0 0}
+
+/* ---------- Footer ---------- */
+.gfc-footer{background:var(--c-light);padding:56px 0 0;font-size:15px}
+.gfc-footer__grid{display:grid;grid-template-columns:1.4fr 1.1fr 1fr .9fr;gap:32px}
+.gfc-footer__logo img{height:60px;width:auto;margin-bottom:16px}
+.gfc-footer__title{font-size:17px;font-weight:700;margin:18px 0 10px}
+.gfc-footer__col>.gfc-footer__title:first-child{margin-top:0}
+.gfc-footer__list,.gfc-flinks{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.gfc-footer a{color:var(--c-text)}
+.gfc-footer a:hover{color:var(--c-blue)}
+.gfc-social{display:flex;gap:10px}
+.gfc-social img{width:36px;height:36px;object-fit:contain}
+.gfc-badges{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px}
+.gfc-badges img{height:48px;width:auto}
+.gfc-eco{display:grid;gap:12px}
+.gfc-eco img{max-height:36px;width:auto}
+.gfc-footer__copy{border-top:1px solid #e1e1e1;margin-top:36px;padding:18px 16px;text-align:center;font-size:14px}
+
+/* ---------- Floating contact ---------- */
+.gfc-float{position:fixed;right:14px;bottom:20px;z-index:90;display:flex;flex-direction:column;gap:10px}
+.gfc-float a{display:flex;align-items:center;gap:10px;min-width:180px;padding:8px 18px 8px 8px;border-radius:999px;color:#fff;font-size:13px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,.18);border:2px solid rgba(255,255,255,.7);transition:transform .2s}
+.gfc-float a:hover{transform:translateX(-4px);color:#fff}
+.gfc-float .is-blue{background:var(--c-blue)}
+.gfc-float .is-green{background:var(--c-green)}
+.gfc-float img{width:30px;height:30px;border-radius:50%;background:#fff;padding:4px}
+
+/* ==========================================================
+   Trang dịch vụ / trang thường
+   ========================================================== */
+.gfc-phero{position:relative;background:#0d4fa0 left center/cover no-repeat;aspect-ratio:1536/475;max-height:520px;min-height:360px;overflow:hidden;display:flex;align-items:center}
+.gfc-phero__media{position:absolute;top:0;right:0;bottom:0;width:55%;clip-path:polygon(18% 0,100% 0,100% 100%,0 100%)}
+.gfc-phero__media img{width:100%;height:100%;object-fit:cover}
+.gfc-phero__in{position:relative;z-index:2}
+.gfc-phero__text{max-width:520px;color:#fff}
+.gfc-phero h1{font-size:30px;text-transform:uppercase;color:#fff;margin-bottom:12px}
+.gfc-phero p{margin:0;text-align:justify;font-size:15px}
+.gfc-breadcrumb{font-size:14px;padding:20px 0 4px;color:var(--c-text)}
+.gfc-breadcrumb a{color:var(--c-text)}
+.gfc-breadcrumb a:hover{color:var(--c-blue)}
+.gfc-breadcrumb .sep{margin:0 4px}
+.gfc-pt{padding-top:10px}
+.gfc-ssec{padding:20px 16px 30px}
+.gfc-stitle{font-size:22px;text-transform:uppercase;font-weight:700;margin-bottom:20px}
+.gfc-table-wrap{overflow-x:auto}
+.gfc-table{width:100%;border-collapse:collapse;font-size:15px}
+.gfc-table th,.gfc-table td{border:1px solid var(--c-line);padding:12px 14px;text-align:left;width:50%}
+.gfc-table thead th{background:#dbeefa;font-weight:600}
+.gfc-notes{font-size:13px;margin-top:12px;line-height:1.5}
+.gfc-infographic{width:100%;margin-top:10px}
+.gfc-tasks{padding:30px 0}
+.gfc-tasks__grid{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:start}
+.gfc-tasks__imgs{position:relative;padding-bottom:120px}
+.gfc-tasks__imgs .img1{width:72%;border-radius:4px}
+.gfc-tasks__imgs .img2{position:absolute;right:0;bottom:0;width:56%;border:6px solid #fff;border-radius:4px;box-shadow:var(--shadow)}
+.gfc-tasks__list{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.gfc-tasks__list h3{display:flex;gap:10px;align-items:center;font-size:16px;margin-bottom:4px}
+.gfc-tasks__list h3 .gfc-ic{color:#f2a900;fill:#fcd34d}
+.gfc-tasks__list p{margin:0;font-size:15px}
+.gfc-link{font-weight:600;text-decoration:underline}
+
+/* Nội dung soạn thảo */
+.gfc-content{font-size:16px;line-height:1.75}
+.gfc-content h2{font-size:24px;margin:1.6em 0 .6em;text-transform:none}
+.gfc-content h3{font-size:20px;margin:1.4em 0 .5em}
+.gfc-content img{border-radius:4px;margin:12px auto}
+.gfc-content table{width:100%;border-collapse:collapse;margin:1em 0}
+.gfc-content th,.gfc-content td{border:1px solid var(--c-line);padding:10px}
+.gfc-content ul,.gfc-content ol{padding-left:1.4em}
+.gfc-content blockquote{margin:1em 0;padding:12px 18px;border-left:4px solid var(--c-blue);background:var(--c-blue-soft)}
+.gfc-content .wp-block-image figcaption,.gfc-content figcaption{text-align:center;font-size:14px;color:var(--c-muted)}
+.alignwide{max-width:1200px}.alignfull{max-width:none}
+.aligncenter{margin-left:auto;margin-right:auto}
+
+/* Bài viết */
+.gfc-single{display:grid;grid-template-columns:1fr 320px;gap:40px;padding-bottom:60px}
+.gfc-single__title{font-size:30px;margin-top:10px}
+.gfc-single__meta{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--c-muted);margin-bottom:20px}
+.gfc-single__side{position:sticky;top:calc(var(--header-h) + 20px);align-self:start;display:grid;gap:20px}
+.gfc-side-cta{background:var(--c-blue);color:#fff;border-radius:8px;padding:22px}
+.gfc-side-cta h3{color:#fff;font-size:18px}
+.gfc-side-list{border:1px solid #e3e6ea;border-radius:8px;padding:18px}
+.gfc-side-list h3{font-size:17px}
+.gfc-side-list ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.gfc-side-list a{color:var(--c-text);font-size:15px}
+.gfc-side-list a:hover{color:var(--c-blue)}
+.gfc-archive-desc{margin-bottom:24px}
+.gfc-404{text-align:center;padding:100px 16px}
+.gfc-404 h1{font-size:96px;color:var(--c-blue);margin:0}
+
+/* ==========================================================
+   Trang liên hệ
+   ========================================================== */
+.gfc-cbanner img{width:100%;max-height:420px;object-fit:cover}
+.gfc-cinfo{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:24px}
+.gfc-cinfo__card{display:flex;align-items:center;gap:16px;border:1px solid #e3e6ea;border-radius:6px;padding:16px 20px;color:var(--c-text);background:#fff}
+.gfc-cinfo__card span{display:flex;flex-direction:column;font-size:15px}
+.gfc-cinfo__card strong{font-size:20px;color:var(--c-text)}
+.gfc-cinfo__card:hover{border-color:var(--c-blue)}
+.gfc-offices{display:grid;grid-template-columns:5fr 7fr;border:1px solid #e3e6ea;border-radius:6px;overflow:hidden}
+.gfc-office{padding:18px 20px;border-bottom:1px solid #e3e6ea}
+.gfc-office:last-child{border-bottom:0}
+.gfc-office h3{color:var(--c-blue);font-size:18px;margin-bottom:10px}
+.gfc-office p{display:flex;gap:10px;margin:0 0 8px;font-size:15px}
+.gfc-office p .gfc-ic{color:var(--c-blue);margin-top:2px}
+.gfc-offices__map iframe{width:100%;height:100%;min-height:420px;border:0;display:block}
+.gfc-cform{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;padding-top:40px;padding-bottom:60px}
+.gfc-cform__img img{width:100%;border-radius:4px}
+.gfc-cform__box h2{text-transform:uppercase;font-size:24px}
+.gfc-form,.gfc-cform .wpcf7-form{display:grid;gap:14px}
+.gfc-form input,.gfc-form textarea,.gfc-cform .wpcf7-form-control:not(.wpcf7-submit){width:100%;padding:14px 16px;border:1px solid #d5d9de;border-radius:4px;font:inherit;background:#fff}
+.gfc-form input:focus,.gfc-form textarea:focus,.gfc-cform .wpcf7-form-control:focus{outline:none;border-color:var(--c-blue);box-shadow:0 0 0 3px rgba(30,145,214,.15)}
+.gfc-cform .wpcf7-submit{background:var(--c-blue);color:#fff;border:0;border-radius:4px;padding:12px 28px;font-weight:600;cursor:pointer;font:inherit}
+.gfc-form button{justify-self:start;border-radius:4px}
+.gfc-alert{padding:12px 14px;border-radius:6px;font-size:15px}
+.gfc-alert--ok{background:#e9f7e1;color:#2f6b14}
+.gfc-alert--err{background:#fde8ea;color:#9b1c2a}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+@media (max-width:1200px){
+	.gfc-menu>li>a{padding:10px 9px;font-size:15px}
+	.gfc-float span{display:none}
+	.gfc-float a{min-width:0;padding:6px}
+}
+@media (max-width:1024px){
+	:root{--header-h:76px}
+	.gfc-logo img{height:48px}
+	.gfc-burger,.gfc-nav__close{display:inline-flex}
+	.gfc-nav{position:fixed;top:0;right:0;bottom:0;width:min(86vw,360px);background:#fff;z-index:200;transform:translateX(100%);transition:transform .3s;flex-direction:column;align-items:stretch;overflow-y:auto;padding:12px 16px 40px}
+	.gfc-nav.is-open{transform:none}
+	.gfc-nav__close{align-self:flex-end}
+	.gfc-menu{flex-direction:column;gap:0}
+	.gfc-menu li{justify-content:space-between;border-bottom:1px solid #f0f0f0}
+	.gfc-menu>li>a,.gfc-menu .sub-menu a{flex:1;padding:12px 4px}
+	.sub-toggle{margin:0;padding:10px}
+	.gfc-menu .sub-menu,.gfc-menu .sub-menu .sub-menu{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;width:100%;display:none;padding:0 0 0 12px;margin:0;min-width:0}
+	.gfc-menu li.is-open>.sub-menu{display:block}
+	.gfc-menu li.is-open>.sub-toggle .gfc-ic{transform:rotate(180deg)}
+	.gfc-menu .sub-menu .sub-toggle{transform:none}
+	.gfc-menu .sub-menu li:last-child{border-bottom:0}
+	.gfc-hero{flex-direction:column;align-items:stretch;min-height:0}
+	.gfc-hero__media{position:relative;width:100%;height:56vw;clip-path:none;order:-1}
+	.gfc-hero__text{max-width:none}
+	.gfc-hero__in{padding-top:32px;padding-bottom:36px}
+	.gfc-intro__grid,.gfc-faq__grid,.gfc-branches__grid,.gfc-tasks__grid,.gfc-cform,.gfc-single{grid-template-columns:1fr}
+	.gfc-intro__video{padding:30px 0 0 30px}
+	.gfc-stats{grid-template-columns:repeat(3,1fr);clip-path:none;padding:20px;row-gap:18px}
+	.gfc-svc-grid{grid-template-columns:repeat(2,1fr)}
+	.gfc-press__grid{grid-template-columns:repeat(4,1fr)}
+	.gfc-posts{grid-template-columns:repeat(2,1fr)}
+	.gfc-footer__grid{grid-template-columns:1fr 1fr}
+	.gfc-phero{aspect-ratio:auto;flex-direction:column;align-items:stretch;max-height:none}
+	.gfc-phero__media{position:relative;width:100%;height:52vw;clip-path:none;order:-1}
+	.gfc-phero__in{padding:28px 16px}
+	.gfc-faq__img{display:none}
+	.gfc-single__side{position:static}
+}
+@media (max-width:640px){
+	.gfc-title{font-size:22px;margin-bottom:22px}
+	.gfc-intro__text p,.gfc-phero p{text-align:left}
+	.gfc-float{right:8px;bottom:12px;gap:8px}
+	.gfc-sec{padding:40px 0}
+	.gfc-hero h1,.gfc-phero h1{font-size:22px}
+	.gfc-stats{grid-template-columns:repeat(2,1fr)}
+	.gfc-stats__num{font-size:26px}
+	.gfc-stats__label{font-size:13px}
+	.gfc-svc-grid{grid-template-columns:1fr 1fr;gap:12px}
+	.gfc-svc.is-wide{aspect-ratio:2/1}
+	.gfc-svc h3{font-size:15px}
+	.gfc-diff__grid,.gfc-cinfo,.gfc-offices{grid-template-columns:1fr}
+	.gfc-branches__list ul{grid-template-columns:1fr;max-height:420px}
+	.gfc-press__grid{grid-template-columns:repeat(2,1fr);gap:12px}
+	.gfc-posts{grid-template-columns:1fr}
+	.gfc-footer__grid{grid-template-columns:1fr}
+	.gfc-slider{padding:0 36px}
+	.gfc-arrow{width:32px;height:32px}
+	.gfc-logo-card{width:120px;height:64px}
+	.gfc-offices__map iframe{min-height:300px}
+}
+@media (prefers-reduced-motion:reduce){
+	*{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+
+/* Bảng giá dạng HTML của trang dịch vụ */
+.gfc-price-html{overflow-x:auto}
+.gfc-price-html table{width:100%!important;border-collapse:collapse;font-size:15px}
+.gfc-price-html td,.gfc-price-html th{border:1px solid var(--c-line);padding:12px 14px;text-align:left}
+.gfc-price-html tr:first-child td{background:#dbeefa;font-weight:600}
+.gfc-price-html a{color:var(--c-blue)}
+.gfc-price-html p{margin:16px 0 0}
+
+/* Dịch vụ con */
+.gfc-extra{box-shadow:var(--shadow);border-radius:4px;padding:30px}
+.gfc-extra__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.gfc-extra__item{display:flex;flex-direction:column;padding:10px;border-radius:4px;box-shadow:var(--shadow);color:var(--c-text);text-decoration:none}
+.gfc-extra__img{display:block;aspect-ratio:1200/675;overflow:hidden}
+.gfc-extra__img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.gfc-extra__item:hover img{transform:scale(1.05)}
+.gfc-extra__item h3{margin:16px 0 8px;font-size:18px;font-weight:500}
+.gfc-extra__item:hover h3{color:var(--c-blue)}
+
+/* Bản đồ nền khối nhiệm vụ */
+.gfc-tasks{position:relative;overflow:hidden;z-index:0}
+.gfc-tasks__map{position:absolute;top:50%;left:0;transform:translateY(-50%);z-index:-1}
+
+/* Thu gọn nội dung */
+.gfc-collapse{position:relative}
+.gfc-collapse__body{overflow:hidden}
+.gfc-collapse__fade{position:absolute;left:0;right:0;bottom:0;height:64px;pointer-events:none;background:linear-gradient(to top,#fff,rgba(255,255,255,0))}
+.gfc-collapse__toggle{display:inline-flex;align-items:center;gap:10px;margin-top:12px;background:none;border:0;cursor:pointer;color:var(--c-blue);font-size:16px}
+.gfc-collapse__toggle[aria-expanded=true] svg{transform:rotate(180deg)}
+.gfc-branches__list--about{height:100%}
+
+@media (max-width:1023px){.gfc-extra{padding:0;box-shadow:none}.gfc-extra__grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.gfc-extra__grid{grid-template-columns:1fr}}
+
+/* Cột phải bài viết */
+.gfc-side-banner{aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:4px;background-size:cover;background-position:center;margin-bottom:30px;padding:16px;text-align:center}
+.gfc-side-banner img{width:128px;height:auto}
+.gfc-side-banner p{margin:10px 0 0;color:#fff;font-weight:700;font-size:18px;text-transform:uppercase}
+.gfc-side-banner__tel{margin-top:32px;display:inline-flex;align-items:center;gap:16px;padding:12px 24px;border-radius:999px;background:var(--c-blue);color:#fff;text-decoration:none}
+.gfc-side-banner__tel strong{color:#fff}
+.gfc-side-list ul{list-style:none;margin:20px 0 0;padding:0}
+.gfc-side-list li{padding:12px 0;border-bottom:1px solid var(--c-line)}
+.gfc-side-list li:first-child{padding-top:0}
+.gfc-side-list li:last-child{border-bottom:0}
+.gfc-side-list li a{color:var(--c-text);text-decoration:none}
+.gfc-side-list li a:hover{color:var(--c-blue)}
+
+/* Ô chọn chi nhánh */
+.gfc-bfinder{display:grid;gap:10px;margin-bottom:16px}
+.gfc-bfinder select,.gfc-bfinder input{width:100%;padding:10px 12px;border:1px solid var(--c-line);border-radius:4px;font:inherit;background:#fff;color:var(--c-text)}
+.gfc-branches__list li[hidden]{display:none}
+.gfc-card__excerpt{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}

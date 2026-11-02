@@ -1,0 +1,264 @@
+.active-branch {
+  background-color: var(--branch-hover-background-color) !important;
+}
+
+.active-branch .puramu-branch-finder-item-title {
+  color: var(--branch-title-hover-color) !important;
+}
+
+.loading-element {
+  opacity: 0.1;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.hidden-element {
+  display: none;
+}
+
+.puramu-branch-finder #puramu-branch-finder-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+  }
+}
+
+.puramu-branch-finder #puramu-branch-finder-form select {
+  border-radius: 9999px;
+  padding: 12px 20px;
+  margin-top: 0;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJoLTYgdy02IiBmaWxsPSJub25lIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHN0cm9rZT0iIzQ0NCI+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik0xOSA5bC03IDctNy03Ii8+PC9zdmc+);
+  background-repeat: no-repeat;
+  background-position: calc(100% - 15px);
+  background-size: 1.2em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid #72787F;
+  color: #72787F;
+  background-color: #fff;
+  font-size: 14px;
+  flex: 1;
+  width: 100%;
+
+  @media (min-width: 1024px) {
+    font-size: 20px;
+    padding: 15px 24px;
+  }
+
+  @media (min-width: 1537px) {
+    padding: 18px 24px;
+  }
+}
+
+.puramu-branch-finder #puramu-branch-finder-form input {
+  border-radius: 9999px;
+  padding: 12px 20px;
+  margin-top: 0;
+  border: 1px solid #72787F;
+  background-color: #fff;
+  color: #72787F;
+  width: 100%;
+  font-size: 14px;
+
+  @media (min-width: 1024px) {
+    font-size: 20px;
+    padding: 15px 24px;
+  }
+
+  @media (min-width: 1537px) {
+    padding: 20px 24px;
+  }
+}
+
+.puramu-branch-finder #puramu-branch-finder-form [type="submit"] {
+  border-radius: 9999px;
+  padding: 12px 20px;
+  background-color: #1E91D6;
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  display: none;
+
+  @media (min-width: 1024px) {
+    width: auto;
+    font-size: 20px;
+    padding: 15px 24px;
+  }
+
+  @media (min-width: 1537px) {
+    padding: 20px 24px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-content {
+  display: grid;
+  gap: 10px;
+
+  @media (min-width: 1024px) {
+    gap: 20px;
+    grid-template-columns: var(--template-columns);
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-map-container {
+  width: 100%;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.puramu-branch-finder .puramu-branch-finder-map-container iframe {
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.puramu-branch-finder .puramu-branch-finder-map-container-empty {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eeeeee;
+  transition: all 0.3s ease-in-out;
+}
+
+.puramu-branch-finder .puramu-branch-finder-map-container-empty-title {
+  font-size: 16px;
+  font-weight: 700;
+  font-style: italic;
+  color: #aaaaaa;
+  text-wrap: balance;
+  text-align: center;
+
+  @media (min-width: 1024px) {
+    font-size: 20px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s ease-in-out;
+
+  @media (min-width: 1024px) {
+    gap: 20px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-list-title {
+  font-size: 16px;
+  font-weight: 700;
+
+  @media (min-width: 1024px) {
+    font-size: 20px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-list {
+  display: grid;
+  gap: 5px;
+  overflow-y: auto;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(var(--finder-list-template-columns), 1fr);
+    max-height: var(--finder-list-max-height);
+    gap: 5px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-item {
+  background-color: var(--branch-background-color);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-decoration: none;
+
+  @media (min-width: 1024px) {
+    padding: 16px;
+    gap: 10px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-item:hover {
+  background-color: var(--branch-hover-background-color);
+}
+
+.puramu-branch-finder .puramu-branch-finder-item:hover .puramu-branch-finder-item-title {
+  color: var(--branch-title-hover-color);
+}
+
+.puramu-branch-finder .puramu-branch-finder-item:hover .puramu-branch-finder-item-address {
+  text-decoration: underline;
+}
+
+.puramu-branch-finder .puramu-branch-finder-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  @media (min-width: 1024px) {
+    gap: 12px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-item-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--branch-icon-color);
+
+  @media (min-width: 1024px) {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-item-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--branch-title-color);
+  transition: color 0.3s ease-in-out;
+
+  @media (min-width: 1024px) {
+    font-size: 18px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-item-address {
+  font-size: 14px;
+  color: var(--branch-text-color);
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
+
+  @media (min-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+.puramu-branch-finder .puramu-branch-finder-item-address:hover {
+  text-decoration: underline;
+}

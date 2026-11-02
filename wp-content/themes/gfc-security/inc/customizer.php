@@ -8,8 +8,8 @@ function gfc_opt_defaults() {
 		'hotline1'    => '0778.247.113',
 		'hotline2'    => '0328.898.113',
 		'sidebar_hotline' => '08 12345 247',
-		'email'       => 'BaoVe@gfcsecurity.vn',
-		'tax'         => '0311748278',
+		'email'       => 'duckhienbp@gmail.com',
+		'tax'         => '0309390411',
 		'zalo'        => 'https://zalo.me/0778247113',
 		'facebook'    => 'https://www.facebook.com/baovegfc',
 		'youtube'     => '',
@@ -17,8 +17,8 @@ function gfc_opt_defaults() {
 		'hire_url'    => '/lien-he',
 		'jobs_url'    => '/tin-tuc/tuyen-dung',
 		'cf7_id'      => '6434',
-		'map_query'   => 'Vincom Center, 72 Lê Thánh Tôn, Sài Gòn',
-		'copyright'   => '© 2025 CÔNG TY CP TẬP ĐOÀN AN NINH BẢO VỆ GFC Inc. All Rights Reserved.',
+		'map_query'   => '103 Đào Duy Anh, Phường Đức Nhuận, Thành phố Hồ Chí Minh, Việt Nam',
+		'copyright'   => '© 2025 CÔNG TY CỔ PHẦN DỊCH VỤ BẢO VỆ LONG VÂN. All Rights Reserved.',
 	);
 }
 

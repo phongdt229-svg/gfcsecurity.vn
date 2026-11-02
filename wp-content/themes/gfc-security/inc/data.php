@@ -174,7 +174,7 @@ function gfc_default_branches() {
 /** Trụ sở và 2 chi nhánh chính. */
 function gfc_offices() {
 	return array(
-		array( 'Trụ sở Thành phố Hồ Chí Minh', 'Tầng 18, Vincom Center Tower, 72 Lê Thánh Tôn, phường Sài Gòn, TP.HCM', '(028) 44550 247' ),
+		array( 'Trụ sở Thành phố Hồ Chí Minh', '103 Đào Duy Anh, Phường Đức Nhuận, Thành phố Hồ Chí Minh, Việt Nam', '(028) 44550 247' ),
 		array( 'Chi nhánh Hà Nội', 'Tầng 12, Licogi 13 Tower, 164 Khuất Duy Tiến, phường Thanh Xuân, Hà Nội', '(024) 44550 247' ),
 		array( 'Chi nhánh Đà Nẵng', '232 Đường 2/9, phường Hòa Cường, TP. Đà Nẵng', '(0236) 44550 247' ),
 	);

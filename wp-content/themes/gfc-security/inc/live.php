@@ -10,11 +10,21 @@ function gfc_tpl( $name, $vars = array() ) {
 		'{{UPLOADS}}' => untrailingslashit( $upload['baseurl'] ),
 		'{{THEME}}'   => GFC_URL,
 		'{{HOME}}'    => untrailingslashit( home_url() ),
+		'{{UPLOADS}}/2025/10/GFCsecurity-banner-tach-nen-la-1-1.svg' => gfc_logo_url(),
 	);
+	$light = wp_get_attachment_image_url( (int) get_theme_mod( 'gfc_logo_light' ), 'medium' );
+	if ( $light ) {
+		$map['{{UPLOADS}}/2025/11/small-banner-logo.png'] = $light;
+	}
 	foreach ( $vars as $k => $v ) {
 		$map[ '{{' . $k . '}}' ] = (string) $v;
 	}
-	return strtr( file_get_contents( GFC_PATH . '/live-tpl/' . $name . '.html' ), $map ); // phpcs:ignore
+	$html = strtr( file_get_contents( GFC_PATH . '/live-tpl/' . $name . '.html' ), $map ); // phpcs:ignore
+	$alt  = get_post_meta( (int) get_theme_mod( 'custom_logo' ), '_wp_attachment_image_alt', true );
+	if ( $alt && in_array( $name, array( 'header', 'footer' ), true ) ) {
+		$html = preg_replace( '~(src="' . preg_quote( gfc_logo_url(), '~' ) . '"\s+alt=")[^"]*~', '${1}' . esc_attr( $alt ), $html );
+	}
+	return $html;
 }
 
 /** Thẻ bài viết: dùng trong vòng lặp. */
@@ -130,5 +140,5 @@ add_action( 'vc_before_init', function () {
 	vc_set_default_editor_post_types( array( 'page', 'post' ) );
 } );
 add_action( 'wp_enqueue_scripts', function () {
-	wp_add_inline_style( 'gfc-live', '.gfc-builder .vc_row{margin-left:0;margin-right:0}.gfc-builder .vc_column_container{padding:0;float:none}.gfc-builder .vc_column_container>.vc_column-inner{padding:0;width:100%}.gfc-builder .wpb_content_element,.gfc-builder .wpb_raw_code{margin-bottom:0}.gfc-builder>br,.gfc-builder>p:empty{display:none}' );
+	wp_add_inline_style( 'gfc-live', '.gfc-builder .vc_row{margin-left:0;margin-right:0}.gfc-builder .vc_column_container{padding:0;float:none}.gfc-builder .vc_column_container>.vc_column-inner{padding:0;width:100%}.gfc-builder .wpb_content_element,.gfc-builder .wpb_raw_code{margin-bottom:0}.gfc-builder>br,.gfc-builder>p:empty{display:none}#site-logo img,footer .col-span-12>picture img{object-position:left center}aside img[src*="LongVan_logo"]{object-fit:contain}' );
 }, 21 );

@@ -141,7 +141,7 @@ add_action( 'vc_before_init', function () {
 	vc_set_default_editor_post_types( array( 'page', 'post' ) );
 } );
 add_action( 'wp_enqueue_scripts', function () {
-	wp_add_inline_style( 'gfc-live', '.gfc-builder .vc_row{margin-left:0;margin-right:0}.gfc-builder .vc_column_container{padding:0;float:none}.gfc-builder .vc_column_container>.vc_column-inner{padding:0;width:100%}.gfc-builder .wpb_content_element,.gfc-builder .wpb_raw_code{margin-bottom:0}.gfc-builder>br,.gfc-builder>p:empty{display:none}#site-logo img,footer .col-span-12>picture img{object-position:left center}aside img[src*="LongVan_logo"]{object-fit:contain}' );
+	wp_add_inline_style( 'gfc-live', '.gfc-builder .vc_row,.gfc-builder .wpb_column,.gfc-builder .vc_column-inner,.gfc-builder .wpb_wrapper,.gfc-builder .wpb_raw_code{position:static}.gfc-builder .vc_row{margin-left:0;margin-right:0}.gfc-builder .vc_column_container{padding:0;float:none}.gfc-builder .vc_column_container>.vc_column-inner{padding:0;width:100%}.gfc-builder .wpb_content_element,.gfc-builder .wpb_raw_code{margin-bottom:0}.gfc-builder>br,.gfc-builder>p:empty{display:none}#site-logo img,footer .col-span-12>picture img{object-position:left center}aside img[src*="LongVan_logo"]{object-fit:contain}' );
 }, 21 );
 
 /** Giá trị từ "Thông tin công ty" dùng trong live-tpl và row WPBakery. */
@@ -217,10 +217,17 @@ function gfc_swap_hotline( $text ) {
 		},
 		$text
 	);
-	return null === $out ? $text : $out;
+	if ( null === $out ) return $text;
+	$num = preg_quote( $now, '~' );
+	$sep = '\s*(?:–|—|-|/|,|&#8211;|&ndash;|hoặc)\s*';
+	$one = preg_replace( '~(' . $num . ')(?:' . $sep . $num . ')+~u', '$1', $out );
+	$out = null === $one ? $out : $one;
+	$lnk = '<a\b[^>]*href="tel:' . preg_quote( $digits, '~' ) . '"[^>]*>[^<]*</a>';
+	$two = preg_replace( '~(' . $lnk . ')(?:' . $sep . $lnk . ')+~u', '$1', $out );
+	return null === $two ? $out : $two;
 }
 
 add_filter( 'the_content', function ( $content ) {
-	return is_singular( 'post' ) && 'top-15-cong-ty-dich-vu-bao-ve' === get_post_field( 'post_name' ) ? $content : gfc_swap_hotline( $content );
+	return gfc_swap_hotline( $content );
 }, 98 );
 add_filter( 'get_the_excerpt', 'gfc_swap_hotline' );

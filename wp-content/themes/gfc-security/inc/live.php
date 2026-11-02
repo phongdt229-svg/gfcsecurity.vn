@@ -90,7 +90,6 @@ add_action( 'pre_get_posts', function ( $q ) {
 /* CSS/JS của bản gốc */
 add_action( 'wp_enqueue_scripts', function () {
 	$dir = GFC_URL . '/assets/live/';
-	if ( is_page( 'lien-he' ) ) wp_enqueue_style( 'gfc-cf7', $dir . 'cf7.css', array(), GFC_VERSION );
 	if ( is_singular( 'post' ) ) wp_enqueue_style( 'gfc-ez-toc', $dir . 'ez-toc.css', array(), GFC_VERSION );
 	wp_enqueue_style( 'gfc-live', $dir . 'app.css', array(), GFC_VERSION );
 	wp_enqueue_style( 'swiper', $dir . 'swiper-bundle.min.css', array(), '8.4.7' );
@@ -99,3 +98,37 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'swiper', $dir . 'swiper-bundle.min.js', array(), '8.4.7', true );
 	foreach ( array( 'wp-block-library', 'classic-theme-styles' ) as $h ) wp_dequeue_style( $h );
 }, 20 );
+
+/** Form liên hệ: Contact Form 7, nếu tắt plugin thì dùng form dự phòng của theme. */
+function gfc_contact_form() {
+	$cf7 = absint( gfc_opt( 'cf7_id' ) );
+	if ( $cf7 && shortcode_exists( 'contact-form-7' ) ) {
+		return do_shortcode( '[contact-form-7 id="' . $cf7 . '"]' );
+	}
+	ob_start();
+	get_template_part( 'template-parts/contact-form' );
+	return ob_get_clean();
+}
+
+/* Raw HTML của WPBakery giữ {{token}} để đường dẫn ảnh không phụ thuộc tên miền */
+add_filter( 'the_content', function ( $content ) {
+	if ( false === strpos( $content, '{{' ) ) return $content;
+	$upload = wp_get_upload_dir();
+	$map    = array(
+		'{{UPLOADS}}' => untrailingslashit( $upload['baseurl'] ),
+		'{{THEME}}'   => GFC_URL,
+		'{{HOME}}'    => untrailingslashit( home_url() ),
+	);
+	if ( false !== strpos( $content, '{{CONTACT_FORM}}' ) ) {
+		$map['{{CONTACT_FORM}}'] = gfc_contact_form();
+	}
+	return strtr( $content, $map );
+}, 99 );
+
+/* WPBakery: dùng cho page và post; khung row không tạo khoảng cách thừa quanh section */
+add_action( 'vc_before_init', function () {
+	vc_set_default_editor_post_types( array( 'page', 'post' ) );
+} );
+add_action( 'wp_enqueue_scripts', function () {
+	wp_add_inline_style( 'gfc-live', '.gfc-builder .vc_row{margin-left:0;margin-right:0}.gfc-builder .vc_column_container{padding:0;float:none}.gfc-builder .vc_column_container>.vc_column-inner{padding:0;width:100%}.gfc-builder .wpb_content_element,.gfc-builder .wpb_raw_code{margin-bottom:0}.gfc-builder>br,.gfc-builder>p:empty{display:none}' );
+}, 21 );

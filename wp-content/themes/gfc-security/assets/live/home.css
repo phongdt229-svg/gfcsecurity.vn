@@ -1,0 +1,340 @@
+/* Giao diện riêng trang chủ. Nội dung nằm trong row Raw HTML nên chỉ chỉnh bằng CSS, không đổi cấu trúc để "Nội dung trang" vẫn sửa được.
+   Các <style> trong row và fab.html nằm sau file này, nên chỗ trùng phải dùng !important hoặc selector mạnh hơn. */
+.home {
+	--home-ink: #6f5120;
+	--home-line: #eadfca;
+}
+
+/* Tiêu đề mục: cùng màu, cùng căn giữa, không để một chữ rớt dòng */
+.home .wpb-content-wrapper section h2 {
+	text-align: center;
+	text-wrap: balance;
+	line-height: 1.3;
+}
+.home .wpb-content-wrapper section h2:not(.text-white) {
+	background-image: var(--gold-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+.home .wpb-content-wrapper section h2::after {
+	content: "";
+	display: block;
+	width: 64px;
+	height: 3px;
+	margin: 12px auto 0;
+	border-radius: 2px;
+	background: var(--gold-sheen);
+}
+.home .wpb-content-wrapper section h1 + p,
+.home .wpb-content-wrapper section h2 + p {
+	text-wrap: pretty;
+}
+.home .wpb-content-wrapper .text-justify {
+	text-align: left;
+}
+.home .wpb-content-wrapper a:focus-visible,
+.home .wpb-content-wrapper label:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+/* Hero: chữ nhỏ trên nền trắng cần đậm hơn màu vàng chính */
+.home .wpb-content-wrapper section .rounded-full .text-primary {
+	color: var(--home-ink);
+}
+.home .wpb-content-wrapper section h1 + p {
+	text-wrap: balance;
+}
+
+/* Giới thiệu: video bám theo khi đọc đoạn chữ dài, khung trang trí luôn nằm sau video */
+.home section:has(iframe[src*="youtube"]) {
+	overflow: clip;
+}
+.home section:has(iframe[src*="youtube"]) .aspect-\[660\/371\] {
+	background: #1b1d1f;
+	border-radius: 6px;
+	box-shadow: 0 12px 32px rgba(74, 54, 22, .28);
+}
+.home-intro-more {
+	display: none;
+}
+@media (min-width: 1024px) {
+	.home section:has(iframe[src*="youtube"]) .size-full {
+		position: sticky;
+		top: 150px;
+		height: auto;
+		align-self: start;
+		justify-content: flex-start;
+	}
+}
+@media (max-width: 1023px) {
+	.home-intro.is-collapsed {
+		max-height: 260px;
+		overflow: hidden;
+		-webkit-mask-image: linear-gradient(180deg, #000 65%, transparent);
+		mask-image: linear-gradient(180deg, #000 65%, transparent);
+	}
+	.home-intro-more {
+		display: block;
+		margin: 8px auto 0;
+		padding: 10px 24px;
+		border: 1px solid var(--color-primary);
+		border-radius: 999px;
+		background: #fff;
+		color: var(--home-ink);
+		font-size: 14px;
+		font-weight: 600;
+		cursor: pointer;
+	}
+}
+
+/* Dịch vụ: lớp phủ đủ tối để đọc tên trên mọi ảnh, các ô cùng hàng cao bằng nhau */
+.home [class*="home-photo-gallery-item-"] {
+	border-radius: 6px;
+}
+.home [class*="home-photo-gallery-item-"]::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(27, 20, 8, 0) 42%, rgba(27, 20, 8, .86) 100%);
+	pointer-events: none;
+}
+.home [class*="home-photo-gallery-item-"] h3 {
+	position: relative;
+	z-index: 1;
+	font-weight: 600;
+	text-wrap: balance;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, .55);
+}
+.home [class*="home-photo-gallery-item-"] a {
+	z-index: 2;
+}
+@media (min-width: 1024px) {
+	.home [class*="home-photo-gallery-item-"].col-span-2 {
+		aspect-ratio: auto;
+		height: 100%;
+	}
+}
+/* Màn hình cảm ứng không có rê chuột: bấm vào đâu trên ô cũng mở dịch vụ */
+@media (hover: none) {
+	.home [class*="home-photo-gallery-item-"] h3 {
+		translate: none !important;
+		transform: none !important;
+	}
+	.home [class*="home-photo-gallery-item-"] a {
+		inset: 0;
+		width: 100%;
+		border: 0;
+		border-radius: 0;
+		opacity: 0;
+		translate: none;
+		transform: none;
+	}
+}
+
+/* Điểm khác biệt: icon cùng cỡ để chữ các thẻ thẳng hàng, tiêu đề thẻ đủ đậm trên nền trắng */
+.home section:has(> img[src*="Frame-18"]) .grid > div {
+	border-radius: 6px;
+	align-items: flex-start;
+}
+.home section:has(> img[src*="Frame-18"]) .grid > div > svg {
+	flex: 0 0 48px;
+	width: 48px;
+	height: 48px;
+}
+.home section:has(> img[src*="Frame-18"]) .grid h3 {
+	color: var(--home-ink);
+}
+@media (min-width: 1024px) {
+	.home section:has(> img[src*="Frame-18"]) .grid > div > svg {
+		flex-basis: 64px;
+		width: 64px;
+		height: 64px;
+	}
+}
+
+/* Chứng nhận: ảnh ngang và dọc nằm trong khung giống nhau, không còn khoảng trống trên dưới */
+.home .certifications-awards-swiper .swiper-slide > div {
+	aspect-ratio: 1;
+	padding: 12px;
+	border: 1px solid var(--home-line);
+	border-radius: 6px;
+	background: #fff;
+}
+
+/* Logo khách hàng, báo chí: logo cao không bị cắt, băng logo chạy mờ dần ở hai mép */
+.home .w-full.overflow-hidden.py-5 {
+	-webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+	mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+.home .aspect-\[205\/120\] {
+	background: #fff;
+}
+.home .aspect-\[205\/120\] img {
+	width: auto;
+	height: auto;
+	min-width: 0;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+/* Bản đồ chi nhánh: ảnh gốc màu xanh, đưa về tông vàng như banner */
+.home img[src*="Frame-1171277853"] {
+	filter: grayscale(1) sepia(.55) saturate(1.3);
+}
+
+/* Dịch vụ, tin tức: tiêu đề chiếm cả hàng để căn giữa, nút xem tất cả xuống dưới danh sách */
+@media (min-width: 1024px) {
+	.home .wpb-content-wrapper section h2.lg\:order-1 {
+		flex: 0 0 100%;
+	}
+	.home section a.lg\:order-2 {
+		order: 4;
+		margin-inline: auto;
+	}
+}
+
+/* Câu hỏi: nền sáng chữ tối thay cho chữ trắng trên vàng nhạt, mũi tên đúng chiều, ảnh không kéo dài theo danh sách */
+.home .question-container li:has(input:not(:checked)) {
+	background: #fff !important;
+	border: 1px solid var(--home-line);
+	transition: border-color .2s ease;
+}
+.home .question-container li:has(input:not(:checked)):hover {
+	border-color: var(--color-primary);
+}
+.home .question-container li:has(input:not(:checked)) .accordion-label p {
+	color: #2a2114;
+}
+.home .question-container li:has(input:not(:checked)) .accordion-svg {
+	color: var(--color-primary);
+	filter: none;
+}
+.home .question-container li:has(input:checked) {
+	background: linear-gradient(135deg, #5e4418, #7d5c24) !important;
+}
+.home .question-container .accordion-svg {
+	transform: rotate(180deg) !important;
+}
+.home .question-container li:has(input:checked) .accordion-svg {
+	transform: rotate(0deg) !important;
+}
+.home .question-container .accordion-content p {
+	text-align: left;
+}
+.home section:has(#faq-accordion) .grid > .col-span-full:first-child > div {
+	height: auto;
+	border-radius: 6px;
+}
+.home section:has(#faq-accordion) .grid > .col-span-full:first-child img {
+	height: auto;
+	aspect-ratio: 16 / 10;
+	object-position: center 20%;
+}
+@media (min-width: 1024px) {
+	.home section:has(#faq-accordion) .grid > .col-span-full:first-child {
+		position: sticky;
+		top: 150px;
+		align-self: start;
+	}
+	.home section:has(#faq-accordion) .grid > .col-span-full:first-child img {
+		aspect-ratio: 4 / 5;
+	}
+}
+
+/* Nút liên hệ nổi: chỉ nút cuối còn gợn sóng để bớt rối mắt */
+body.home .fab-container {
+	gap: .75rem;
+}
+body.home .fab-container .contact-item {
+	animation: none;
+}
+body.home .fab-container .contact-item:not(:last-child)::before,
+body.home .fab-container .contact-item:not(:last-child)::after,
+body.home .fab-container .contact-item:not(:last-child) .wave-effect {
+	animation: none;
+}
+/* Máy tính: chỉ hiện icon để không che nội dung, rê chuột hoặc Tab tới mới mở chữ */
+@media (min-width: 1025px) {
+	body.home .fab-container {
+		right: .5rem;
+		align-items: flex-end;
+	}
+	body.home .fab-container .contact-item {
+		gap: 0;
+		transition: gap .25s ease;
+	}
+	body.home .fab-container .contact-item .contact-text {
+		max-width: 0;
+		overflow: hidden;
+		transition: max-width .25s ease;
+	}
+	body.home .fab-container .contact-item:hover,
+	body.home .fab-container .contact-item:focus-visible {
+		gap: 8px;
+	}
+	body.home .fab-container .contact-item:hover .contact-text,
+	body.home .fab-container .contact-item:focus-visible .contact-text {
+		max-width: 220px;
+		padding-right: 6px;
+	}
+}
+/* Điện thoại, máy bảng: thanh ngang dưới đáy, không che nội dung như cột nút tròn */
+@media (max-width: 1024px) {
+	body.home {
+		padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+	}
+	body.home .fab-container {
+		left: 0;
+		right: 0;
+		bottom: 0;
+		flex-direction: row;
+		gap: 0;
+		padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+		background: #2a2114;
+		border-top: 2px solid #c9a055;
+	}
+	body.home .fab-container .contact-item {
+		flex: 1 1 0;
+		flex-direction: column;
+		justify-content: center;
+		gap: 3px;
+		width: auto;
+		min-width: 0;
+		height: 52px;
+		padding: 0 2px;
+		border: 0;
+		border-radius: 0;
+		background: none !important;
+		background-image: none !important;
+		box-shadow: none;
+		text-align: center;
+	}
+	body.home .fab-container .contact-item img {
+		width: 26px;
+		height: 26px;
+	}
+	body.home .fab-container .contact-item::before,
+	body.home .fab-container .contact-item::after,
+	body.home .fab-container .contact-item .wave-effect {
+		animation: none;
+	}
+	body.home .fab-container .contact-item .contact-text {
+		display: block !important;
+		color: #f6e6b4 !important;
+		font-size: 10px;
+		line-height: 1.15;
+		white-space: normal;
+		overflow-wrap: anywhere;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	body.home .fab-container .contact-item,
+	body.home .fab-container .contact-item::before,
+	body.home .fab-container .contact-item::after,
+	body.home .fab-container .contact-item .wave-effect {
+		animation: none;
+	}
+}

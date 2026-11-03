@@ -31,9 +31,10 @@ add_filter( 'the_content', 'gfc_brand_colors', 100 );
 function gfc_lazy_images( $html, $skip = 0 ) {
 	$n   = 0;
 	$out = preg_replace_callback(
-		'~<img\b(?![^>]*\bloading=)~i',
+		'~<img\b(?![^>]*\bloading=)([^>]*)~i',
 		function ( $m ) use ( &$n, $skip ) {
-			return ++$n <= $skip ? $m[0] : $m[0] . ' loading="lazy" decoding="async"';
+			if ( ++$n <= $skip ) return $m[0];
+			return '<img loading="lazy"' . ( false === stripos( $m[1], 'decoding=' ) ? ' decoding="async"' : '' ) . $m[1];
 		},
 		$html
 	);
@@ -173,6 +174,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'gfc-live', $dir . 'app.css', array(), GFC_VERSION );
 	wp_enqueue_style( 'gfc-gold', $dir . 'gold.css', array( 'gfc-live' ), GFC_VERSION );
 	wp_enqueue_style( 'swiper', $dir . 'swiper-bundle.min.css', array(), '8.4.7' );
+	if ( is_front_page() ) wp_enqueue_style( 'gfc-home', $dir . 'home.css', array( 'gfc-gold' ), GFC_VERSION );
 	if ( is_front_page() || is_page( 'gioi-thieu-gfc-security' ) ) wp_enqueue_style( 'gfc-branch', $dir . 'branch-finder.css', array(), GFC_VERSION );
 	wp_add_inline_style( 'gfc-live', file_get_contents( GFC_PATH . '/live-tpl/head.css' ) ); // phpcs:ignore
 	wp_enqueue_script( 'swiper', $dir . 'swiper-bundle.min.js', array(), '8.4.7', true );
@@ -209,6 +211,13 @@ add_filter( 'the_content', function ( $content ) {
 add_action( 'wp_footer', function () {
 	if ( ! class_exists( 'GTranslate' ) ) return;
 	echo "<script>document.addEventListener('DOMContentLoaded',function(){var o=window.doGTranslate;if(!o)return;window.doGTranslate=function(p){var n=0;(function t(){if(window.__GT||!window.gt_translate_script||++n>100)return o(p);setTimeout(t,100)})()}});</script>\n"; // phpcs:ignore -- đoạn cố định
+}, 30 );
+
+/* Trang chủ: băng logo chạy không dùng tải chậm vì logo trượt vào từ vùng bị cắt sẽ hiện ô trống.
+   Trên điện thoại thu gọn đoạn giới thiệu dài; chữ vẫn nằm trong trang, không có JS thì hiện đủ */
+add_action( 'wp_footer', function () {
+	if ( ! is_front_page() ) return;
+	echo "<script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.w-full.overflow-hidden.py-5 img').forEach(function(i){i.loading='eager'});var f=document.querySelector('iframe[src*=\"youtube\"]'),s=f&&f.closest('section'),c=s&&s.querySelector('.grid>div');if(!c)return;var b=document.createElement('button');b.type='button';b.className='home-intro-more';b.textContent='Xem thêm';c.classList.add('home-intro','is-collapsed');c.after(b);b.addEventListener('click',function(){c.classList.remove('is-collapsed');b.remove()})});</script>\n"; // phpcs:ignore -- đoạn cố định
 }, 30 );
 
 /* WPBakery: dùng cho page và post; khung row không tạo khoảng cách thừa quanh section */

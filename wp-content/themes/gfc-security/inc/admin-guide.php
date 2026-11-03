@@ -138,7 +138,7 @@ function gfc_guide_screen() {
 		<p>Hồ sơ năng lực, Câu hỏi thường gặp, Chính sách bảo mật, Quyền lợi và chế độ đãi ngộ, Tiêu chuẩn tuyển chọn sửa như văn bản bình thường trong <a href="<?php echo $pages; // phpcs:ignore ?>">Trang</a>. Câu hỏi ở khối “Câu hỏi thường gặp” trên Trang chủ là dữ liệu riêng, sửa ở <a href="<?php echo $content; // phpcs:ignore ?>">Nội dung trang</a>.</p>
 
 		<h2 id="ngon-ngu">11. Tiếng Anh và tiếng Việt</h2>
-		<p>Khách bấm nút lá cờ ở góc dưới bên trái để chuyển ngôn ngữ. Bản tiếng Anh do Google tự dịch khi khách xem, nên bạn chỉ cần nhập nội dung tiếng Việt.</p>
+		<p>Khách chuyển ngôn ngữ bằng mục lá cờ ở cuối menu đầu trang: rê chuột vào rồi chọn VI hoặc EN (trên điện thoại, mục này nằm trong menu ba gạch). Mục này do plugin tự thêm nên không hiện trong Giao diện → Menu. Bản tiếng Anh do Google tự dịch khi khách xem, nên bạn chỉ cần nhập nội dung tiếng Việt.</p>
 		<ul>
 			<li><strong>Kiểm tra bản dịch:</strong> máy có thể dịch chưa sát, nhất là thuật ngữ, giá và cam kết. Hiện chưa có chỗ sửa tay từng câu tiếng Anh.</li>
 			<li><strong>Không được dịch:</strong> chữ nằm trong ảnh, như banner, chứng nhận và sơ đồ.</li>

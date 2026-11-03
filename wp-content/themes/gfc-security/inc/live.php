@@ -19,7 +19,7 @@ function gfc_block( $slug, $name ) {
 function gfc_brand_colors( $html ) {
 	$out = preg_replace(
 		array( '~(?<![\[\\\\])#1e91d6~i', '~(?<![\[\\\\])#004e98~i', '~(?<![\[\\\\])#63c132~i', '~(?<![\[\\\\])#ebf2fa~i', '~\b30,\s*145,\s*214\b~', '~\b99,\s*193,\s*50\b~' ),
-		array( GFC_COLOR_PRIMARY, GFC_COLOR_PRIMARY, GFC_COLOR_ACCENT, GFC_COLOR_TINT, '150, 112, 47', '176, 132, 68' ),
+		array( GFC_COLOR_PRIMARY, GFC_COLOR_PRIMARY, GFC_COLOR_ACCENT, GFC_COLOR_TINT, '150, 112, 47', '201, 160, 85' ),
 		$html
 	);
 	return null === $out ? $html : $out;
@@ -171,6 +171,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	$dir = GFC_URL . '/assets/live/';
 	if ( is_singular( 'post' ) ) wp_enqueue_style( 'gfc-ez-toc', $dir . 'ez-toc.css', array(), GFC_VERSION );
 	wp_enqueue_style( 'gfc-live', $dir . 'app.css', array(), GFC_VERSION );
+	wp_enqueue_style( 'gfc-gold', $dir . 'gold.css', array( 'gfc-live' ), GFC_VERSION );
 	wp_enqueue_style( 'swiper', $dir . 'swiper-bundle.min.css', array(), '8.4.7' );
 	if ( is_front_page() || is_page( 'gioi-thieu-gfc-security' ) ) wp_enqueue_style( 'gfc-branch', $dir . 'branch-finder.css', array(), GFC_VERSION );
 	wp_add_inline_style( 'gfc-live', file_get_contents( GFC_PATH . '/live-tpl/head.css' ) ); // phpcs:ignore
@@ -215,7 +216,7 @@ add_action( 'vc_before_init', function () {
 	vc_set_default_editor_post_types( array( 'page', 'post' ) );
 } );
 add_action( 'wp_enqueue_scripts', function () {
-	wp_add_inline_style( 'gfc-live', '.gfc-builder .vc_row,.gfc-builder .wpb_column,.gfc-builder .vc_column-inner,.gfc-builder .wpb_wrapper,.gfc-builder .wpb_raw_code{position:static}.gfc-builder .vc_row{margin-left:0;margin-right:0}.gfc-builder .vc_column_container{padding:0;float:none}.gfc-builder .vc_column_container>.vc_column-inner{padding:0;width:100%}.gfc-builder .wpb_content_element,.gfc-builder .wpb_raw_code{margin-bottom:0}.gfc-builder>br,.gfc-builder>p:empty{display:none}#site-logo img,footer .col-span-12>picture img{object-position:left center}aside img[src*="LongVan_logo"]{object-fit:contain}img[src*="/2025/10/banner-gfc-1-1.png"],img[src*="/2025/10/Rectangle-1-2.png"],img[src*="/2025/10/Group-1000010034.png"]{filter:grayscale(1) sepia(1) saturate(2.2) brightness(.8)}img[src$="/2025/10/Frame.svg"],img[src$="/2025/10/Frame-1.svg"],img[src$="/2025/10/Frame-2.svg"],img[src$="/2025/10/Frame-3.svg"],img[src$="/2025/11/Frame-3.svg"],img[src$="/2025/11/Frame-1-1.svg"],img[src$="/2025/11/Frame-2-1.svg"]{filter:grayscale(1) sepia(1) saturate(3) brightness(.75)}img[src*="/2025/10/Frame-1171277672"]{filter:grayscale(1) brightness(.72) contrast(2.5) sepia(.8) saturate(1.8)}#desktop-header .desktop-ul-lv1:has(>.menu-item-gtranslate){gap:24px}.menu-item-gtranslate a{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.menu-item-gtranslate a img{display:inline-block;width:22px;height:22px;flex:none}#desktop-header .menu-item-gtranslate>.sub-menu{left:auto;right:0;width:max-content;min-width:110px}' );
+	wp_add_inline_style( 'gfc-live', '.gfc-builder .vc_row,.gfc-builder .wpb_column,.gfc-builder .vc_column-inner,.gfc-builder .wpb_wrapper,.gfc-builder .wpb_raw_code{position:static}.gfc-builder .vc_row{margin-left:0;margin-right:0}.gfc-builder .vc_column_container{padding:0;float:none}.gfc-builder .vc_column_container>.vc_column-inner{padding:0;width:100%}.gfc-builder .wpb_content_element,.gfc-builder .wpb_raw_code{margin-bottom:0}.gfc-builder>br,.gfc-builder>p:empty{display:none}#site-logo img,footer .col-span-12>picture img{object-position:left center}aside img[src*="LongVan_logo"]{object-fit:contain}img[src*="/2025/10/banner-gfc-1-1.png"],img[src*="/2025/10/Rectangle-1-2.png"],img[src*="/2025/10/Group-1000010034.png"]{filter:grayscale(1) sepia(.85) saturate(1.55) brightness(1.08)}img[src$="/2025/10/Frame.svg"],img[src$="/2025/10/Frame-1.svg"],img[src$="/2025/10/Frame-2.svg"],img[src$="/2025/10/Frame-3.svg"],img[src$="/2025/11/Frame-3.svg"],img[src$="/2025/11/Frame-1-1.svg"],img[src$="/2025/11/Frame-2-1.svg"]{filter:grayscale(1) sepia(1) saturate(3) brightness(.75)}img[src*="/2025/10/Frame-1171277672"]{filter:grayscale(1) brightness(.72) contrast(2.5) sepia(.8) saturate(1.8)}#desktop-header .desktop-ul-lv1:has(>.menu-item-gtranslate){gap:24px}.menu-item-gtranslate a{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.menu-item-gtranslate a img{display:inline-block;width:22px;height:22px;flex:none}#desktop-header .menu-item-gtranslate>.sub-menu{left:auto;right:0;width:max-content;min-width:110px}' );
 }, 21 );
 
 /** Giá trị từ "Thông tin công ty" dùng trong live-tpl và row WPBakery. */

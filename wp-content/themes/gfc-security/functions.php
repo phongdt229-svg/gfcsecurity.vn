@@ -4,10 +4,10 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'GFC_VERSION', '1.1.0' );
+define( 'GFC_VERSION', '1.2.0' );
 /* Màu thương hiệu theo logo Long Vân (#C4985A), sẫm hơn để chữ đủ tương phản trên nền trắng */
 define( 'GFC_COLOR_PRIMARY', '#96702f' );
-define( 'GFC_COLOR_ACCENT', '#b08444' );
+define( 'GFC_COLOR_ACCENT', '#c9a055' );
 define( 'GFC_COLOR_TINT', '#f8f2e8' );
 define( 'GFC_PATH', get_template_directory() );
 define( 'GFC_URL', get_template_directory_uri() );
@@ -30,6 +30,7 @@ require GFC_PATH . '/inc/live.php';
 require GFC_PATH . '/inc/page-editor.php';
 require GFC_PATH . '/inc/admin-guide.php';
 require GFC_PATH . '/inc/webp.php';
+require GFC_PATH . '/inc/seo.php';
 
 /* ---------- Setup ---------- */
 add_action( 'after_setup_theme', function () {

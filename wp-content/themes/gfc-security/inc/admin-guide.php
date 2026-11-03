@@ -40,6 +40,7 @@ function gfc_guide_screen() {
 				<tr><td>Ô nhập của form liên hệ, email nhận yêu cầu</td><td><a href="<?php echo $form; // phpcs:ignore ?>">Form liên hệ</a></td><td><a href="#form">Mục 9</a></td></tr>
 				<tr><td>Hồ sơ năng lực, Câu hỏi thường gặp, Chính sách bảo mật, Quyền lợi nhân viên</td><td><a href="<?php echo $pages; // phpcs:ignore ?>">Trang</a></td><td><a href="#trang">Mục 10</a></td></tr>
 				<tr><td>Nút chuyển ngôn ngữ Việt - Anh</td><td><a href="<?php echo $u( 'options-general.php?page=gtranslate_options' ); // phpcs:ignore ?>">Cài đặt → GTranslate</a></td><td><a href="#ngon-ngu">Mục 11</a></td></tr>
+				<tr><td>Từ khoá, tiêu đề và mô tả trên Google</td><td><a href="<?php echo $posts; // phpcs:ignore ?>">Bài viết</a> / <a href="<?php echo $pages; // phpcs:ignore ?>">Trang</a></td><td><a href="#seo">Mục 12</a></td></tr>
 			</tbody>
 		</table></div>
 
@@ -146,10 +147,19 @@ function gfc_guide_screen() {
 			<li><strong>Công cụ tìm kiếm:</strong> bản tiếng Anh không có đường dẫn riêng nên Google Search không lập chỉ mục được.</li>
 		</ul>
 
+		<h2 id="seo">12. SEO với Yoast</h2>
+		<p>Mở bài viết hoặc trang, tìm khung <strong>Yoast SEO</strong> để sửa từ khoá chính, tiêu đề SEO và mô tả. Từ khoá và mô tả có sẵn được tạo tự động từ nội dung, nên hãy đọc lại các bài quan trọng.</p>
+		<ul>
+			<li><strong>Điểm:</strong> chỉ hiện trong danh sách bài sau khi bài được mở và cập nhật. Điểm là gợi ý để viết tốt hơn, không phải thứ hạng trên Google.</li>
+			<li><strong>Điểm dễ đọc:</strong> chỉ để tham khảo, vì Yoast không phân tích sâu được tiếng Việt.</li>
+			<li><strong>Trang chủ, Giới thiệu, Liên hệ:</strong> sửa nội dung ở Nội dung trang, rồi mở trang trong <a href="<?php echo $pages; // phpcs:ignore ?>">Trang</a> để xem điểm.</li>
+			<li><strong>Không nhồi từ khoá:</strong> mỗi bài nên có một từ khoá riêng, viết tự nhiên trong tiêu đề, đoạn đầu và mô tả.</li>
+		</ul>
+
 		<h2 id="anh">Lưu ý về ảnh</h2>
 		<ul>
 			<li>Chọn ảnh mới cùng tỉ lệ với ảnh đang dùng để bố cục không bị lệch.</li>
-			<li>Nén ảnh trước khi tải lên <a href="<?php echo $media; // phpcs:ignore ?>">Thư viện</a> để trang tải nhanh.</li>
+			<li>Ảnh tải lên <a href="<?php echo $media; // phpcs:ignore ?>">Thư viện</a> được tự động tạo thêm bản WebP nhẹ hơn, ảnh gốc giữ nguyên. Không cần nén trước, nhưng tránh dùng ảnh quá lớn.</li>
 			<li>Chỉ dùng ảnh, logo của khách hàng và chứng nhận mà công ty có quyền sử dụng.</li>
 		</ul>
 

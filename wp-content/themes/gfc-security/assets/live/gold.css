@@ -1,0 +1,48 @@
+/* Hiệu ứng vàng ánh kim theo logo Long Vân. Chữ nhỏ vẫn dùng màu đặc --color-primary để dễ đọc. */
+:root {
+	--gold-sheen: linear-gradient(115deg, #b98a3c 0%, #e8c877 28%, #fbeeb8 48%, #dcb563 68%, #b98a3c 100%);
+	--gold-text: linear-gradient(100deg, #80591b 0%, #b98a3a 50%, #80591b 100%);
+	--gold-ink: #2a2114;
+}
+
+/* Nút: nền kim loại, chữ tối để đủ tương phản, rê chuột thì vệt sáng chạy qua */
+a.bg-primary, a.bg-secondary, button.bg-primary, button.bg-secondary,
+a[class*="bg-[#1e91d6]"], .contact-item, .wpcf7-submit, .my-submit-btn {
+	background-image: var(--gold-sheen) !important;
+	background-size: 220% 100% !important;
+	background-position: 0 0;
+	color: var(--gold-ink) !important;
+	transition: background-position .5s ease, box-shadow .3s ease;
+	box-shadow: 0 2px 10px rgba(150, 112, 47, .35), inset 0 1px 0 rgba(255, 255, 255, .55);
+}
+a.bg-primary:hover, a.bg-secondary:hover, button.bg-primary:hover, button.bg-secondary:hover,
+a[class*="bg-[#1e91d6]"]:hover, .contact-item:hover, .wpcf7-submit:hover, .my-submit-btn:hover {
+	background-position: 100% 0;
+}
+a.bg-primary *, a.bg-secondary *, button.bg-primary *, button.bg-secondary *,
+a[class*="bg-[#1e91d6]"] *, .contact-item * {
+	color: var(--gold-ink) !important;
+}
+a.bg-primary > img, a.bg-secondary > img, a.bg-primary > svg, a.bg-secondary > svg {
+	filter: brightness(0) saturate(100%) opacity(.85);
+}
+
+/* Dải phân cách trên footer và lớp phủ gradient đang viết cứng màu xanh trong class */
+footer.relative::after {
+	background-image: linear-gradient(90deg, #96702f 0%, #e8c877 30%, #fbeeb8 50%, #e8c877 70%, #96702f 100%) !important;
+}
+.from-\[\#01377D\]\/80 {
+	--tw-gradient-from: rgba(74, 54, 22, .8);
+}
+.to-\[\#26B170\]\/80 {
+	--tw-gradient-to: rgba(185, 138, 60, .8);
+}
+
+/* Tiêu đề và con số lớn: chữ vàng kim */
+h1.text-primary, h2.text-primary, h2 .text-primary, h2 .text-secondary, h2.text-secondary, .counter-number {
+	background-image: var(--gold-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}

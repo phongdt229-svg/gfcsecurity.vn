@@ -33,6 +33,7 @@ Theme dựng lại cho gfcsecurity.vn, giữ nguyên cấu trúc, nội dung và
 - Trang chủ, Giới thiệu, Liên hệ, Danh mục dịch vụ: sửa ở menu admin "Nội dung trang" (inc/page-editor.php): chữ, ảnh, link, video, con số và thêm/xoá/đổi chỗ mục trong danh sách. Cần quyền unfiltered_html. Mỗi lần lưu tạo một Revision của trang.
 - Có thể mở các trang đó bằng WPBakery, mỗi section là một row Raw HTML. Giữ nguyên các chỗ {{UPLOADS}}, {{HOME}}, {{THEME}}, {{CONTACT_FORM}}.
 - Danh mục dịch vụ (/dich-vu-gfc) lấy nội dung từ trang riêng tư có đường dẫn noi-dung-danh-muc-dich-vu; không có trang này thì dùng live-tpl/cat-services.html.
+- Đa ngôn ngữ: plugin GTranslate bản miễn phí (Cài đặt → GTranslate), gốc tiếng Việt, thêm English, nút nổi góc dưới trái. Dịch bằng Google trên trình duyệt, không tạo URL riêng.
 - Hướng dẫn cho người quản trị nội dung: menu admin "Hướng dẫn sử dụng" (inc/admin-guide.php). Đổi màn hình hoặc tên nút thì cập nhật cả đây.
 - Danh sách chi nhánh trên Trang chủ và Giới thiệu lấy từ menu admin "Chi nhánh" (mã {{branch_locations}}, {{branch_items}}).
 - Menu header: Giao diện → Menu → "Menu chính".

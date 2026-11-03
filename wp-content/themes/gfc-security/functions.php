@@ -29,6 +29,7 @@ require GFC_PATH . '/inc/category-base.php';
 require GFC_PATH . '/inc/live.php';
 require GFC_PATH . '/inc/page-editor.php';
 require GFC_PATH . '/inc/admin-guide.php';
+require GFC_PATH . '/inc/webp.php';
 
 /* ---------- Setup ---------- */
 add_action( 'after_setup_theme', function () {
@@ -50,14 +51,14 @@ add_action( 'after_setup_theme', function () {
 
 /* ---------- Helpers ---------- */
 
-/** Logo: ưu tiên logo trong Tuỳ biến, nếu chưa có dùng logo SVG đang có trên site. */
+/** Logo: ưu tiên logo trong Tuỳ biến, nếu chưa có dùng logo Long Vân trong theme. */
 function gfc_logo_url() {
 	$id = get_theme_mod( 'custom_logo' );
 	if ( $id ) {
 		$src = wp_get_attachment_image_url( $id, 'full' );
 		if ( $src ) return $src;
 	}
-	return gfc_up( '2025/10/GFCsecurity-banner-tach-nen-la-1-1.svg' );
+	return GFC_URL . '/assets/img/logo-long-van.png';
 }
 
 /** Số điện thoại → href tel: */

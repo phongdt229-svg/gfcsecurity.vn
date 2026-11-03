@@ -34,6 +34,7 @@ Theme dựng lại cho gfcsecurity.vn, giữ nguyên cấu trúc, nội dung và
 - Có thể mở các trang đó bằng WPBakery, mỗi section là một row Raw HTML. Giữ nguyên các chỗ {{UPLOADS}}, {{HOME}}, {{THEME}}, {{CONTACT_FORM}}.
 - Danh mục dịch vụ (/dich-vu-gfc) lấy nội dung từ trang riêng tư có đường dẫn noi-dung-danh-muc-dich-vu; không có trang này thì dùng live-tpl/cat-services.html.
 - Đa ngôn ngữ: plugin GTranslate bản miễn phí (Cài đặt → GTranslate), gốc tiếng Việt, thêm English, nút nằm trong Menu chính (CSS và đoạn chờ thư viện dịch ở inc/live.php). Dịch bằng Google trên trình duyệt, không tạo URL riêng.
+- Ảnh: inc/webp.php tạo bản anh.jpg.webp cạnh ảnh gốc khi tải lên, wp-content/uploads/.htaccess trả bản này cho trình duyệt hỗ trợ (cần Apache/LiteSpeed; Nginx phải tự cấu hình, nếu không sẽ dùng ảnh gốc). Ảnh ngoài màn hình đầu tải chậm (gfc_lazy_images).
 - Hướng dẫn cho người quản trị nội dung: menu admin "Hướng dẫn sử dụng" (inc/admin-guide.php). Đổi màn hình hoặc tên nút thì cập nhật cả đây.
 - Danh sách chi nhánh trên Trang chủ và Giới thiệu lấy từ menu admin "Chi nhánh" (mã {{branch_locations}}, {{branch_items}}).
 - Menu header: Giao diện → Menu → "Menu chính".

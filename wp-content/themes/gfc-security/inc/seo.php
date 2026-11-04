@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 function gfc_seo_analysis_text( $post ) {
 	$html = '';
-	$rows = gfc_pe_rows( $post->post_content );
+	$rows = gfc_pe_rows( (int) get_option( 'page_on_front' ) === $post->ID ? gfc_home_visible_content( $post->post_content ) : $post->post_content );
 	if ( $rows ) {
 		$html = gfc_tpl_render( implode( "\n", $rows ), 'seo', array() );
 	}

@@ -193,6 +193,34 @@ function gfc_contact_form() {
 	return ob_get_clean();
 }
 
+/**
+ * Bỏ các row Trang chủ đang tắt ở "Thông tin công ty". Nội dung vẫn trong database và "Nội dung trang".
+ * Nhận diện theo class trong row vì tiêu đề có thể bị sửa.
+ */
+function gfc_home_visible_content( $content ) {
+	$markers = array();
+	foreach ( array( 'show_home_branches' => 'puramu-branch-finder', 'show_home_press' => 'television-and-newspapers-swiper', 'show_home_feedback' => 'customer-feedback' ) as $opt => $marker ) {
+		if ( '' === gfc_opt( $opt ) ) $markers[] = $marker;
+	}
+	if ( ! $markers ) return $content;
+	$out = preg_replace_callback(
+		'~\[vc_row[^\]]*\]\s*\[vc_column[^\]]*\]\s*\[vc_raw_html[^\]]*\](.*?)\[/vc_raw_html\]\s*\[/vc_column\]\s*\[/vc_row\]~s',
+		function ( $m ) use ( $markers ) {
+			$html = gfc_pe_decode( $m[1] );
+			foreach ( $markers as $marker ) {
+				if ( false !== strpos( $html, $marker ) ) return '';
+			}
+			return $m[0];
+		},
+		$content
+	);
+	return null === $out ? $content : $out;
+}
+
+add_filter( 'the_content', function ( $content ) {
+	return is_front_page() ? gfc_home_visible_content( $content ) : $content;
+}, 9 );
+
 /* Raw HTML của WPBakery giữ {{token}} để đường dẫn ảnh không phụ thuộc tên miền */
 add_filter( 'the_content', function ( $content ) {
 	if ( false === strpos( $content, '{{' ) ) return $content;
@@ -261,7 +289,7 @@ function gfc_conditional( $html ) {
 	$out = preg_replace_callback(
 		'~<!--if:(\w+)-->(.*?)<!--/if:\1-->~s',
 		function ( $m ) {
-			return '' === gfc_opt( $m[1] ) ? '' : $m[2];
+			return '' === gfc_opt( $m[1] ) ? '' : gfc_conditional( $m[2] );
 		},
 		$html
 	);

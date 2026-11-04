@@ -29,6 +29,10 @@ function gfc_opt_defaults() {
 		'copyright'       => '© 2025 CÔNG TY CỔ PHẦN DỊCH VỤ BẢO VỆ LONG VÂN. All Rights Reserved.',
 		'show_badges'     => '',
 		'show_ecosystem'  => '',
+		'show_footer_branches' => '',
+		'show_home_branches'   => '',
+		'show_home_press'      => '',
+		'show_home_feedback'   => '',
 		'cf7_id'          => '6434',
 	);
 }
@@ -77,6 +81,10 @@ add_action( 'customize_register', function ( $wp_customize ) {
 		'copyright'       => 'Dòng bản quyền chân trang',
 		'show_badges'     => 'Hiện huy hiệu Bộ Công Thương ở footer',
 		'show_ecosystem'  => 'Hiện khối "Hệ sinh thái" và "Thành viên của" ở footer',
+		'show_footer_branches' => 'Hiện Chi nhánh 2 và 3 ở footer',
+		'show_home_branches'   => 'Hiện mục "Hệ thống văn phòng đại diện" ở Trang chủ',
+		'show_home_press'      => 'Hiện mục "Đài truyền hình và báo chí" ở Trang chủ',
+		'show_home_feedback'   => 'Hiện mục "Feedback của khách hàng" ở Trang chủ',
 		'cf7_id'          => 'ID form Contact Form 7 (trang Liên hệ)',
 	);
 	foreach ( gfc_opt_defaults() as $key => $default ) {

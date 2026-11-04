@@ -40,6 +40,25 @@
 	outline-offset: 2px;
 }
 
+/* Số liệu: luôn căn giữa, thêm hoặc bớt ô trong CMS thì các ô tự chia đều */
+.home #home-counter-section .grid {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.home #home-counter-section .grid > div {
+	flex: 0 0 calc(50% - 10px);
+}
+@media (min-width: 1024px) {
+	.home #home-counter-section .grid {
+		flex-wrap: nowrap;
+	}
+	.home #home-counter-section .grid > div {
+		flex: 1 1 0;
+		min-width: 0;
+	}
+}
+
 /* Hero: chữ nhỏ trên nền trắng cần đậm hơn màu vàng chính */
 .home .wpb-content-wrapper section .rounded-full .text-primary {
 	color: var(--home-ink);

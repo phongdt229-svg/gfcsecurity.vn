@@ -79,6 +79,7 @@ function gfc_guide_screen() {
 			<li>Thay đổi tự áp dụng cho chân trang, trang Liên hệ, nút liên hệ nổi và cột phải bài viết.</li>
 			<li><strong>Để trống một ô thì dòng đó tự ẩn.</strong> Ví dụ xoá địa chỉ Chi nhánh 2 thì chi nhánh đó biến mất; điền link Facebook thì biểu tượng Facebook hiện ra.</li>
 			<li>Nút <strong>Hồ sơ năng lực</strong> trên Trang chủ và Giới thiệu chỉ hiện khi đã điền link hồ sơ.</li>
+			<li>Các mục <strong>Hệ thống văn phòng đại diện</strong>, <strong>Đài truyền hình và báo chí</strong>, <strong>Feedback của khách hàng</strong> ở Trang chủ và <strong>Chi nhánh 2, 3 ở footer</strong> đang tắt. Tích ô “Hiện…” tương ứng để bật lại, nội dung không bị mất. Trong <strong>Nội dung trang</strong> các mục này vẫn hiện để sửa.</li>
 			<li>Địa chỉ TP.HCM trong danh sách chi nhánh là dữ liệu riêng. Đổi địa chỉ trụ sở thì sửa thêm ở <a href="<?php echo $branch; // phpcs:ignore ?>">Chi nhánh</a>.</li>
 		</ul>
 

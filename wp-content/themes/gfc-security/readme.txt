@@ -42,6 +42,7 @@ Theme dựng lại cho gfcsecurity.vn, giữ nguyên cấu trúc, nội dung và
 - Điện thoại, máy bảng trên toàn site: assets/live/mobile.css đưa ảnh banner đầu trang lên trên, chữ xuống dải nền riêng, nút liên hệ nổi thành thanh ngang dưới đáy.
 - Menu header: Giao diện → Menu → "Menu chính".
 - Footer, trang Liên hệ, nút nổi, banner bài viết: sửa ở menu admin "Thông tin công ty". Để trống một ô thì dòng đó tự ẩn.
+- Mục Văn phòng đại diện, Báo chí, Feedback ở Trang chủ và Chi nhánh 2, 3 ở footer đang tắt. Bật lại bằng các ô "Hiện..." trong "Thông tin công ty". Nội dung vẫn còn trong database (gfc_home_visible_content ở inc/live.php).
 - Link footer: Giao diện → Menu ("Footer — Dịch vụ", "Footer — Hỗ trợ khách hàng").
 - Trong row WPBakery giữ nguyên các mã dạng {{hotline1}}, {{email}}, {{office1_address}}.
 - Nằm cố định trong live-tpl/: nhãn nút liên hệ nổi, banner cột phải bài viết, khung trang tin tức và trang dịch vụ.

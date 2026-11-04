@@ -130,7 +130,34 @@
               </a>
                       </div>
         </div><!--/if:office1_address-->
-        <!--if:office2_address--><div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
+        <!-- ========== Hỗ trợ khách hàng, Kết nối ========== -->
+        <div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
+          <p class="text-base lg:text-lg 2xl:text-xl font-bold">
+            Hỗ trợ khách hàng          </p>
+          <div class="flex flex-col gap-2.5">{{menu_support}}</div>
+        </div>
+        <div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
+          <p class="text-base lg:text-lg 2xl:text-xl font-bold">
+            Kết nối với chúng tôi          </p>
+          <div class="flex flex-row gap-2.5 lg:gap-4">
+                                              <!--if:facebook--><a href="{{facebook}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
+                  <img src="{{UPLOADS}}/2025/10/image-7-1.png" alt="" class="size-9 lg:size-10 2xl:size-12">
+                </a><!--/if:facebook-->
+                                              <!--if:zalo--><a href="{{zalo}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
+                  <img src="{{UPLOADS}}/2025/10/sm-672c066b31fd3-Zalo-1-1.png" alt="" class="size-9 lg:size-10 2xl:size-12">
+                </a><!--/if:zalo-->
+                                              <!--if:youtube--><a href="{{youtube}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
+                  <img src="{{UPLOADS}}/2025/10/Frame-2.png" alt="" class="size-9 lg:size-10 2xl:size-12">
+                </a><!--/if:youtube-->
+                                              <!--if:email--><a href="mailto:{{email}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
+                  <img src="{{UPLOADS}}/2025/10/Frame-1-1.png" alt="" class="size-9 lg:size-10 2xl:size-12">
+                </a><!--/if:email-->
+                          </div>
+          <!--if:show_badges--><div class="flex flex-row gap-2.5 lg:gap-5">
+                            <img src="{{UPLOADS}}/2025/11/BCT-LOGO-1.svg" alt="">
+            </div><!--/if:show_badges-->
+        </div>
+        <!--if:show_footer_branches--><!--if:office2_address--><div class="col-span-12 lg:col-span-3 flex flex-col gap-2.5 lg:gap-4">
           <p class="text-base lg:text-lg 2xl:text-xl font-bold">
             {{office2_name}}          </p>
           <div class="flex flex-col gap-2.5 lg:gap-4">
@@ -195,37 +222,13 @@
                   <span class="font-semibold">Hotline:</span> {{office3_phone}}                </p>
               </a>
                       </div>
-        </div><!--/if:office3_address-->
+        </div><!--/if:office3_address--><!--/if:show_footer_branches-->
         <!-- ========== Center ========== -->
         <div class="col-span-12 flex flex-col lg:flex-row gap-2.5 lg:gap-5 lg:justify-between">
-          <div class="flex flex-col gap-2.5 lg:gap-5">
+          <div class="w-full flex flex-col gap-2.5 lg:gap-5">
             <p class="text-base lg:text-lg 2xl:text-xl font-bold">
               Dịch vụ            </p>
-            <div class="flex flex-col gap-2.5">{{menu_services}}</div>
-          </div>
-          <div class="flex flex-col gap-2.5 lg:gap-5">
-            <p class="text-base lg:text-lg 2xl:text-xl font-bold">
-              Hỗ trợ khách hàng            </p>
-            <div class="flex flex-col gap-2.5">{{menu_support}}</div>
-            <p class="text-base lg:text-lg 2xl:text-xl font-bold">
-              Kết nối với chúng tôi            </p>
-            <div class="flex flex-row gap-2.5 lg:gap-4">
-                                              <!--if:facebook--><a href="{{facebook}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
-                  <img src="{{UPLOADS}}/2025/10/image-7-1.png" alt="" class="size-9 lg:size-10 2xl:size-12">
-                </a><!--/if:facebook-->
-                                              <!--if:zalo--><a href="{{zalo}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
-                  <img src="{{UPLOADS}}/2025/10/sm-672c066b31fd3-Zalo-1-1.png" alt="" class="size-9 lg:size-10 2xl:size-12">
-                </a><!--/if:zalo-->
-                                              <!--if:youtube--><a href="{{youtube}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
-                  <img src="{{UPLOADS}}/2025/10/Frame-2.png" alt="" class="size-9 lg:size-10 2xl:size-12">
-                </a><!--/if:youtube-->
-                                              <!--if:email--><a href="mailto:{{email}}" target="_blank" class="hover:opacity-80 transition-all duration-300">
-                  <img src="{{UPLOADS}}/2025/10/Frame-1-1.png" alt="" class="size-9 lg:size-10 2xl:size-12">
-                </a><!--/if:email-->
-                          </div>
-            <!--if:show_badges--><div class="flex flex-row gap-2.5 lg:gap-5">
-                            <img src="{{UPLOADS}}/2025/11/BCT-LOGO-1.svg" alt="">
-            </div><!--/if:show_badges-->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-2.5">{{menu_services}}</div>
           </div>
           <!--if:show_ecosystem--><div class="flex flex-col gap-2.5 lg:gap-5">
             <p class="text-base lg:text-lg 2xl:text-xl font-bold">

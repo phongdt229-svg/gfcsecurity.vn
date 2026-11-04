@@ -281,55 +281,6 @@ body.home .fab-container .contact-item:not(:last-child) .wave-effect {
 		padding-right: 6px;
 	}
 }
-/* Điện thoại, máy bảng: thanh ngang dưới đáy, không che nội dung như cột nút tròn */
-@media (max-width: 1024px) {
-	body.home {
-		padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
-	}
-	body.home .fab-container {
-		left: 0;
-		right: 0;
-		bottom: 0;
-		flex-direction: row;
-		gap: 0;
-		padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
-		background: #2a2114;
-		border-top: 2px solid #c9a055;
-	}
-	body.home .fab-container .contact-item {
-		flex: 1 1 0;
-		flex-direction: column;
-		justify-content: center;
-		gap: 3px;
-		width: auto;
-		min-width: 0;
-		height: 52px;
-		padding: 0 2px;
-		border: 0;
-		border-radius: 0;
-		background: none !important;
-		background-image: none !important;
-		box-shadow: none;
-		text-align: center;
-	}
-	body.home .fab-container .contact-item img {
-		width: 26px;
-		height: 26px;
-	}
-	body.home .fab-container .contact-item::before,
-	body.home .fab-container .contact-item::after,
-	body.home .fab-container .contact-item .wave-effect {
-		animation: none;
-	}
-	body.home .fab-container .contact-item .contact-text {
-		display: block !important;
-		color: #f6e6b4 !important;
-		font-size: 10px;
-		line-height: 1.15;
-		white-space: normal;
-		overflow-wrap: anywhere;
-	}
-}
 @media (prefers-reduced-motion: reduce) {
 	body.home .fab-container .contact-item,
 	body.home .fab-container .contact-item::before,

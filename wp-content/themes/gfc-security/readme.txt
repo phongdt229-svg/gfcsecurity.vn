@@ -38,7 +38,8 @@ Theme dựng lại cho gfcsecurity.vn, giữ nguyên cấu trúc, nội dung và
 - SEO: plugin Yoast SEO. inc/seo.php đưa chữ trong row Raw HTML và khung trang dịch vụ vào phần phân tích của Yoast.
 - Hướng dẫn cho người quản trị nội dung: menu admin "Hướng dẫn sử dụng" (inc/admin-guide.php). Đổi màn hình hoặc tên nút thì cập nhật cả đây.
 - Danh sách chi nhánh trên Trang chủ và Giới thiệu lấy từ menu admin "Chi nhánh" (mã {{branch_locations}}, {{branch_items}}).
-- Giao diện riêng trang chủ: assets/live/home.css, chỉ tải ở trang chủ và không đổi cấu trúc row. Trên điện thoại, nút liên hệ nổi của trang chủ là thanh ngang dưới đáy, đoạn giới thiệu có nút "Xem thêm" (inc/live.php).
+- Giao diện riêng trang chủ: assets/live/home.css, chỉ tải ở trang chủ và không đổi cấu trúc row. Trên điện thoại, đoạn giới thiệu có nút "Xem thêm" (inc/live.php).
+- Điện thoại, máy bảng trên toàn site: assets/live/mobile.css đưa ảnh banner đầu trang lên trên, chữ xuống dải nền riêng, nút liên hệ nổi thành thanh ngang dưới đáy.
 - Menu header: Giao diện → Menu → "Menu chính".
 - Footer, trang Liên hệ, nút nổi, banner bài viết: sửa ở menu admin "Thông tin công ty". Để trống một ô thì dòng đó tự ẩn.
 - Link footer: Giao diện → Menu ("Footer — Dịch vụ", "Footer — Hỗ trợ khách hàng").

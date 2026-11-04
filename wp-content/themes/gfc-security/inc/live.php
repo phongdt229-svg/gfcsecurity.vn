@@ -175,6 +175,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'gfc-gold', $dir . 'gold.css', array( 'gfc-live' ), GFC_VERSION );
 	wp_enqueue_style( 'swiper', $dir . 'swiper-bundle.min.css', array(), '8.4.7' );
 	if ( is_front_page() ) wp_enqueue_style( 'gfc-home', $dir . 'home.css', array( 'gfc-gold' ), GFC_VERSION );
+	wp_enqueue_style( 'gfc-mobile', $dir . 'mobile.css', array( 'gfc-gold' ), GFC_VERSION );
 	if ( is_front_page() || is_page( 'gioi-thieu-gfc-security' ) ) wp_enqueue_style( 'gfc-branch', $dir . 'branch-finder.css', array(), GFC_VERSION );
 	wp_add_inline_style( 'gfc-live', file_get_contents( GFC_PATH . '/live-tpl/head.css' ) ); // phpcs:ignore
 	wp_enqueue_script( 'swiper', $dir . 'swiper-bundle.min.js', array(), '8.4.7', true );

@@ -480,21 +480,30 @@ function gfc_pe_label( $f ) {
 /** Tên và hướng dẫn dễ hiểu cho từng khối, nhận diện theo class vì tiêu đề có thể bị sửa. */
 function gfc_pe_row_meta( $html ) {
 	$map = array(
-		'home-right-swiper'  => array( 'Banner đầu trang', 'Đổi ảnh lớn ở danh sách "Ảnh slide". Nên dùng ảnh ngang, rộng từ 1200px, người đứng giữa ảnh.', 'Ảnh slide' ),
+		'home-right-swiper'  => array( 'Banner đầu trang', 'Đổi ảnh lớn ở danh sách "Ảnh slide". Nên chọn ảnh ngang, người đứng giữa ảnh.', 'Ảnh slide', array( 1200, 873, 'cover', 1000 ) ),
 		'home-counter-section' => array( 'Các con số nổi bật', 'Chỉ nhập số, không nhập dấu chấm hay dấu cộng.', 'Con số' ),
 		'home-photo-gallery' => array( 'Các dịch vụ nổi bật', 'Sửa tên và link của từng dịch vụ.', 'Dịch vụ' ),
-		'data-media-marquee' => array( 'Logo khách hàng', 'Bấm "Thêm ảnh" để thêm nhiều logo cùng lúc. Nên dùng ảnh nền trong suốt, rộng khoảng 400px.', 'Logo' ),
-		'certifications-awards-swiper' => array( 'Chứng nhận và giải thưởng', 'Bấm "Thêm ảnh" để thêm nhiều ảnh cùng lúc.', 'Ảnh chứng nhận' ),
+		'data-media-marquee' => array( 'Logo khách hàng', 'Bấm "Thêm ảnh" để thêm nhiều logo cùng lúc. Nên dùng ảnh nền trong suốt.', 'Logo', array( 410, 240, 'contain', 120 ) ),
+		'certifications-awards-swiper' => array( 'Chứng nhận và giải thưởng', 'Bấm "Thêm ảnh" để thêm nhiều ảnh cùng lúc.', 'Ảnh chứng nhận', array( 600, 600, 'contain', 300 ) ),
 		'puramu-branch-finder' => array( 'Hệ thống văn phòng', 'Danh sách văn phòng sửa ở menu Chi nhánh.', 'Văn phòng' ),
-		'television-and-newspapers-swiper' => array( 'Báo chí đưa tin', 'Bấm "Thêm ảnh" để thêm nhiều logo cùng lúc.', 'Logo báo chí' ),
+		'television-and-newspapers-swiper' => array( 'Báo chí đưa tin', 'Bấm "Thêm ảnh" để thêm nhiều logo cùng lúc.', 'Logo báo chí', array( 410, 240, 'contain', 120 ) ),
 		'customer-feedback'  => array( 'Đánh giá của khách hàng', '', 'Đánh giá' ),
-		'faq-accordion'      => array( 'Câu hỏi thường gặp', 'Mở từng câu để sửa câu hỏi và câu trả lời.', 'Câu hỏi' ),
+		'faq-accordion'      => array( 'Câu hỏi thường gặp', 'Mở từng câu để sửa câu hỏi và câu trả lời.', 'Câu hỏi', array( 800, 1000, 'cover', 500 ) ),
+		'aspect-[1200/675]'  => array( '', '', 'Mục', array( 1200, 675, 'cover', 300 ) ),
+		'Frame-18'           => array( '', '', 'Mục', array( 1920, 900, 'cover', 1400 ) ),
 	);
 	foreach ( $map as $marker => $m ) {
-		if ( false !== strpos( $html, $marker ) ) return array( 'title' => $m[0], 'help' => $m[1], 'list' => $m[2], 'marker' => $marker );
+		if ( false !== strpos( $html, $marker ) ) return array( 'title' => $m[0], 'help' => $m[1], 'list' => $m[2], 'marker' => $marker, 'size' => isset( $m[3] ) ? $m[3] : null );
 	}
-	if ( false !== strpos( $html, 'youtube.com/embed' ) ) return array( 'title' => 'Giới thiệu công ty và video', 'help' => 'Xuống dòng trong ô chữ sẽ thành xuống dòng trên trang.', 'list' => 'Mục', 'marker' => '' );
-	return array( 'title' => '', 'help' => '', 'list' => 'Mục', 'marker' => '' );
+	if ( false !== strpos( $html, 'youtube.com/embed' ) ) return array( 'title' => 'Giới thiệu công ty và video', 'help' => 'Xuống dòng trong ô chữ sẽ thành xuống dòng trên trang.', 'list' => 'Mục', 'marker' => '', 'size' => null );
+	return array( 'title' => '', 'help' => '', 'list' => 'Mục', 'marker' => '', 'size' => null );
+}
+
+/** Kích thước đề xuất của một ô ảnh. Biểu tượng SVG trong khối ảnh lớn thì không áp dụng. */
+function gfc_pe_field_size( $f, $p ) {
+	$size = $p['meta']['size'];
+	if ( ! $size || ( 'cover' === $size[2] && preg_match( '~\.svg$~i', $f['value'] ) ) ) return null;
+	return $size;
 }
 
 function gfc_pe_item_thumb( $entries, $fields ) {
@@ -540,7 +549,9 @@ function gfc_pe_render_entries( $entries, $r, $p ) {
 			echo '<div class="gfc-pe-field' . ( 'alt' === $f['kind'] ? ' is-alt' : '' ) . ( $big ? ' is-heading' : '' ) . '"><label>' . esc_html( gfc_pe_label( $f ) ) . '</label>';
 			if ( 'image' === $f['kind'] ) {
 				$thumb = preg_match( '~\.(png|jpe?g|gif|webp|svg)$~i', $f['value'] ) ? $f['value'] : '';
-				echo '<div class="gfc-pe-img"><img src="' . esc_url( $thumb ) . '" alt=""><input type="text" class="widefat gfc-pe-input" ' . $name . ' value="' . esc_attr( $f['value'] ) . '"><button type="button" class="button gfc-pe-pick">Đổi ảnh</button></div>'; // phpcs:ignore -- $name chỉ gồm số
+				$size = gfc_pe_field_size( $f, $p );
+				$data = $size ? ' data-w="' . (int) $size[0] . '" data-h="' . (int) $size[1] . '" data-fit="' . esc_attr( $size[2] ) . '" data-min="' . (int) $size[3] . '"' : '';
+				echo '<div class="gfc-pe-img"' . $data . '><img src="' . esc_url( $thumb ) . '" alt=""><input type="text" class="widefat gfc-pe-input" ' . $name . ' value="' . esc_attr( $f['value'] ) . '"><button type="button" class="button gfc-pe-pick">Đổi ảnh</button><div class="gfc-pe-size">' . ( $size ? '<div>Nên dùng: <strong>' . (int) $size[0] . ' × ' . (int) $size[1] . ' px</strong></div>' : '<div>Nên dùng ảnh cùng tỉ lệ với ảnh hiện tại</div>' ) . '<div class="gfc-pe-cur"></div><div class="gfc-pe-warn" hidden></div></div></div>'; // phpcs:ignore -- $name chỉ gồm số
 			} elseif ( 'text' === $f['kind'] ) {
 				$rows = min( 12, max( 1, (int) ceil( mb_strlen( $f['value'] ) / 90 ) + substr_count( $f['value'], "\n" ) ) );
 				echo '<textarea class="widefat gfc-pe-input" rows="' . (int) $rows . '" ' . $name . '>' . esc_textarea( $f['value'] ) . '</textarea>'; // phpcs:ignore
@@ -552,6 +563,7 @@ function gfc_pe_render_entries( $entries, $r, $p ) {
 		}
 		$count = count( $e['items'] );
 		$first = isset( $e['items'][0] ) ? gfc_pe_item_thumb( $e['items'][0], $p['fields'] ) : '';
+		$hint  = $p['meta']['size'] ? 'Nên dùng ảnh ' . (int) $p['meta']['size'][0] . ' × ' . (int) $p['meta']['size'][1] . ' px' : '';
 		$cls   = gfc_pe_attr( $p['html'], $p['nodes'][ $p['groups'][ $e['g'] ]['node'] ], 'class' );
 		$cls   = $cls ? $cls[0] : '';
 		$list  = false !== strpos( $cls, 'row-rtl' ) ? 'Logo hàng trên' : ( false !== strpos( $cls, 'row-ltr' ) ? 'Logo hàng dưới' : ( false !== strpos( $cls, 'swiper-wrapper' ) || false !== strpos( $cls, 'question-container' ) ? $p['meta']['list'] : 'Danh sách' ) );
@@ -560,7 +572,8 @@ function gfc_pe_render_entries( $entries, $r, $p ) {
 		foreach ( isset( $e['items'][0] ) ? $e['items'][0] : array() as $sub ) {
 			if ( ! isset( $sub['f'] ) || 'text' === $p['fields'][ $sub['f'] ]['kind'] ) $only_img = false;
 		}
-		if ( $only_img ) echo ' <button type="button" class="button button-small button-primary gfc-pe-add" data-r="' . $r . '" data-g="' . (int) $e['g'] . '" data-i="' . ( $count - 1 ) . '">+ Thêm ảnh</button>'; // phpcs:ignore -- chỉ gồm số
+		if ( $only_img ) echo ' <button type="button" class="button button-small button-primary gfc-pe-add" data-hint="' . esc_attr( $hint ) . '" data-r="' . $r . '" data-g="' . (int) $e['g'] . '" data-i="' . ( $count - 1 ) . '">+ Thêm ảnh</button>'; // phpcs:ignore -- chỉ gồm số
+		if ( $only_img && '' !== $hint ) echo ' <span class="gfc-pe-count">' . esc_html( $hint ) . '</span>';
 		echo '</div>';
 		foreach ( $e['items'] as $n => $item ) {
 			$attr = 'data-r="' . $r . '" data-g="' . (int) $e['g'] . '" data-i="' . (int) $n . '"';
@@ -646,6 +659,9 @@ function gfc_pe_screen() {
 	.gfc-pe-img{display:flex;gap:8px;align-items:center}
 	.gfc-pe-img img{width:120px;height:80px;object-fit:contain;background:#f0f0f1;border:1px solid #dcdcde;flex:none}
 	.gfc-pe-img input{display:none}
+	.gfc-pe-size{color:#50575e;line-height:1.5}
+	.gfc-pe-warn{color:#b32d2e;font-weight:600}
+	.gfc-pe-flag{margin-left:6px;color:#b32d2e;font-size:12px;font-weight:600}
 	.gfc-pe-help{margin:12px 0 0;padding:8px 12px;background:#f0f6fc;border-left:3px solid #72aee6}
 	.gfc-pe-off{margin-left:8px;padding:2px 8px;border-radius:10px;background:#f0f0f1;color:#50575e;font-size:12px;font-weight:400}
 	.gfc-pe-count{font-weight:400;color:#646970}
@@ -709,10 +725,32 @@ function gfc_pe_screen() {
 		window.addEventListener('pageshow', function (e) {
 			if (e.persisted) window.location.reload();
 		});
+		/* Hiện kích thước ảnh và cảnh báo ảnh nhỏ, sai tỉ lệ. Chỉ nhắc, không chặn lưu */
+		function checkImg(wrap) {
+			var img = wrap.find('img')[0], w = img.naturalWidth, h = img.naturalHeight;
+			if (!w) return;
+			var svg = /\.svg($|\?)/i.test(img.src), d = wrap[0].dataset, warn = '';
+			wrap.find('.gfc-pe-cur').text(svg ? 'Ảnh hiện tại: ảnh vector, luôn sắc nét' : 'Ảnh hiện tại: ' + w + ' × ' + h + ' px');
+			if (!svg) {
+				var want = d.w ? d.w / d.h : wrap.data('ratio');
+				if (!d.w && !want) wrap.data('ratio', w / h);
+				if (d.min && w < +d.min) warn = 'Ảnh quá nhỏ, lên trang sẽ bị mờ.';
+				else if (want && d.fit !== 'contain' && Math.abs(w / h - want) / want > 0.25) warn = 'Ảnh khác tỉ lệ nên sẽ bị cắt bớt khi hiển thị.';
+			}
+			wrap.find('.gfc-pe-warn').text(warn).prop('hidden', !warn);
+			var sum = wrap.closest('.gfc-pe-item').children('summary');
+			sum.children('.gfc-pe-flag').remove();
+			if (warn) sum.append('<span class="gfc-pe-flag">Cần xem lại ảnh</span>');
+		}
+		form.find('.gfc-pe-img').each(function () {
+			var wrap = $(this), img = wrap.find('img');
+			img.on('load', function () { checkImg(wrap); });
+			if (img[0].complete) checkImg(wrap);
+		});
 		form.on('click', '.gfc-pe-add', function () {
 			var b = this;
 			if (sending) return;
-			var frame = wp.media({ title: 'Chọn một hoặc nhiều ảnh', multiple: 'add', library: { type: 'image' }, button: { text: 'Thêm vào danh sách' } });
+			var frame = wp.media({ title: 'Chọn một hoặc nhiều ảnh' + (b.getAttribute('data-hint') ? '. ' + b.getAttribute('data-hint') : ''), multiple: 'add', library: { type: 'image' }, button: { text: 'Thêm vào danh sách' } });
 			frame.on('select', function () {
 				var urls = frame.state().get('selection').map(function (a) { return a.toJSON().url; });
 				if (!urls.length) return;
@@ -732,7 +770,8 @@ function gfc_pe_screen() {
 		}
 		form.on('click', '.gfc-pe-pick', function () {
 			var input = $(this).prev('input'), img = $(this).siblings('img');
-			var frame = wp.media({ title: 'Chọn ảnh', multiple: false, library: { type: 'image' } });
+			var box = $(this).closest('.gfc-pe-img')[0].dataset;
+			var frame = wp.media({ title: 'Chọn ảnh' + (box.w ? '. Nên dùng ảnh ' + box.w + ' × ' + box.h + ' px' : ''), multiple: false, library: { type: 'image' } });
 			frame.on('select', function () {
 				var url = frame.state().get('selection').first().toJSON().url;
 				input.val(url).trigger('input');

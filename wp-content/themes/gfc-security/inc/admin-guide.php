@@ -160,7 +160,8 @@ function gfc_guide_screen() {
 
 		<h2 id="anh">Lưu ý về ảnh</h2>
 		<ul>
-			<li>Chọn ảnh mới cùng tỉ lệ với ảnh đang dùng để bố cục không bị lệch.</li>
+			<li>Chọn ảnh mới cùng tỉ lệ với ảnh đang dùng để bố cục không bị lệch. Mỗi ô ảnh trong <strong>Nội dung trang</strong> ghi sẵn kích thước nên dùng và báo đỏ nếu ảnh quá nhỏ hoặc khác tỉ lệ.</li>
+			<li>Kích thước nên dùng: ảnh slide banner 1200 × 873 px; logo khách hàng, báo chí 410 × 240 px; chứng nhận 600 × 600 px; ảnh đại diện bài viết 1200 × 675 px.</li>
 			<li>Ảnh tải lên <a href="<?php echo $media; // phpcs:ignore ?>">Thư viện</a> được tự động tạo thêm bản WebP nhẹ hơn, ảnh gốc giữ nguyên. Không cần nén trước, nhưng tránh dùng ảnh quá lớn.</li>
 			<li>Chỉ dùng ảnh, logo của khách hàng và chứng nhận mà công ty có quyền sử dụng.</li>
 		</ul>

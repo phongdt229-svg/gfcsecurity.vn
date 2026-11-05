@@ -12,7 +12,7 @@ function gfc_service_fields() {
 	return array(
 		'hero_title'    => array( 'Banner — tiêu đề (trống = dùng tiêu đề bài)', 'text' ),
 		'hero_desc'     => array( 'Banner — đoạn mô tả', 'textarea' ),
-		'hero_image'    => array( 'Banner — ảnh bên phải (trống = dùng Ảnh đại diện)', 'image' ),
+		'hero_image'    => array( 'Banner — ảnh bên phải, nên dùng 1200 × 860 px (trống = dùng Ảnh đại diện)', 'image' ),
 		'price_title'   => array( 'Bảng giá — tiêu đề', 'text' ),
 		'price_html'    => array( 'Bảng giá — nội dung HTML (có nội dung thì thay cho các ô bảng giá bên dưới)', 'html' ),
 		'price_head'    => array( 'Bảng giá — tiêu đề 2 cột (cách nhau bằng |)', 'text' ),
@@ -21,16 +21,16 @@ function gfc_service_fields() {
 		'extra_title'   => array( 'Dịch vụ con — tiêu đề', 'text' ),
 		'extra_items'   => array( 'Dịch vụ con — mỗi dòng: Tên | URL | Ảnh', 'textarea' ),
 		'adv_title'     => array( 'Lợi thế — tiêu đề', 'text' ),
-		'adv_image'     => array( 'Lợi thế — ảnh infographic', 'image' ),
-		'adv_image_m'   => array( 'Lợi thế — ảnh infographic trên mobile', 'image' ),
+		'adv_image'     => array( 'Lợi thế — ảnh infographic, nên rộng 1200 px', 'image' ),
+		'adv_image_m'   => array( 'Lợi thế — ảnh infographic trên mobile, nên rộng 800 px', 'image' ),
 		'tasks_title'   => array( 'Nhiệm vụ — tiêu đề', 'text' ),
 		'tasks'         => array( 'Nhiệm vụ — mỗi dòng: Tiêu đề | Mô tả', 'textarea' ),
-		'tasks_img1'    => array( 'Nhiệm vụ — ảnh lớn', 'image' ),
-		'tasks_img2'    => array( 'Nhiệm vụ — ảnh nhỏ', 'image' ),
+		'tasks_img1'    => array( 'Nhiệm vụ — ảnh lớn, nên dùng 900 × 1020 px', 'image' ),
+		'tasks_img2'    => array( 'Nhiệm vụ — ảnh nhỏ, nên dùng 850 × 964 px', 'image' ),
 		'process_title' => array( 'Quy trình — tiêu đề', 'text' ),
 		'process_desc'  => array( 'Quy trình — mô tả', 'textarea' ),
-		'process_image' => array( 'Quy trình — ảnh infographic', 'image' ),
-		'process_image_m' => array( 'Quy trình — ảnh infographic trên mobile', 'image' ),
+		'process_image' => array( 'Quy trình — ảnh infographic, nên rộng 1200 px', 'image' ),
+		'process_image_m' => array( 'Quy trình — ảnh infographic trên mobile, nên rộng 800 px', 'image' ),
 		'std_title'     => array( 'Tiêu chuẩn — tiêu đề', 'text' ),
 		'std_desc'      => array( 'Tiêu chuẩn — mô tả', 'textarea' ),
 		'std_link_text' => array( 'Tiêu chuẩn — chữ liên kết', 'text' ),
@@ -164,4 +164,14 @@ add_action( 'after_switch_theme', function () {
 	);
 	foreach ( $sample as $k => $v ) update_post_meta( $page->ID, '_gfc_' . $k, $v );
 	update_post_meta( $page->ID, '_wp_page_template', GFC_SERVICE_TPL );
+} );
+
+/* Ảnh đại diện bài viết, trang: nhắc kích thước ngay trong ô chọn ảnh */
+add_filter( 'admin_post_thumbnail_html', function ( $html ) {
+	return $html . '<p class="description">Nên dùng ảnh 1200 × 675 px.</p>';
+} );
+add_action( 'enqueue_block_editor_assets', function () {
+	wp_register_script( 'gfc-thumb-hint', false, array( 'wp-hooks', 'wp-element' ), GFC_VERSION, true );
+	wp_enqueue_script( 'gfc-thumb-hint' );
+	wp_add_inline_script( 'gfc-thumb-hint', "wp.hooks.addFilter('editor.PostFeaturedImage','gfc/thumb-hint',function(Orig){return function(p){var e=wp.element.createElement;return e(wp.element.Fragment,null,e(Orig,p),e('p',{className:'description gfc-thumb-hint'},'Nên dùng ảnh 1200 × 675 px.'))}});" );
 } );

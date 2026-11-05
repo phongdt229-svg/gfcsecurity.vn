@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'GFC_VERSION', '1.2.3' );
+define( 'GFC_VERSION', '1.2.5' );
 /* Màu thương hiệu theo logo Long Vân (#C4985A), sẫm hơn để chữ đủ tương phản trên nền trắng */
 define( 'GFC_COLOR_PRIMARY', '#96702f' );
 define( 'GFC_COLOR_ACCENT', '#c9a055' );

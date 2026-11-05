@@ -192,6 +192,8 @@ function gfc_pe_parse( $html ) {
 		}
 		if ( 'img' === $tag ) {
 			$src = gfc_pe_attr( $html, $n, 'src' );
+			/* Banner trang trí của hero không cho đổi ở đây: ảnh chính nằm trong danh sách slide */
+			if ( $src && false !== strpos( $src[0], '2025/10/banner-gfc-1-1.png' ) ) return $out;
 			if ( $src && '' !== $src[0] && false === strpos( $src[0], 'data:' ) ) $out[] = $add( 'image', 'img', $src[1], $src[2], gfc_pe_ui_url( $src[0] ), $repeat );
 			$alt = gfc_pe_attr( $html, $n, 'alt' );
 			if ( $alt && $src && '' !== $src[0] ) $out[] = $add( 'alt', 'img', $alt[1], $alt[2], html_entity_decode( $alt[0], ENT_QUOTES | ENT_HTML5, 'UTF-8' ), $repeat );
@@ -371,6 +373,9 @@ add_action( 'admin_post_gfc_pe_save', function () {
 	$id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
 	check_admin_referer( 'gfc_pe_save_' . $id );
 	if ( ! current_user_can( 'edit_post', $id ) || ! current_user_can( 'unfiltered_html' ) ) wp_die( 'Không có quyền sửa trang này.' ); // WPBakery gỡ row Raw HTML khi người lưu thiếu quyền này
+	/* Hai lần lưu cùng lúc phải chạy lần lượt, lần sau sẽ bị chặn ở bước so hash. Khoá tự nhả khi kết thúc request */
+	$GLOBALS['wpdb']->get_var( $GLOBALS['wpdb']->prepare( 'SELECT GET_LOCK(%s, 30)', 'gfc_pe_' . $id ) );
+	wp_cache_delete( $id, 'posts' );
 	$content = (string) get_post_field( 'post_content', $id, 'raw' );
 	$back    = array( 'page' => 'gfc-page-editor', 'post' => $id );
 	$open    = isset( $_POST['open'] ) ? sanitize_text_field( wp_unslash( $_POST['open'] ) ) : '';
@@ -405,6 +410,7 @@ add_action( 'admin_post_gfc_pe_save', function () {
 	$res = wp_update_post( wp_slash( array( 'ID' => $id, 'post_content' => $new ) ), true );
 	clean_post_cache( $id );
 	$ok = ! is_wp_error( $res ) && (string) get_post_field( 'post_content', $id, 'raw' ) === $new;
+	if ( ! $ok ) $back['why'] = rawurlencode( is_wp_error( $res ) ? $res->get_error_message() : 'Nội dung bị một plugin hoặc bộ lọc thay đổi khi lưu.' );
 	wp_safe_redirect( add_query_arg( $back + array( 'msg' => $ok ? 'saved' : 'error' ), admin_url( 'admin.php' ) ) );
 	exit;
 } );
@@ -522,9 +528,9 @@ function gfc_pe_screen() {
 	$msg     = isset( $_GET['msg'] ) ? sanitize_key( $_GET['msg'] ) : ''; // phpcs:ignore
 	$notes   = array(
 		'saved' => array( 'success', 'Đã lưu. Bản trước vẫn nằm trong Revision của trang nếu cần khôi phục.' ),
-		'same'  => array( 'info', 'Không có thay đổi nào để lưu.' ),
-		'stale' => array( 'warning', 'Trang vừa được sửa ở nơi khác nên thay đổi chưa được lưu. Hãy kiểm tra lại rồi nhập lại.' ),
-		'error' => array( 'error', 'Chưa lưu được, nội dung trang vẫn giữ nguyên bản cũ.' ),
+		'same'  => array( 'info', 'Không có thay đổi mới. Các nút Lên, Xuống, Nhân bản, Xoá đã tự lưu ngay khi bấm.' ),
+		'stale' => array( 'warning', 'Trang vừa được lưu ở nơi khác nên thay đổi lần này chưa được lưu. Hãy kiểm tra lại rồi nhập lại.' ),
+		'error' => array( 'error', 'Chưa lưu được. Hãy kiểm tra lại nội dung trang rồi thử lại.' . ( isset( $_GET['why'] ) ? ' Lý do: ' . sanitize_text_field( rawurldecode( wp_unslash( $_GET['why'] ) ) ) : '' ) ), // phpcs:ignore -- chỉ hiển thị
 	);
 	?>
 	<div class="wrap gfc-pe">
@@ -536,7 +542,7 @@ function gfc_pe_screen() {
 			<?php endforeach; ?>
 		</nav>
 		<p class="description">Xuống dòng trong ô chữ sẽ thành xuống dòng trên trang. Tên công ty, số điện thoại, địa chỉ văn phòng sửa ở <a href="<?php echo esc_url( admin_url( 'customize.php?autofocus%5Bsection%5D=gfc_contact' ) ); ?>">Thông tin công ty</a>; danh sách chi nhánh sửa ở <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gfc_branch' ) ); ?>">Chi nhánh</a>. Xem thêm <a href="<?php echo esc_url( admin_url( 'admin.php?page=gfc-guide#noi-dung' ) ); ?>">Hướng dẫn sử dụng</a>.</p>
-		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" id="gfc-pe-form">
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" id="gfc-pe-form" autocomplete="off">
 			<input type="hidden" name="action" value="gfc_pe_save">
 			<input type="hidden" name="post_id" value="<?php echo (int) $id; ?>">
 			<input type="hidden" name="hash" value="<?php echo esc_attr( md5( $content ) ); ?>">
@@ -587,11 +593,15 @@ function gfc_pe_screen() {
 	.gfc-pe-tools{margin-top:8px}
 	.gfc-pe-bar{position:sticky;bottom:0;background:#f0f0f1;padding:12px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap;z-index:5}
 	.gfc-pe-dirty{color:#b32d2e;font-weight:600}
+	.gfc-pe.is-sending .button{pointer-events:none;opacity:.5}
+	.gfc-pe.is-sending .gfc-pe-dirty{color:#1d2327}
 	</style>
 	<script>
 	jQuery(function ($) {
 		var form = $('#gfc-pe-form');
 		var dirty = false;
+		var sending = false;
+		form.find('[name=op]').val('');
 		function changed(el) { return el.value !== el.defaultValue; }
 		function collect() {
 			var out = {};
@@ -609,17 +619,26 @@ function gfc_pe_screen() {
 			dirty = Object.keys(collect()).length > 0;
 			$('.gfc-pe-dirty').prop('hidden', !dirty);
 		});
-		form.on('submit', function () {
+		/* Mỗi lần chỉ gửi một yêu cầu: bấm tiếp khi chưa xong sẽ làm hai lần lưu chồng nhau */
+		form.on('submit', function (e) {
+			if (sending) { e.preventDefault(); return; }
+			sending = true;
 			form.find('[name=edits]').val(JSON.stringify(collect()));
 			form.find('[name=open]').val(openRows());
 			dirty = false;
+			$('.gfc-pe').addClass('is-sending');
+			$('.gfc-pe-dirty').text('Đang lưu, vui lòng chờ…').prop('hidden', false);
 		});
 		form.on('click', '.gfc-pe-op', function () {
 			var b = this, op = b.getAttribute('data-op');
+			if (sending) return;
 			if (op === 'remove' && !window.confirm('Xoá mục này khỏi trang?')) return;
 			form.find('[name=op]').val(JSON.stringify({ row: +b.getAttribute('data-r'), g: +b.getAttribute('data-g'), item: +b.getAttribute('data-i'), action: op }));
 			form.trigger('submit');
-			form[0].submit();
+		});
+		/* Quay lại bằng nút Back: tải lại để lấy nội dung và hash mới nhất */
+		window.addEventListener('pageshow', function (e) {
+			if (e.persisted) window.location.reload();
 		});
 		form.on('click', '.gfc-pe-pick', function () {
 			var input = $(this).prev('input'), img = $(this).siblings('img');

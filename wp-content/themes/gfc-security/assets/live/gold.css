@@ -5,6 +5,39 @@
 	--gold-ink: #2a2114;
 }
 
+/* Header: menu nằm giữa khoảng còn lại bên phải logo, nút menu điện thoại sát phải */
+#desktop-header > .container > div {
+	margin-left: auto;
+}
+@media (min-width: 1024px) {
+	#desktop-header > .container {
+		gap: 0;
+	}
+	#desktop-header > .container > div {
+		margin-right: auto;
+	}
+}
+/* Laptop: mũi tên slider nằm trong khung trang, không làm trang cuộn ngang */
+@media (min-width: 1024px) and (max-width: 1399px) {
+	[class*="cs-prev-"] {
+		left: -14px;
+	}
+	[class*="cs-next-"] {
+		right: -14px;
+	}
+}
+/* Thanh admin khi đăng nhập không đè lên header */
+@media (min-width: 601px) {
+	.admin-bar #desktop-header {
+		top: 46px;
+	}
+}
+@media (min-width: 783px) {
+	.admin-bar #desktop-header {
+		top: 32px;
+	}
+}
+
 /* Nút: nền kim loại, chữ tối để đủ tương phản, rê chuột thì vệt sáng chạy qua */
 a.bg-primary, a.bg-secondary, button.bg-primary, button.bg-secondary,
 a[class*="bg-[#1e91d6]"], .contact-item, .wpcf7-submit, .my-submit-btn {

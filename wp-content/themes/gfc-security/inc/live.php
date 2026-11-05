@@ -217,8 +217,32 @@ function gfc_home_visible_content( $content ) {
 	return null === $out ? $content : $out;
 }
 
+/**
+ * Hero: lớp trang trí phải là banner nền trong suốt. Ảnh khác đặt nhầm vào lớp này sẽ che các slide và chữ,
+ * nên đưa ảnh đó về slide đầu tiên và trả lại banner.
+ */
+function gfc_home_fix_hero( $content ) {
+	$banner = '2025/10/banner-gfc-1-1.png';
+	$out    = preg_replace_callback(
+		GFC_PE_RE_ROW,
+		function ( $m ) use ( $banner ) {
+			$html = gfc_pe_decode( $m[1] );
+			if ( false === strpos( $html, 'home-right-swiper' ) ) return $m[0];
+			if ( ! preg_match( '~<source media="\(min-width: 1024px\)" srcset="([^"]+)">~', $html, $s ) || false !== strpos( $s[1], $banner ) ) return $m[0];
+			$html = str_replace( $s[0], '<source media="(min-width: 1024px)" srcset="{{UPLOADS}}/' . $banner . '">', $html );
+			if ( false === strpos( $html, 'src="' . $s[1] . '"' ) ) {
+				$slide = '<div class="swiper-slide"><img src="' . $s[1] . '" alt="Công ty Long Vân Security" class="w-full h-full object-cover"></div>';
+				$html  = preg_replace( '~<div class="swiper-wrapper">~', '$0' . str_replace( '$', '\$', $slide ), $html, 1 );
+			}
+			return '[vc_raw_html]' . gfc_pe_encode( $html ) . '[/vc_raw_html]';
+		},
+		$content
+	);
+	return null === $out ? $content : $out;
+}
+
 add_filter( 'the_content', function ( $content ) {
-	return is_front_page() ? gfc_home_visible_content( $content ) : $content;
+	return is_front_page() ? gfc_home_fix_hero( gfc_home_visible_content( $content ) ) : $content;
 }, 9 );
 
 /* Raw HTML của WPBakery giữ {{token}} để đường dẫn ảnh không phụ thuộc tên miền */

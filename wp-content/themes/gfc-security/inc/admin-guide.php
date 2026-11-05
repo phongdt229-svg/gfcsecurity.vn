@@ -48,7 +48,7 @@ function gfc_guide_screen() {
 		<ol>
 			<li>Vào <a href="<?php echo $content; // phpcs:ignore ?>">Nội dung trang</a> và chọn tab của trang cần sửa.</li>
 			<li>Bấm vào tên khối để mở. Các khối xếp theo thứ tự từ trên xuống như trên trang.</li>
-			<li>Sửa chữ trong ô. Muốn đổi ảnh thì bấm <strong>Chọn ảnh</strong> rồi chọn từ Thư viện hoặc tải ảnh mới lên.</li>
+			<li>Sửa chữ trong ô. Muốn đổi ảnh thì bấm <strong>Đổi ảnh</strong> rồi chọn từ Thư viện hoặc tải ảnh mới lên.</li>
 			<li>Bấm <strong>Lưu thay đổi</strong>, rồi bấm <strong>Xem trang</strong> để kiểm tra. Nếu chưa thấy thay đổi, nhấn Ctrl + F5.</li>
 		</ol>
 		<ul>
@@ -64,7 +64,8 @@ function gfc_guide_screen() {
 		<h2 id="danh-sach">2. Thêm, xoá, đổi thứ tự trong danh sách</h2>
 		<p>Những phần có nhiều mục giống nhau hiện thành <strong>Danh sách</strong> có viền xanh, ví dụ logo khách hàng, chứng nhận, đánh giá, câu hỏi thường gặp. Bấm vào một mục để mở các nút:</p>
 		<ul>
-			<li><strong>Nhân bản:</strong> tạo bản sao ngay dưới mục đó. Muốn <em>thêm mục mới</em>, hãy nhân bản một mục rồi sửa bản sao.</li>
+			<li><strong>Thêm ảnh:</strong> với danh sách ảnh hoặc logo, bấm <strong>+ Thêm ảnh</strong>, tải ảnh lên hoặc bấm chọn một hay nhiều ảnh trong thư viện, rồi bấm <strong>Thêm vào danh sách</strong>. Mỗi ảnh thành một mục mới ở cuối danh sách.</li>
+			<li><strong>Nhân bản:</strong> tạo bản sao ngay dưới mục đó, phần mô tả ảnh được để trống. Với danh sách chữ, hãy nhân bản một mục rồi sửa bản sao.</li>
 			<li><strong>↑ Lên / ↓ Xuống:</strong> đổi vị trí.</li>
 			<li><strong>Xoá mục này:</strong> xoá sau khi bạn xác nhận. Danh sách phải còn ít nhất một mục.</li>
 		</ul>

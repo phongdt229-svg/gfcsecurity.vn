@@ -197,11 +197,16 @@ function gfc_contact_form() {
  * Bỏ các row Trang chủ đang tắt ở "Thông tin công ty". Nội dung vẫn trong database và "Nội dung trang".
  * Nhận diện theo class trong row vì tiêu đề có thể bị sửa.
  */
-function gfc_home_visible_content( $content ) {
+function gfc_home_hidden_markers() {
 	$markers = array();
 	foreach ( array( 'show_home_branches' => 'puramu-branch-finder', 'show_home_press' => 'television-and-newspapers-swiper', 'show_home_feedback' => 'customer-feedback' ) as $opt => $marker ) {
 		if ( '' === gfc_opt( $opt ) ) $markers[] = $marker;
 	}
+	return $markers;
+}
+
+function gfc_home_visible_content( $content ) {
+	$markers = gfc_home_hidden_markers();
 	if ( ! $markers ) return $content;
 	$out = preg_replace_callback(
 		'~\[vc_row[^\]]*\]\s*\[vc_column[^\]]*\]\s*\[vc_raw_html[^\]]*\](.*?)\[/vc_raw_html\]\s*\[/vc_column\]\s*\[/vc_row\]~s',

@@ -334,8 +334,12 @@ function gfc_pe_apply_edits( $html, $edits ) {
 	return $html;
 }
 
+function gfc_pe_clear_alt( $piece ) {
+	return preg_replace( '~(<img\b[^>]*?\salt=")[^"]*~i', '$1', $piece );
+}
+
 /** Thêm, xoá, đổi vị trí một mục trong nhóm lặp. */
-function gfc_pe_apply_op( $html, $g, $item, $action ) {
+function gfc_pe_apply_op( $html, $g, $item, $action, $urls = array() ) {
 	$p = gfc_pe_parse( $html );
 	if ( ! isset( $p['groups'][ $g ]['items'][ $item ] ) ) return $html;
 	$grp   = $p['groups'][ $g ];
@@ -344,7 +348,14 @@ function gfc_pe_apply_op( $html, $g, $item, $action ) {
 	$piece = substr( $html, $cur['open'], $cur['end'] - $cur['open'] );
 	$count = count( $grp['items'] );
 	if ( 'dup' === $action ) {
-		return substr_replace( $html, "\n" . $piece, $cur['end'], 0 );
+		return substr_replace( $html, "\n" . gfc_pe_clear_alt( $piece ), $cur['end'], 0 );
+	}
+	if ( 'add_images' === $action ) {
+		$new = '';
+		foreach ( $urls as $url ) {
+			$new .= "\n" . preg_replace( '~(<img\b[^>]*?\ssrc=")[^"]*~i', '${1}' . str_replace( '$', '\\$', $url ), gfc_pe_clear_alt( $piece ), 1 );
+		}
+		return substr_replace( $html, $new, $cur['end'], 0 );
 	}
 	if ( 'remove' === $action && $count > 1 ) {
 		$html = substr_replace( $html, '', $cur['open'], $cur['end'] - $cur['open'] );
@@ -388,6 +399,11 @@ add_action( 'admin_post_gfc_pe_save', function () {
 	$edits = json_decode( isset( $_POST['edits'] ) ? wp_unslash( $_POST['edits'] ) : '{}', true ); // phpcs:ignore -- từng giá trị được làm sạch theo loại trường
 	$op    = json_decode( isset( $_POST['op'] ) ? wp_unslash( $_POST['op'] ) : '', true ); // phpcs:ignore
 	$edits = is_array( $edits ) ? $edits : array();
+	if ( is_array( $op ) && isset( $op['row'], $op['g'], $op['item'], $op['action'] ) ) {
+		$moved = array( 'dup' => 1, 'down' => 1, 'up' => -1, 'remove' => -1, 'add_images' => isset( $op['urls'] ) && is_array( $op['urls'] ) ? count( $op['urls'] ) : 0 );
+		$act   = (string) $op['action'];
+		$back['focus'] = (int) $op['row'] . '-' . (int) $op['g'] . '-' . max( 0, (int) $op['item'] + ( isset( $moved[ $act ] ) ? $moved[ $act ] : 0 ) );
+	}
 	$index = 0;
 	$new   = preg_replace_callback(
 		GFC_PE_RE_ROW,
@@ -397,7 +413,11 @@ add_action( 'admin_post_gfc_pe_save', function () {
 			$next = $html;
 			if ( ! empty( $edits[ $r ] ) && is_array( $edits[ $r ] ) ) $next = gfc_pe_apply_edits( $next, $edits[ $r ] );
 			if ( is_array( $op ) && isset( $op['row'], $op['g'], $op['item'], $op['action'] ) && (int) $op['row'] === $r ) {
-				$next = gfc_pe_apply_op( $next, (int) $op['g'], (int) $op['item'], (string) $op['action'] );
+				$urls = array();
+				foreach ( isset( $op['urls'] ) && is_array( $op['urls'] ) ? $op['urls'] : array() as $u ) {
+					if ( is_string( $u ) && '' !== trim( $u ) ) $urls[] = esc_attr( gfc_pe_store_url( $u ) );
+				}
+				$next = gfc_pe_apply_op( $next, (int) $op['g'], (int) $op['item'], (string) $op['action'], $urls );
 			}
 			return $next === $html ? $m[0] : '[vc_raw_html]' . gfc_pe_encode( $next ) . '[/vc_raw_html]';
 		},
@@ -457,7 +477,36 @@ function gfc_pe_label( $f ) {
 	return mb_strlen( $f['value'] ) > 70 ? 'Đoạn văn' : 'Chữ';
 }
 
+/** Tên và hướng dẫn dễ hiểu cho từng khối, nhận diện theo class vì tiêu đề có thể bị sửa. */
+function gfc_pe_row_meta( $html ) {
+	$map = array(
+		'home-right-swiper'  => array( 'Banner đầu trang', 'Đổi ảnh lớn ở danh sách "Ảnh slide". Nên dùng ảnh ngang, rộng từ 1200px, người đứng giữa ảnh.', 'Ảnh slide' ),
+		'home-counter-section' => array( 'Các con số nổi bật', 'Chỉ nhập số, không nhập dấu chấm hay dấu cộng.', 'Con số' ),
+		'home-photo-gallery' => array( 'Các dịch vụ nổi bật', 'Sửa tên và link của từng dịch vụ.', 'Dịch vụ' ),
+		'data-media-marquee' => array( 'Logo khách hàng', 'Bấm "Thêm ảnh" để thêm nhiều logo cùng lúc. Nên dùng ảnh nền trong suốt, rộng khoảng 400px.', 'Logo' ),
+		'certifications-awards-swiper' => array( 'Chứng nhận và giải thưởng', 'Bấm "Thêm ảnh" để thêm nhiều ảnh cùng lúc.', 'Ảnh chứng nhận' ),
+		'puramu-branch-finder' => array( 'Hệ thống văn phòng', 'Danh sách văn phòng sửa ở menu Chi nhánh.', 'Văn phòng' ),
+		'television-and-newspapers-swiper' => array( 'Báo chí đưa tin', 'Bấm "Thêm ảnh" để thêm nhiều logo cùng lúc.', 'Logo báo chí' ),
+		'customer-feedback'  => array( 'Đánh giá của khách hàng', '', 'Đánh giá' ),
+		'faq-accordion'      => array( 'Câu hỏi thường gặp', 'Mở từng câu để sửa câu hỏi và câu trả lời.', 'Câu hỏi' ),
+	);
+	foreach ( $map as $marker => $m ) {
+		if ( false !== strpos( $html, $marker ) ) return array( 'title' => $m[0], 'help' => $m[1], 'list' => $m[2], 'marker' => $marker );
+	}
+	if ( false !== strpos( $html, 'youtube.com/embed' ) ) return array( 'title' => 'Giới thiệu công ty và video', 'help' => 'Xuống dòng trong ô chữ sẽ thành xuống dòng trên trang.', 'list' => 'Mục', 'marker' => '' );
+	return array( 'title' => '', 'help' => '', 'list' => 'Mục', 'marker' => '' );
+}
+
+function gfc_pe_item_thumb( $entries, $fields ) {
+	foreach ( $entries as $e ) {
+		if ( isset( $e['f'] ) && 'image' === $fields[ $e['f'] ]['kind'] ) return $fields[ $e['f'] ]['value'];
+	}
+	return '';
+}
+
 function gfc_pe_row_title( $parsed, $html, $i ) {
+	$meta = gfc_pe_row_meta( $html );
+	if ( '' !== $meta['title'] ) return $meta['title'];
 	foreach ( $parsed['fields'] as $f ) {
 		if ( 'text' === $f['kind'] && in_array( $f['tag'], array( 'h1', 'h2' ), true ) ) return wp_strip_all_tags( str_replace( "\n", ' ', $f['value'] ) );
 	}
@@ -491,7 +540,7 @@ function gfc_pe_render_entries( $entries, $r, $p ) {
 			echo '<div class="gfc-pe-field' . ( 'alt' === $f['kind'] ? ' is-alt' : '' ) . ( $big ? ' is-heading' : '' ) . '"><label>' . esc_html( gfc_pe_label( $f ) ) . '</label>';
 			if ( 'image' === $f['kind'] ) {
 				$thumb = preg_match( '~\.(png|jpe?g|gif|webp|svg)$~i', $f['value'] ) ? $f['value'] : '';
-				echo '<div class="gfc-pe-img"><img src="' . esc_url( $thumb ) . '" alt=""><input type="text" class="widefat gfc-pe-input" ' . $name . ' value="' . esc_attr( $f['value'] ) . '"><button type="button" class="button gfc-pe-pick">Chọn ảnh</button></div>'; // phpcs:ignore -- $name chỉ gồm số
+				echo '<div class="gfc-pe-img"><img src="' . esc_url( $thumb ) . '" alt=""><input type="text" class="widefat gfc-pe-input" ' . $name . ' value="' . esc_attr( $f['value'] ) . '"><button type="button" class="button gfc-pe-pick">Đổi ảnh</button></div>'; // phpcs:ignore -- $name chỉ gồm số
 			} elseif ( 'text' === $f['kind'] ) {
 				$rows = min( 12, max( 1, (int) ceil( mb_strlen( $f['value'] ) / 90 ) + substr_count( $f['value'], "\n" ) ) );
 				echo '<textarea class="widefat gfc-pe-input" rows="' . (int) $rows . '" ' . $name . '>' . esc_textarea( $f['value'] ) . '</textarea>'; // phpcs:ignore
@@ -502,10 +551,17 @@ function gfc_pe_render_entries( $entries, $r, $p ) {
 			continue;
 		}
 		$count = count( $e['items'] );
-		echo '<div class="gfc-pe-group"><div class="gfc-pe-group-head">Danh sách ' . (int) $count . ' mục</div>';
+		$first = isset( $e['items'][0] ) ? gfc_pe_item_thumb( $e['items'][0], $p['fields'] ) : '';
+		$cls   = gfc_pe_attr( $p['html'], $p['nodes'][ $p['groups'][ $e['g'] ]['node'] ], 'class' );
+		$cls   = $cls ? $cls[0] : '';
+		$list  = false !== strpos( $cls, 'row-rtl' ) ? 'Logo hàng trên' : ( false !== strpos( $cls, 'row-ltr' ) ? 'Logo hàng dưới' : ( false !== strpos( $cls, 'swiper-wrapper' ) || false !== strpos( $cls, 'question-container' ) ? $p['meta']['list'] : 'Danh sách' ) );
+		echo '<div class="gfc-pe-group"><div class="gfc-pe-group-head">' . esc_html( $list ) . ' <span class="gfc-pe-count">(' . (int) $count . ' mục)</span>';
+		if ( '' !== $first ) echo ' <button type="button" class="button button-small button-primary gfc-pe-add" data-r="' . $r . '" data-g="' . (int) $e['g'] . '" data-i="' . ( $count - 1 ) . '">+ Thêm ảnh</button>'; // phpcs:ignore -- chỉ gồm số
+		echo '</div>';
 		foreach ( $e['items'] as $n => $item ) {
 			$attr = 'data-r="' . $r . '" data-g="' . (int) $e['g'] . '" data-i="' . (int) $n . '"';
-			echo '<details class="gfc-pe-item"><summary><span class="gfc-pe-num">' . ( $n + 1 ) . '</span> ' . esc_html( gfc_pe_item_title( $item, $p['fields'] ) ) . '</summary><div class="gfc-pe-tools">';
+			$thumb = gfc_pe_item_thumb( $item, $p['fields'] );
+			echo '<details class="gfc-pe-item" id="gfc-pe-i-' . $r . '-' . (int) $e['g'] . '-' . (int) $n . '"><summary><span class="gfc-pe-num">' . ( $n + 1 ) . '</span>' . ( '' !== $thumb ? ' <img class="gfc-pe-mini" src="' . esc_url( $thumb ) . '" alt="">' : '' ) . ' ' . esc_html( gfc_pe_item_title( $item, $p['fields'] ) ) . '</summary><div class="gfc-pe-tools">'; // phpcs:ignore -- $r chỉ gồm số
 			echo '<button type="button" class="button button-small gfc-pe-op" data-op="up" ' . $attr . ( 0 === $n ? ' disabled' : '' ) . '>↑ Lên</button> '; // phpcs:ignore
 			echo '<button type="button" class="button button-small gfc-pe-op" data-op="down" ' . $attr . ( $count - 1 === $n ? ' disabled' : '' ) . '>↓ Xuống</button> '; // phpcs:ignore
 			echo '<button type="button" class="button button-small gfc-pe-op" data-op="dup" ' . $attr . '>Nhân bản</button> '; // phpcs:ignore
@@ -541,7 +597,7 @@ function gfc_pe_screen() {
 				<a class="nav-tab<?php echo $pg->ID === $id ? ' nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=gfc-page-editor&post=' . $pg->ID ) ); ?>"><?php echo esc_html( $pg->post_title ); ?></a>
 			<?php endforeach; ?>
 		</nav>
-		<p class="description">Xuống dòng trong ô chữ sẽ thành xuống dòng trên trang. Tên công ty, số điện thoại, địa chỉ văn phòng sửa ở <a href="<?php echo esc_url( admin_url( 'customize.php?autofocus%5Bsection%5D=gfc_contact' ) ); ?>">Thông tin công ty</a>; danh sách chi nhánh sửa ở <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gfc_branch' ) ); ?>">Chi nhánh</a>. Xem thêm <a href="<?php echo esc_url( admin_url( 'admin.php?page=gfc-guide#noi-dung' ) ); ?>">Hướng dẫn sử dụng</a>.</p>
+		<p class="description">Sửa chữ hoặc đổi ảnh xong thì bấm <strong>Lưu thay đổi</strong>. Các nút Thêm ảnh, Lên, Xuống, Nhân bản, Xoá sẽ lưu ngay khi bấm. Tên công ty, số điện thoại, địa chỉ văn phòng sửa ở <a href="<?php echo esc_url( admin_url( 'customize.php?autofocus%5Bsection%5D=gfc_contact' ) ); ?>">Thông tin công ty</a>; danh sách chi nhánh sửa ở <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gfc_branch' ) ); ?>">Chi nhánh</a>. Xem thêm <a href="<?php echo esc_url( admin_url( 'admin.php?page=gfc-guide#noi-dung' ) ); ?>">Hướng dẫn sử dụng</a>.</p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" id="gfc-pe-form" autocomplete="off">
 			<input type="hidden" name="action" value="gfc_pe_save">
 			<input type="hidden" name="post_id" value="<?php echo (int) $id; ?>">
@@ -554,7 +610,11 @@ function gfc_pe_screen() {
 			foreach ( $rows as $r => $html ) {
 				$p = gfc_pe_parse( $html );
 				if ( ! $p['fields'] ) continue;
-				echo '<details class="gfc-pe-row" data-row="' . (int) $r . '"' . ( in_array( (string) $r, $open, true ) ? ' open' : '' ) . '><summary>' . esc_html( gfc_pe_row_title( $p, $html, $r ) ) . '</summary><div class="gfc-pe-body">';
+				$p['html'] = $html;
+				$p['meta'] = gfc_pe_row_meta( $html );
+				$off = (int) get_option( 'page_on_front' ) === $id && in_array( $p['meta']['marker'], gfc_home_hidden_markers(), true );
+				echo '<details class="gfc-pe-row" data-row="' . (int) $r . '"' . ( in_array( (string) $r, $open, true ) ? ' open' : '' ) . '><summary>' . esc_html( gfc_pe_row_title( $p, $html, $r ) ) . ( $off ? ' <span class="gfc-pe-off">Đang ẩn trên trang</span>' : '' ) . '</summary><div class="gfc-pe-body">';
+				if ( '' !== $p['meta']['help'] ) echo '<p class="gfc-pe-help">' . esc_html( $p['meta']['help'] ) . '</p>';
 				gfc_pe_render_entries( $p['tree'], $r, $p );
 				echo '</div></details>';
 			}
@@ -562,7 +622,6 @@ function gfc_pe_screen() {
 			<div class="gfc-pe-bar">
 				<button type="submit" class="button button-primary button-large">Lưu thay đổi</button>
 				<a class="button button-large" target="_blank" rel="noopener" href="<?php echo esc_url( 'private' === get_post_status( $id ) ? home_url( '/dich-vu-gfc' ) : get_permalink( $id ) ); ?>">Xem trang</a>
-				<a class="button-link" href="<?php echo esc_url( get_edit_post_link( $id ) ); ?>">Mở bằng WPBakery</a>
 				<?php $revs = wp_get_post_revisions( $id, array( 'posts_per_page' => 1 ) ); ?>
 				<?php if ( $revs ) : ?>
 					<a class="button-link" href="<?php echo esc_url( get_edit_post_link( key( $revs ) ) ); ?>">Khôi phục bản trước</a>
@@ -581,8 +640,14 @@ function gfc_pe_screen() {
 	.gfc-pe-field.is-alt>label{font-weight:400;color:#646970}
 	.gfc-pe-field.is-heading textarea{font-size:15px;font-weight:600}
 	.gfc-pe-img{display:flex;gap:8px;align-items:center}
-	.gfc-pe-img img{width:64px;height:48px;object-fit:contain;background:#f0f0f1;border:1px solid #dcdcde;flex:none}
-	.gfc-pe-img input{flex:1;min-width:0}
+	.gfc-pe-img img{width:120px;height:80px;object-fit:contain;background:#f0f0f1;border:1px solid #dcdcde;flex:none}
+	.gfc-pe-img input{display:none}
+	.gfc-pe-help{margin:12px 0 0;padding:8px 12px;background:#f0f6fc;border-left:3px solid #72aee6}
+	.gfc-pe-off{margin-left:8px;padding:2px 8px;border-radius:10px;background:#f0f0f1;color:#50575e;font-size:12px;font-weight:400}
+	.gfc-pe-count{font-weight:400;color:#646970}
+	.gfc-pe-add{margin-left:8px!important}
+	.gfc-pe-mini{width:44px;height:28px;object-fit:contain;background:#f0f0f1;vertical-align:middle;margin:0 4px}
+	.gfc-pe-item.is-focus{outline:2px solid #2271b1}
 	.gfc-pe-group{margin:14px 0;border-left:3px solid #2271b1;padding-left:12px}
 	.gfc-pe-group-head{font-weight:600;margin-bottom:6px}
 	.gfc-pe-item{border:1px solid #e0e0e0;margin-bottom:4px;background:#fafafa}
@@ -640,6 +705,27 @@ function gfc_pe_screen() {
 		window.addEventListener('pageshow', function (e) {
 			if (e.persisted) window.location.reload();
 		});
+		form.on('click', '.gfc-pe-add', function () {
+			var b = this;
+			if (sending) return;
+			var frame = wp.media({ title: 'Chọn một hoặc nhiều ảnh', multiple: 'add', library: { type: 'image' }, button: { text: 'Thêm vào danh sách' } });
+			frame.on('select', function () {
+				var urls = frame.state().get('selection').map(function (a) { return a.toJSON().url; });
+				if (!urls.length) return;
+				form.find('[name=op]').val(JSON.stringify({ row: +b.getAttribute('data-r'), g: +b.getAttribute('data-g'), item: +b.getAttribute('data-i'), action: 'add_images', urls: urls }));
+				form.trigger('submit');
+			});
+			frame.open();
+		});
+		var focus = new URLSearchParams(window.location.search).get('focus');
+		if (focus) {
+			var item = document.getElementById('gfc-pe-i-' + focus);
+			if (item) {
+				item.open = true;
+				item.classList.add('is-focus');
+				item.scrollIntoView({ block: 'center' });
+			}
+		}
 		form.on('click', '.gfc-pe-pick', function () {
 			var input = $(this).prev('input'), img = $(this).siblings('img');
 			var frame = wp.media({ title: 'Chọn ảnh', multiple: false, library: { type: 'image' } });

@@ -556,7 +556,11 @@ function gfc_pe_render_entries( $entries, $r, $p ) {
 		$cls   = $cls ? $cls[0] : '';
 		$list  = false !== strpos( $cls, 'row-rtl' ) ? 'Logo hàng trên' : ( false !== strpos( $cls, 'row-ltr' ) ? 'Logo hàng dưới' : ( false !== strpos( $cls, 'swiper-wrapper' ) || false !== strpos( $cls, 'question-container' ) ? $p['meta']['list'] : 'Danh sách' ) );
 		echo '<div class="gfc-pe-group"><div class="gfc-pe-group-head">' . esc_html( $list ) . ' <span class="gfc-pe-count">(' . (int) $count . ' mục)</span>';
-		if ( '' !== $first ) echo ' <button type="button" class="button button-small button-primary gfc-pe-add" data-r="' . $r . '" data-g="' . (int) $e['g'] . '" data-i="' . ( $count - 1 ) . '">+ Thêm ảnh</button>'; // phpcs:ignore -- chỉ gồm số
+		$only_img = '' !== $first;
+		foreach ( isset( $e['items'][0] ) ? $e['items'][0] : array() as $sub ) {
+			if ( ! isset( $sub['f'] ) || 'text' === $p['fields'][ $sub['f'] ]['kind'] ) $only_img = false;
+		}
+		if ( $only_img ) echo ' <button type="button" class="button button-small button-primary gfc-pe-add" data-r="' . $r . '" data-g="' . (int) $e['g'] . '" data-i="' . ( $count - 1 ) . '">+ Thêm ảnh</button>'; // phpcs:ignore -- chỉ gồm số
 		echo '</div>';
 		foreach ( $e['items'] as $n => $item ) {
 			$attr = 'data-r="' . $r . '" data-g="' . (int) $e['g'] . '" data-i="' . (int) $n . '"';

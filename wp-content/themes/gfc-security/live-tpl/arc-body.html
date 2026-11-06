@@ -11,7 +11,7 @@
               </div>
       <!--===== Content =====-->
       <div class="pt-5 lg:pt-7.5 2xl:pt-10 lg:px-7.5 2xl:px-10 lg:pb-15 2xl:pb-20">
-                          <div class="flex flex-col gap-4 lg:gap-5 2xl:gap-7.5">{{items}}</div>
+                          <div class="gfc-news-grid flex flex-col gap-4 lg:gap-5 2xl:gap-7.5">{{items}}</div>
                       
                         {{pagination}}</div>
   
@@ -30,6 +30,52 @@
 
     .archive-section.active {
       display: block;
+    }
+
+    /* Danh sách tin: máy bảng 2 bài, máy tính 3 bài một dòng. Điện thoại giữ dạng danh sách ảnh nhỏ bên trái */
+    @media (min-width: 768px) {
+      .gfc-news-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px 24px;
+      }
+      .gfc-news-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+      }
+      .gfc-news-thumb {
+        width: 100%;
+      }
+      .gfc-news-thumb img {
+        transition: transform .3s ease;
+      }
+      .gfc-news-card:hover .gfc-news-thumb img {
+        transform: scale(1.04);
+      }
+      .gfc-news-body {
+        flex: 1;
+        padding-top: 14px;
+      }
+      .gfc-news-body h3 {
+        font-size: 18px;
+        line-height: 1.45;
+      }
+      .gfc-news-body .gfc-news-ex {
+        display: -webkit-box;
+        margin-top: 8px;
+        font-size: 15px;
+      }
+      .gfc-news-body > div:last-child {
+        margin-top: auto;
+        padding-top: 12px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .gfc-news-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 40px 30px;
+      }
     }
   </style>
 

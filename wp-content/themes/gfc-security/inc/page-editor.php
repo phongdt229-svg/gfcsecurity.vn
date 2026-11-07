@@ -204,6 +204,14 @@ function gfc_pe_parse( $html ) {
 			if ( $src && false === strpos( $src[0], '{{' ) && '' !== $src[0] ) $out[] = $add( 'embed', 'iframe', $src[1], $src[2], html_entity_decode( $src[0] ), $repeat );
 			return $out;
 		}
+		/* Ô dịch vụ nổi bật: ảnh nằm trong khối <style> riêng của ô (cả bản thường và bản rê chuột), sửa chung một ô */
+		$cls = gfc_pe_attr( $html, $n, 'class' );
+		if ( $cls && preg_match( '~\bhome-photo-gallery-item-(\d+)\b~', $cls[0], $gi ) && preg_match_all( '~\.home-photo-gallery-item-' . $gi[1] . '(?::hover)?\s*\{[^}]*?url\(\s*([\'"]?)([^\'")]+)~', $html, $gu, PREG_OFFSET_CAPTURE ) ) {
+			$ranges = array();
+			foreach ( $gu[2] as $g ) $ranges[] = array( $g[1], $g[1] + strlen( $g[0] ) );
+			$fields[] = array( 'kind' => 'image', 'tag' => 'bg', 'ranges' => $ranges, 'value' => gfc_pe_ui_url( $gu[2][0][0] ), 'repeat' => $repeat );
+			$out[]    = array( 'f' => count( $fields ) - 1 );
+		}
 		$style = gfc_pe_attr( $html, $n, 'style' );
 		if ( $style && preg_match( '~url\(\s*(?:&quot;|\'|)([^\'")&]+)~', $style[0], $u, PREG_OFFSET_CAPTURE ) && false === strpos( $u[1][0], 'data:' ) ) {
 			$out[] = $add( 'image', 'bg', $style[1] + $u[1][1], $style[1] + $u[1][1] + strlen( $u[1][0] ), gfc_pe_ui_url( $u[1][0] ), $repeat );
@@ -482,7 +490,7 @@ function gfc_pe_row_meta( $html ) {
 	$map = array(
 		'home-right-swiper'  => array( 'Banner đầu trang', 'Đổi ảnh lớn ở danh sách "Ảnh slide". Nên chọn ảnh ngang, người đứng giữa ảnh.', 'Ảnh slide', array( 1200, 873, 'cover', 1000 ) ),
 		'home-counter-section' => array( 'Các con số nổi bật', 'Chỉ nhập số, không nhập dấu chấm hay dấu cộng.', 'Con số' ),
-		'home-photo-gallery' => array( 'Các dịch vụ nổi bật', 'Sửa tên và link của từng dịch vụ.', 'Dịch vụ' ),
+		'home-photo-gallery' => array( 'Các dịch vụ nổi bật', 'Bấm "Đổi ảnh" để thay ảnh nền của từng dịch vụ, sửa tên và link. Nên dùng ảnh cùng tỉ lệ với ảnh hiện tại (2 ô rộng là ảnh ngang, các ô còn lại là ảnh vuông).', 'Dịch vụ' ),
 		'data-media-marquee' => array( 'Logo khách hàng', 'Bấm "Thêm ảnh" để thêm nhiều logo cùng lúc. Nên dùng ảnh nền trong suốt.', 'Logo', array( 410, 240, 'contain', 120 ) ),
 		'certifications-awards-swiper' => array( 'Chứng nhận và giải thưởng', 'Bấm "Thêm ảnh" để thêm nhiều ảnh cùng lúc.', 'Ảnh chứng nhận', array( 600, 600, 'contain', 300 ) ),
 		'puramu-branch-finder' => array( 'Hệ thống văn phòng', 'Danh sách văn phòng sửa ở menu Chi nhánh.', 'Văn phòng' ),

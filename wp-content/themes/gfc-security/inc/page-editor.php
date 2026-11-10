@@ -209,7 +209,7 @@ function gfc_pe_parse( $html ) {
 		if ( $cls && preg_match( '~\bhome-photo-gallery-item-(\d+)\b~', $cls[0], $gi ) && preg_match_all( '~\.home-photo-gallery-item-' . $gi[1] . '(?::hover)?\s*\{[^}]*?url\(\s*([\'"]?)([^\'")]+)~', $html, $gu, PREG_OFFSET_CAPTURE ) ) {
 			$ranges = array();
 			foreach ( $gu[2] as $g ) $ranges[] = array( $g[1], $g[1] + strlen( $g[0] ) );
-			$fields[] = array( 'kind' => 'image', 'tag' => 'bg', 'ranges' => $ranges, 'value' => gfc_pe_ui_url( $gu[2][0][0] ), 'repeat' => $repeat );
+			$fields[] = array( 'kind' => 'image', 'tag' => 'bg', 'ranges' => $ranges, 'value' => gfc_pe_ui_url( $gu[2][0][0] ), 'repeat' => $repeat, 'own' => true );
 			$out[]    = array( 'f' => count( $fields ) - 1 );
 		}
 		$style = gfc_pe_attr( $html, $n, 'style' );
@@ -272,11 +272,12 @@ function gfc_pe_parse( $html ) {
 	};
 	$tree = $walk( 0, false );
 
-	/* Cùng nội dung ở bản desktop và mobile: gộp một ô, sửa một lần */
+	/* Cùng nội dung ở bản desktop và mobile: gộp một ô, sửa một lần.
+	   Ảnh ô dịch vụ nổi bật thì không gộp: các ô đang cùng một ảnh vẫn phải đổi riêng từng ô */
 	$seen = array();
 	$drop = array();
 	foreach ( $fields as $i => $f ) {
-		if ( $f['repeat'] || 'alt' === $f['kind'] ) continue;
+		if ( $f['repeat'] || 'alt' === $f['kind'] || ! empty( $f['own'] ) ) continue;
 		$key = $f['kind'] . '|' . $f['value'];
 		if ( isset( $seen[ $key ] ) ) {
 			$fields[ $seen[ $key ] ]['ranges'][] = $f['ranges'][0];
@@ -392,6 +393,9 @@ add_action( 'admin_post_gfc_pe_save', function () {
 	$id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
 	check_admin_referer( 'gfc_pe_save_' . $id );
 	if ( ! current_user_can( 'edit_post', $id ) || ! current_user_can( 'unfiltered_html' ) ) wp_die( 'Không có quyền sửa trang này.' ); // WPBakery gỡ row Raw HTML khi người lưu thiếu quyền này
+	/* admin-post.php không nâng giới hạn bộ nhớ như các trang admin: một lần lưu cần khoảng 80MB, hosting đặt 64MB sẽ báo lỗi nghiêm trọng */
+	wp_raise_memory_limit( 'admin' );
+	if ( function_exists( 'set_time_limit' ) ) @set_time_limit( 120 ); // phpcs:ignore -- một số hosting chặn hàm này
 	/* Hai lần lưu cùng lúc phải chạy lần lượt, lần sau sẽ bị chặn ở bước so hash. Khoá tự nhả khi kết thúc request */
 	$GLOBALS['wpdb']->get_var( $GLOBALS['wpdb']->prepare( 'SELECT GET_LOCK(%s, 30)', 'gfc_pe_' . $id ) );
 	wp_cache_delete( $id, 'posts' );
@@ -503,7 +507,7 @@ function gfc_pe_row_meta( $html ) {
 	foreach ( $map as $marker => $m ) {
 		if ( false !== strpos( $html, $marker ) ) return array( 'title' => $m[0], 'help' => $m[1], 'list' => $m[2], 'marker' => $marker, 'size' => isset( $m[3] ) ? $m[3] : null );
 	}
-	if ( false !== strpos( $html, 'youtube.com/embed' ) ) return array( 'title' => 'Giới thiệu công ty và video', 'help' => 'Xuống dòng trong ô chữ sẽ thành xuống dòng trên trang.', 'list' => 'Mục', 'marker' => '', 'size' => null );
+	if ( false !== strpos( $html, 'youtube.com/embed' ) ) return array( 'title' => 'Giới thiệu công ty và video', 'help' => 'Sửa các đoạn giới thiệu ngay trong ô chữ bên dưới. Xuống dòng trong ô chữ sẽ thành xuống dòng trên trang.', 'list' => 'Mục', 'marker' => '', 'size' => null );
 	return array( 'title' => '', 'help' => '', 'list' => 'Mục', 'marker' => '', 'size' => null );
 }
 
@@ -575,6 +579,12 @@ function gfc_pe_render_entries( $entries, $r, $p ) {
 		$cls   = gfc_pe_attr( $p['html'], $p['nodes'][ $p['groups'][ $e['g'] ]['node'] ], 'class' );
 		$cls   = $cls ? $cls[0] : '';
 		$list  = false !== strpos( $cls, 'row-rtl' ) ? 'Logo hàng trên' : ( false !== strpos( $cls, 'row-ltr' ) ? 'Logo hàng dưới' : ( false !== strpos( $cls, 'swiper-wrapper' ) || false !== strpos( $cls, 'question-container' ) ? $p['meta']['list'] : 'Danh sách' ) );
+		/* Danh sách chỉ gồm đoạn văn (như phần giới thiệu công ty): mở sẵn để thấy ngay ô sửa chữ */
+		$prose = $count > 0;
+		foreach ( $e['items'] as $it ) {
+			if ( 1 !== count( $it ) || ! isset( $it[0]['f'] ) || 'text' !== $p['fields'][ $it[0]['f'] ]['kind'] || 'p' !== $p['fields'][ $it[0]['f'] ]['tag'] ) $prose = false;
+		}
+		if ( $prose && 'Danh sách' === $list ) $list = 'Đoạn văn';
 		echo '<div class="gfc-pe-group"><div class="gfc-pe-group-head">' . esc_html( $list ) . ' <span class="gfc-pe-count">(' . (int) $count . ' mục)</span>';
 		$only_img = '' !== $first;
 		foreach ( isset( $e['items'][0] ) ? $e['items'][0] : array() as $sub ) {
@@ -586,7 +596,7 @@ function gfc_pe_render_entries( $entries, $r, $p ) {
 		foreach ( $e['items'] as $n => $item ) {
 			$attr = 'data-r="' . $r . '" data-g="' . (int) $e['g'] . '" data-i="' . (int) $n . '"';
 			$thumb = gfc_pe_item_thumb( $item, $p['fields'] );
-			echo '<details class="gfc-pe-item" id="gfc-pe-i-' . $r . '-' . (int) $e['g'] . '-' . (int) $n . '"><summary><span class="gfc-pe-num">' . ( $n + 1 ) . '</span>' . ( '' !== $thumb ? ' <img class="gfc-pe-mini" src="' . esc_url( $thumb ) . '" alt="">' : '' ) . ' ' . esc_html( gfc_pe_item_title( $item, $p['fields'] ) ) . '</summary><div class="gfc-pe-tools">'; // phpcs:ignore -- $r chỉ gồm số
+			echo '<details class="gfc-pe-item" id="gfc-pe-i-' . $r . '-' . (int) $e['g'] . '-' . (int) $n . '"' . ( $prose ? ' open' : '' ) . '><summary><span class="gfc-pe-num">' . ( $n + 1 ) . '</span>' . ( '' !== $thumb ? ' <img class="gfc-pe-mini" src="' . esc_url( $thumb ) . '" alt="">' : '' ) . ' ' . esc_html( gfc_pe_item_title( $item, $p['fields'] ) ) . '</summary><div class="gfc-pe-tools">'; // phpcs:ignore -- $r chỉ gồm số
 			echo '<button type="button" class="button button-small gfc-pe-op" data-op="up" ' . $attr . ( 0 === $n ? ' disabled' : '' ) . '>↑ Lên</button> '; // phpcs:ignore
 			echo '<button type="button" class="button button-small gfc-pe-op" data-op="down" ' . $attr . ( $count - 1 === $n ? ' disabled' : '' ) . '>↓ Xuống</button> '; // phpcs:ignore
 			echo '<button type="button" class="button button-small gfc-pe-op" data-op="dup" ' . $attr . '>Nhân bản</button> '; // phpcs:ignore
@@ -646,7 +656,7 @@ function gfc_pe_screen() {
 			?>
 			<div class="gfc-pe-bar">
 				<button type="submit" class="button button-primary button-large">Lưu thay đổi</button>
-				<a class="button button-large" target="_blank" rel="noopener" href="<?php echo esc_url( 'private' === get_post_status( $id ) ? home_url( '/dich-vu-gfc' ) : get_permalink( $id ) ); ?>">Xem trang</a>
+				<a class="button button-large" target="_blank" rel="noopener" href="<?php echo esc_url( 'private' === get_post_status( $id ) ? ( gfc_service_cat() ? get_category_link( gfc_service_cat() ) : home_url( '/dich-vu-gfc' ) ) : get_permalink( $id ) ); ?>">Xem trang</a>
 				<?php $revs = wp_get_post_revisions( $id, array( 'posts_per_page' => 1 ) ); ?>
 				<?php if ( $revs ) : ?>
 					<a class="button-link" href="<?php echo esc_url( get_edit_post_link( key( $revs ) ) ); ?>">Khôi phục bản trước</a>

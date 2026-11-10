@@ -5,6 +5,21 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/** Chuyên mục dịch vụ. Slug đã đổi từ dich-vu-gfc sang dich-vu-long-van khi đổi thương hiệu, nhận cả hai. */
+function gfc_service_cat() {
+	foreach ( array( 'dich-vu-long-van', 'dich-vu-gfc' ) as $slug ) {
+		$cat = get_category_by_slug( $slug );
+		if ( $cat ) return $cat;
+	}
+	return null;
+}
+
+/* Template category-dich-vu-gfc.php chỉ tự áp cho slug cũ: đổi slug thì trang rơi về danh sách tin, ảnh đầu trang sửa trong "Nội dung trang" không hiện */
+add_filter( 'category_template', function ( $template ) {
+	$cat = gfc_service_cat();
+	return $cat && is_category( $cat->term_id ) ? GFC_PATH . '/category-dich-vu-gfc.php' : $template;
+} );
+
 if ( ! class_exists( 'RankMath' ) ) {
 	add_filter( 'category_link', function ( $link ) {
 		return str_replace( '/category/', '/', $link );

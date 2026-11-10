@@ -1,0 +1,37 @@
+/* Trang Giới thiệu. Nội dung nằm trong row Raw HTML nên chỉ chỉnh bằng CSS để "Nội dung trang" vẫn sửa được. */
+
+/* Lịch sử hình thành: thẻ <p> gốc là flex dọc, nên khi đoạn chữ có <br>, chữ đậm hoặc link thì mỗi mảnh chữ bị tách
+   thành một dòng riêng. Đưa về khối thường; các đoạn <span> của bản gốc vẫn cách nhau như cũ */
+#company-introduction p.flex-col {
+	display: block;
+}
+#company-introduction p.flex-col > span.text-justify {
+	display: block;
+}
+#company-introduction p.flex-col > span.text-justify + span.text-justify {
+	margin-top: 10px;
+}
+
+/* Hai ảnh cạnh đoạn lịch sử: đoạn chữ dài làm cột cao lên, ảnh thứ nhất bị đẩy xuống tận đáy cột.
+   Giữ hai ảnh cạnh nhau ở đầu cột, so le nhẹ như bản gốc, và đi theo khi cuộn đọc chữ */
+@media (min-width: 1024px) {
+	#company-introduction .grid > .flex-row {
+		position: sticky;
+		top: 150px;
+		align-self: start;
+	}
+	#company-introduction .grid > .flex-row > div {
+		align-items: flex-start;
+	}
+	#company-introduction .grid > .flex-row > div:first-child {
+		padding-top: 48px;
+	}
+	#company-introduction .grid > .flex-row img {
+		object-fit: cover;
+	}
+}
+
+/* Sứ mệnh, Tầm nhìn, Giá trị cốt lõi: bỏ icon nhỏ cạnh tiêu đề */
+#company-accordion summary img {
+	display: none;
+}

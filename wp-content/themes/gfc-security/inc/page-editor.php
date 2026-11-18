@@ -223,7 +223,9 @@ function gfc_pe_parse( $html ) {
 			}
 		}
 		$target = gfc_pe_attr( $html, $n, 'data-target' );
-		if ( $target && ctype_digit( $target[0] ) ) {
+		/* Con số nổi bật: nhận cả số thập phân (2,7) hoặc chữ, đã lưu thì không còn là số nguyên */
+		$cls = gfc_pe_attr( $html, $n, 'class' );
+		if ( $target && ( ctype_digit( $target[0] ) || ( $cls && false !== strpos( ' ' . $cls[0] . ' ', ' counter-number ' ) ) ) ) {
 			$out[] = $add( 'number', $tag, $target[1], $target[2], $target[0], $repeat );
 			return $out;
 		}
@@ -318,7 +320,9 @@ function gfc_pe_apply_edits( $html, $edits ) {
 				$new = esc_attr( gfc_pe_store_url( $v ) );
 				break;
 			case 'number':
-				$new = (string) absint( $v );
+				$new = trim( sanitize_text_field( $v ) );
+				if ( preg_match( '/^\d{1,3}(\.\d{3})+$/', $new ) ) $new = str_replace( '.', '', $new ); // 14.300 → 14300
+				$new = esc_attr( '' === $new ? '0' : $new );
 				break;
 			default:
 				$new = esc_attr( sanitize_text_field( $v ) );
@@ -493,7 +497,7 @@ function gfc_pe_label( $f ) {
 function gfc_pe_row_meta( $html ) {
 	$map = array(
 		'home-right-swiper'  => array( 'Banner đầu trang', 'Đổi ảnh lớn ở danh sách "Ảnh slide". Nên chọn ảnh ngang, người đứng giữa ảnh.', 'Ảnh slide', array( 1200, 873, 'cover', 1000 ) ),
-		'home-counter-section' => array( 'Các con số nổi bật', 'Chỉ nhập số, không nhập dấu chấm hay dấu cộng.', 'Con số' ),
+		'home-counter-section' => array( 'Các con số nổi bật', 'Nhập số nguyên (vd 286), số thập phân dùng dấu phẩy (vd 2,7) hoặc chữ (vd Hơn 2 tỷ). Số nguyên và số thập phân sẽ chạy từ 0 lên. Dấu cộng phía sau giữ nguyên như cũ.', 'Con số' ),
 		'home-photo-gallery' => array( 'Các dịch vụ nổi bật', 'Bấm "Đổi ảnh" để thay ảnh nền của từng dịch vụ, sửa tên và link. Nên dùng ảnh cùng tỉ lệ với ảnh hiện tại (2 ô rộng là ảnh ngang, các ô còn lại là ảnh vuông).', 'Dịch vụ' ),
 		'data-media-marquee' => array( 'Logo khách hàng', 'Bấm "Thêm ảnh" để thêm nhiều logo cùng lúc. Nên dùng ảnh nền trong suốt.', 'Logo', array( 410, 240, 'contain', 120 ) ),
 		'certifications-awards-swiper' => array( 'Chứng nhận và giải thưởng', 'Bấm "Thêm ảnh" để thêm nhiều ảnh cùng lúc.', 'Ảnh chứng nhận', array( 600, 600, 'contain', 300 ) ),
@@ -568,7 +572,7 @@ function gfc_pe_render_entries( $entries, $r, $p ) {
 				$rows = min( 12, max( 1, (int) ceil( mb_strlen( $f['value'] ) / 90 ) + substr_count( $f['value'], "\n" ) ) );
 				echo '<textarea class="widefat gfc-pe-input" rows="' . (int) $rows . '" ' . $name . '>' . esc_textarea( $f['value'] ) . '</textarea>'; // phpcs:ignore
 			} else {
-				echo '<input type="' . ( 'number' === $f['kind'] ? 'number' : 'text' ) . '" class="widefat gfc-pe-input" ' . $name . ' value="' . esc_attr( $f['value'] ) . '">'; // phpcs:ignore
+				echo '<input type="text" class="widefat gfc-pe-input" ' . $name . ' value="' . esc_attr( $f['value'] ) . '">'; // phpcs:ignore
 			}
 			echo '</div>';
 			continue;

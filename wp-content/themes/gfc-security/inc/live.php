@@ -280,6 +280,13 @@ add_action( 'wp_footer', function () {
 	echo "<script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.w-full.overflow-hidden.py-5 img').forEach(function(i){i.loading='eager'});var f=document.querySelector('iframe[src*=\"youtube\"]'),s=f&&f.closest('section'),c=s&&s.querySelector('.grid>div');if(!c)return;var b=document.createElement('button');b.type='button';b.className='home-intro-more';b.textContent='Xem thêm';c.classList.add('home-intro','is-collapsed');c.after(b);b.addEventListener('click',function(){c.classList.remove('is-collapsed');b.remove()})});</script>\n"; // phpcs:ignore -- đoạn cố định
 }, 30 );
 
+/* Trang chủ: con số nổi bật nhập dạng 2,7 hoặc chữ. Đoạn script có sẵn trong nội dung trang chỉ hiểu số nguyên,
+   nên bỏ data-target của các ô đó trước khi nó chạy (DOMContentLoaded) rồi tự hiển thị */
+add_action( 'wp_footer', function () {
+	if ( ! is_front_page() ) return;
+	echo "<script>(function(){var l=[];document.querySelectorAll('.counter-number[data-target]').forEach(function(e){var t=e.getAttribute('data-target').trim();if(/^\\d+$/.test(t))return;e.removeAttribute('data-target');var m=t.match(/^(\\d+)[,.](\\d+)$/);if(!m){e.textContent=t;return}e.textContent='0';l.push([e,parseFloat(m[1]+'.'+m[2]),m[2].length])});if(!l.length)return;function run(){l.forEach(function(x){var s=performance.now();(function u(n){var p=Math.min((n-s)/2000,1),v=x[1]*p*(2-p);x[0].textContent=(p<1?v:x[1]).toFixed(x[2]).replace('.',',');if(p<1)requestAnimationFrame(u)})(s)})}var sec=document.getElementById('home-counter-section');if(!sec||!('IntersectionObserver' in window))return run();var o=new IntersectionObserver(function(es){if(es.some(function(e){return e.isIntersecting})){o.disconnect();run()}},{threshold:.3,rootMargin:'0px 0px -50px 0px'});o.observe(sec)})();</script>\n"; // phpcs:ignore -- đoạn cố định
+}, 31 );
+
 /* WPBakery: dùng cho page và post; khung row không tạo khoảng cách thừa quanh section */
 add_action( 'vc_before_init', function () {
 	vc_set_default_editor_post_types( array( 'page', 'post' ) );

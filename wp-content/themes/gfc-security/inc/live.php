@@ -45,6 +45,32 @@ add_filter( 'the_content', function ( $content ) {
 	return gfc_lazy_images( $content, 2 );
 }, 101 );
 
+/**
+ * Ảnh mặc định của giao diện (icon, banner trang trí) nằm trong Thư viện Media ở bản gốc. Site đã xoá các ảnh cũ
+ * thì dùng bản sao trong assets/up (cùng đường dẫn, ảnh lớn đổi sang .webp).
+ */
+function gfc_upload_fallbacks( $text ) {
+	static $cache = array();
+	$map = array();
+	if ( false === strpos( $text, '{{UPLOADS}}/' ) || ! preg_match_all( '~\{\{UPLOADS\}\}/([\w./-]+\.(?:png|jpe?g|svg|webp|gif))~i', $text, $m ) ) return $map;
+	$up = wp_get_upload_dir();
+	foreach ( array_unique( $m[1] ) as $p ) {
+		if ( ! isset( $cache[ $p ] ) ) {
+			$cache[ $p ] = false;
+			if ( ! file_exists( $up['basedir'] . '/' . $p ) ) {
+				foreach ( array( $p, $p . '.webp' ) as $q ) {
+					if ( file_exists( GFC_PATH . '/assets/up/' . $q ) ) {
+						$cache[ $p ] = GFC_URL . '/assets/up/' . $q;
+						break;
+					}
+				}
+			}
+		}
+		if ( $cache[ $p ] ) $map[ '{{UPLOADS}}/' . $p ] = $cache[ $p ];
+	}
+	return $map;
+}
+
 function gfc_tpl_render( $raw, $name, $vars ) {
 	$upload = wp_get_upload_dir();
 	$map    = array(
@@ -57,7 +83,7 @@ function gfc_tpl_render( $raw, $name, $vars ) {
 	if ( $light ) {
 		$map['{{UPLOADS}}/2025/11/small-banner-logo.png'] = $light;
 	}
-	$map += gfc_info_tokens() + gfc_lazy_tokens( $raw );
+	$map += gfc_upload_fallbacks( $raw ) + gfc_info_tokens() + gfc_lazy_tokens( $raw );
 	foreach ( $vars as $k => $v ) {
 		$map[ '{{' . $k . '}}' ] = (string) $v;
 	}
@@ -264,7 +290,7 @@ add_filter( 'the_content', function ( $content ) {
 	if ( false !== strpos( $content, '{{CONTACT_FORM}}' ) ) {
 		$map['{{CONTACT_FORM}}'] = gfc_contact_form();
 	}
-	return gfc_conditional( strtr( $content, $map + gfc_info_tokens() + gfc_lazy_tokens( $content ) ) );
+	return gfc_conditional( strtr( $content, $map + gfc_upload_fallbacks( $content ) + gfc_info_tokens() + gfc_lazy_tokens( $content ) ) );
 }, 99 );
 
 /* GTranslate chỉ tải thư viện dịch khi rê chuột vào nút: bấm lúc thư viện chưa tải xong thì đợi thay vì mất cú bấm */
